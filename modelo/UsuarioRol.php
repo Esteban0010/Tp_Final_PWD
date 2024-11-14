@@ -1,263 +1,191 @@
 <?php
 
-class UsuarioRol {
+class UsuarioRol{
 
-    //ATRIBUTOS
-    private $objUsuario;
-    private $objRol;
+    private $objIdUsuario; // Foreign Key and Primary Key
+    private $objIdRol;     // Foreign Key and Primary Key
     private $mensajeoperacion;
 
-    //CONSTRUCTOR
-    /**
-     * Crea un objeto de tipo UsuarioRol
-     */
-    public function __construct(){
-
-        $this->objUsuario = null;
-        $this->objRol = null;
+    public function __construct()
+    {
+        $this->objIdUsuario = new Usuario();
+        $this->objIdRol = new Rol();
         $this->mensajeoperacion = "";
     }
 
-    /**
-     * Actualiza los atributos del objeto por los recibidos por parámetro
-     * 
-     * @param Usuario $objUsuario
-     * @param Rol $objRol
-     */
-    public function setear($objUsuario, $objRol){
-
-        $this->setObjUsuario($objUsuario);
-        $this->setObjRol($objRol);
-    }
-    
-    //OBSERVADORES Y MODIFICADORES
-
-    /**
-     * @return Usuario
-     */
-    public function getObjUsuario(){
-        return $this->objUsuario;
-    }
-    public function setObjUsuario($valor){
-        $this->objUsuario = $valor;
+    public function setear($objIdUsuario, $objIdRol)
+    {
+        $this->setObjIdUsuario($objIdUsuario); // Objeto
+        $this->setObjIdRol($objIdRol);         // Objeto
     }
 
-    /**
-     * @return Rol
-     */
-    public function getObjRol(){
-        return $this->objRol;
-    }
-    public function setObjRol($valor){
-        $this->objRol = $valor;
+     /* Get */
+    public function getObjIdUsuario()
+    {
+        return $this->objIdUsuario;
     }
 
-    /**
-     * @return string
-     */
-    public function getMensajeoperacion(){
+    public function getObjIdRol()
+    {
+        return $this->objIdRol;
+    }
+
+    public function getMensajeoperacion()
+    {
         return $this->mensajeoperacion;
     }
-    public function setMensajeoperacion($valor){
+    
+    /* Set */
+    public function setObjIdUsuario($valor)
+    {
+        $this->objIdUsuario = $valor;
+    }
+
+    public function setObjIdRol($valor)
+    {
+        $this->objIdRol = $valor;
+    }
+    
+    public function setMensajeoperacion($valor)
+    {
         $this->mensajeoperacion = $valor;
     }
 
-    //PROPIOS DE LA CLASE
 
-    /**
-     * Toma el atributo donde está cargado el id del objeto y lo utiliza para realizar
-     * una consulta a la base de datos con el objetivo de actualizar el resto de los atributos del objeto. 
-     * Retora un booleano que indica el éxito o falla de la operación
-     * 
-     * @return boolean
-     */
-	public function cargar(){
-        $resp = false;
+    /*
+        El id de rol no tiene que ser autoincremento sino van haber mucho ids para un tipo de rol y pienso 
+        que es beuno si fuese solo 1 para identifcar pero si el de usuario deberia tener muchos por cada una
+    */
+
+
+    /* Funciones */
+    public function cargar()
+    {
+        $respuesta = false;
         $base = new BaseDatos();
-
-        $idusuario = $this->getObjUsuario()->getIdUsuario();
-        $idrol = $this->getObjRol()->getIdRol();
-
-        $sql = "SELECT * FROM usuariorol WHERE idusuario = ".$idusuario." AND idrol = ".$idrol;
-
-        //Verifica si esta activa la base de datos
+        $sql = "SELECT * FROM usuariorol WHERE idusuario = " . $this->getObjIdUsuario()->getId() . "AND idrol =" . $this->getObjIdRol()->getId();
         if ($base->Iniciar()) {
-
-            //Ejercuta la consulta (en este caso es un select, debe devolver un arreglo de registros)
             $res = $base->Ejecutar($sql);
+            if ($res > -1) {
+                if ($res > 0) {
+                    $row = $base->Registro(); 
+                    
+                    $usuario = new Usuario();
+                    $rol = new Rol();
 
-            //Si $res es mayor a -1 quiere decir que la consulta se ejecuto con éxito
-            if($res >- 1){
+                    $idUsuario = $usuario->setId($row['idusuario']);
+                    $idRol = $rol->setId($row['idrol']);
 
-                //Si $res es mayor a 0 quiere decir que la consulta genero al menos 1 registro
-                if($res > 0){
-
-                    /*Guardo en el arreglo $row el resultado del primer registro obtenido y seteo   
-                    esos valores al objeto actual*/
-                    $row = $base->Registro();
-
-                    $objUsuario = new Usuario();
-                    $objUsuario->setIdUsuario($row['idusuario']);
-                    $objUsuario->cargar();
-
-                    $objRol = new Rol();
-                    $objRol->setIdRol($row['idrol']);
-                    $objRol->cargar();
-
-                    $this->setear($objUsuario, $objRol);
+                    if($usuario->cargar() && $rol->cargar()){
+                        $this->setear($idUsuario, $idRol);
+                        $respuesta = true;
+                    } else {
+                        $this->setMensajeoperacion("usuariorol->cargar: No se pudo cargar el Usuario y Rol.");
+                    }
+                    
                 }
             }
         } else {
-            $this->setmensajeoperacion("UsuarioRol->listar: ".$base->getError());
+            $this->setMensajeoperacion("usuariorol->cargar: " . $base->getError());
         }
-        return $resp;      
+        return $respuesta;
     }
 
-    /**
-     * Esta función lee los valores actuales de los atributos del objeto e inserta un nuevo
-     * registro en la base de datos a partir de ellos. Retorna un booleano que indica 
-     * si la operación tuvo éxito
-     * 
-     * @return boolean
-     */
-    public function insertar(){
+    public function insertar()
+    {
         $resp = false;
         $base = new BaseDatos();
-
-        $idusuario = $this->getObjUsuario()->getIdUsuario();
-        $idrol = $this->getObjRol()->getIdRol();
-
-        $sql = "INSERT INTO usuariorol (idusuario, idrol) VALUES ("
-            .$idusuario .", "
-            .$idrol. ");";
-
-        echo $sql ."<br>";
-
-        if ($base->Iniciar()) {
-            
-            if ($base->Ejecutar($sql)) {
-                $resp = true;
-
-            } else {
-                $this->setMensajeoperacion("UsuarioRol->insertar: ".$base->getError());
-            }
-        } else {
-            $this->setMensajeoperacion("UsuarioRol->insertar: ".$base->getError());
-        }
-        return $resp;
-    }
-    
-    /**
-     * Esta función lee los valores actuales de los atributos del objeto y los actualiza en la
-     * base de datos. Retorna un booleano que indica si le operación tuvo éxito
-     * 
-     * @return boolean
-     */
-    public function modificar(){
-        $resp = false;
-        $base = new BaseDatos();
-
-        $idusuario = $this->getObjUsuario()->getIdUsuario();
-        $idrol = $this->getObjRol()->getIdRol();
-        
-        $sql = "UPDATE usuariorol SET 
-        idrol = ".$idrol.
-        " WHERE  idusuario = ".$idusuario;
-
+        $sql = "INSERT INTO usuariorol(idusuario, idrol) VALUES(
+            " . $this->getObjIdUsuario()->getId() . ",
+            " . $this->getObjIdRol()->getId() . ");";
         if ($base->Iniciar()) {
             if ($base->Ejecutar($sql)) {
                 $resp = true;
             } else {
-                $this->setMensajeoperacion("UsuarioRol->modificar: ".$base->getError());
+                $this->setMensajeoperacion("usuariorol->insertar: " . $base->getError());
             }
         } else {
-            $this->setMensajeoperacion("UsuarioRol->modificar: ".$base->getError());
+            $this->setMensajeoperacion("usuariorol->insertar: " . $base->getError());
         }
         return $resp;
     }
 
-    /**
-     * Esta función lee el id actual del objeto y si puede lo borra de la base de datos
-     * Retorna un booleano que indica si le operación tuvo éxito
-     * 
-     * @return boolean
-     */
-    public function eliminar(){
+    public function modificar()
+    {        
         $resp = false;
         $base = new BaseDatos();
-
-        $idusuario = $this->getObjUsuario()->getIdUsuario();
-        $idrol = $this->getObjRol()->getIdRol();
-
-        $sql = "DELETE FROM usuariorol WHERE idusuario = ".$idusuario." AND idrol = ".$idrol;
-        //echo $sql;
+        $sql = "UPDATE usuariorol SET idrol=" . $this->getObjIdRol()->getId() . 
+            " WHERE idUsuario=" . $this->getobjIdUsuario()->getId();
         if ($base->Iniciar()) {
             if ($base->Ejecutar($sql)) {
                 $resp = true;
             } else {
-                $this->setMensajeoperacion("UsuarioRol->eliminar: ".$base->getError());
+                $this->setMensajeoperacion("usuariorol->modificar: " . $base->getError());
             }
         } else {
-            $this->setMensajeoperacion("UsuarioRol->eliminar: ".$base->getError());
+            $this->setMensajeoperacion("usuariorol->modificar: " . $base->getError());
         }
         return $resp;
     }
 
-    /**
-     * Esta función recibe condiciones de busqueda en forma de consulta sql para obtener
-     * los registros requeridos,
-     * si por parámetro se envía el valor "" se devolveran todos los registros de la tabla
-     * La función devuelve un arreglo compuesto por todos los objetos que cumplen la condición indicada
-     * por parámetro
-     * 
-     * @return array
-     */
-	public function listar($parametro=""){
+    public function eliminar()
+    {
+        $resp = false;
+        $base = new BaseDatos();
+        $sql = "DELETE FROM usuariorol WHERE idusuario=" . $this->getObjIdUsuario()->getId();
+        if ($base->Iniciar()) {
+            if ($base->Ejecutar($sql)) {
+                return true;
+            } else {
+                $this->setMensajeoperacion("usuariorol->eliminar: " . $base->getError());
+            }
+        } else {
+            $this->setMensajeoperacion("usuariorol->eliminar: " . $base->getError());
+        }
+        return $resp;
+    }
+
+    public static function listar($parametro = "")
+    {
         $arreglo = array();
         $base = new BaseDatos();
-
         $sql = "SELECT * FROM usuariorol ";
-        if ($parametro!="") {
-            $sql .= ' WHERE '.$parametro;
+        
+        if ($parametro != "") {
+            $sql .= 'WHERE ' . $parametro;
         }
+
+        //echo "<div>" . $sql . "</div>";
+
         $res = $base->Ejecutar($sql);
+        
         if ($res > -1) {
+            
             if ($res > 0) {
-                while ($row = $base->Registro()) {
+                while ($row = $base->Registro()) {  
+                    
+                    
+                    $objUsuario = new Usuario(); 
+                    $objUsuario->setId($row['idusuario']); 
+                    $objUsuario->cargar();
 
-                    $objUsuario = null;
-                    $objRol = null;
+                    $objRol = new Rol(); 
+                    $objRol->setId($row['idrol']); 
+                    $objRol->cargar();
 
-                    if ($row['idrol'] != null) {
-                        $objRol = new Rol();
-                        $objRol->setIdRol($row['idrol']);
-                        $objRol->cargar();
-                    }
-
-                    if ($row['idusuario'] != null) {
-                        $objUsuario = new Usuario();
-                        $objUsuario->setIdUsuario($row['idusuario']);
-                        $objUsuario->cargar();
-                    }
                     $obj = new UsuarioRol();
-                    $obj->setear($objUsuario, $objRol);
+                    $obj->setear($objUsuario, $objRol);                        
                     array_push($arreglo, $obj);
-                }
-            }   
+
+                }                
+            }  
+
         } else {
-            $this->setMensajeoperacion("UsuarioRol->listar: ".$base->getError());
+            throw new Exception("usuariorol->listar: " . $base->getError());
         }
+        //verEstructura($arreglo);
         return $arreglo;
     }
 
-    /**
-     * Esta función lee todos los valores de todos los atributos del objeto y los devuelve
-     * en un arreglo asociativo
-     * 
-     * @return array
-     */
-	public function __toString(){
-	    return "id usuario: ".$this->getObjUsuario()->getIdUsuario()."\n id rol: ".$this->getObjRol()->getIdRol()."\n\n";	
-	}
 }
 ?>

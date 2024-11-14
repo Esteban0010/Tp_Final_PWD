@@ -1,138 +1,145 @@
 <?php
-class AbmRol{
-
-     /**
-     * Espera como parametro un arreglo asociativo donde las claves coinciden con los nombres de las variables instancias del objeto
+class AbmRol
+{
+    /**
+     * Carga un objeto AbmUsuario con los parámetros provistos
      * @param array $param
      * @return Rol
      */
-    private function cargarObjeto($param){
-        //print_r($param);
+    private function cargarObjeto($param)
+    {
         $obj = null;
-        if( array_key_exists('idrol',$param) and array_key_exists('rodescripcion',$param)){
+        if (array_key_exists('rodescripcion', $param)) { //usnombre
             $obj = new Rol();
-            $obj->setear($param['idrol'], $param['rodescripcion']);
+            // El ID no es necesario al crear un nuevo Rol, ya que es autoincremental
+            $obj->setear(null, $param['rodescripcion']);
+        }
+        return $obj;
+    }
+
+
+    /**
+     * Carga un objeto AbmUsuario con la clave primaria
+     * @param array $param
+     * @return Rol
+     */
+    private function cargarObjetoConClave($param)
+    {
+        $obj = null;
+        if (isset($param['idrol'])) {
+            $obj = new Rol();
+            $obj->setId($param['idrol']);
+            $obj->cargar();  // Carga el resto de los datos desde la DB
         }
         return $obj;
     }
 
     /**
-     * Espera como parametro un arreglo asociativo donde las claves coinciden con los nombres de las variables instancias del objeto
-     *  que son claves
-     * @param array $param
-     * @return Rol
-     */
-    private function cargarObjetoConClave($param){
-        $obj = null;
-        if(isset($param['idrol']) ){
-            $obj = new Rol();
-            $obj->setear($param['idrol'],null);
-        }
-        return $obj;
-    }
-
-
-     /**
      * Corrobora que dentro del arreglo asociativo estan seteados los campos claves
      * @param array $param
-     * @return boolean
+     * @return BOOLEAN
      */
-    
-    private function seteadosCamposClaves($param){
-        $resp = false;
-        if (isset($param['idrol']))
-            $resp = true;
-        return $resp;
+    private function seteadosCamposClaves($param)
+    {
+        return isset($param['idrol']);
     }
 
     /**
-     * 
+     * Alta (A): Es el proceso de crear o agregar un nuevo objeto o registro a un sistema.
      * @param array $param
      */
-    public function alta($param){
+    public function alta($param)
+    { //agrega
         $resp = false;
-        //$param['NroDni'] =null;
-        $unObjRol = $this->cargarObjeto($param);
-        if ($unObjRol!=null && $unObjRol->insertar()){
-            $resp = true;
+        $param['idrol'] = null;
+        $objAbmRol = $this->cargarObjeto($param);
+        if ($objAbmRol != null && $objAbmRol->insertar()) {
+            $resp = $objAbmRol;
         }
         return $resp;
-        
     }
 
     /**
+     * Baja (B): Se refiere a eliminar un objeto o registro existente.
      * permite eliminar un objeto 
      * @param array $param
      * @return boolean
      */
-    public function baja($param){
+    public function baja($param)
+    { //elimina
         $resp = false;
-        if ($this->seteadosCamposClaves($param)){
-            $unObjRol = $this->cargarObjetoConClave($param);
-            if ($unObjRol!=null && $unObjRol->eliminar()){
+        if ($this->seteadosCamposClaves($param)) {
+            $objAbmRol = $this->cargarObjetoConClave($param);
+            if ($objAbmRol != null && $objAbmRol->eliminar()) {
                 $resp = true;
             }
         }
-        
         return $resp;
     }
-    
+
     /**
+     * Modificación (M): Es la actualización de la información de un objeto o registro existente.
      * permite modificar un objeto
      * @param array $param
      * @return boolean
      */
-    public function modificar($param){
+    public function modificacion($param)
+    {
         $resp = false;
-        if ($this->seteadosCamposClaves($param)){
-            $unObjRol = $this->cargarObjeto($param);
-            if($unObjRol!=null && $unObjRol->modificar()){
+        if ($this->seteadosCamposClaves($param)) {
+            $objAbmRol = $this->cargarObjeto($param);
+            if ($objAbmRol != null && $objAbmRol->modificar()) {
                 $resp = true;
             }
         }
         return $resp;
     }
-    
+
     /**
      * permite buscar un objeto
      * @param array $param
-     * @return array
+     * @return ARRAY
      */
-    public function buscar($param){
-        $where = " true ";
-        if ($param<>null){
-            if  (isset($param['idrol']))
-                $where.=" and idrol = ".$param['idrol'];
-            if  (isset($param['rodescripcion']))
-                $where.=" and rodescripcion ='".$param['rodescripcion']."'";
-        }
+    public function buscar($param)
+    {
+        $where = "true";
+        if ($param <> NULL) {
 
-        $obj = new Rol();
-        $arreglo = $obj->listar($where);
+            if (isset($param['idrol'])) {
+                $where .= " and idrol = " . $param['idrol'] . "";
+            }
+
+            if (isset($param['rodescripcion'])) {
+                $where .= " and rodescripcion ='" . $param['rodescripcion'] . "'";
+            }
+
+        }
+        $arreglo = Rol::listar($where);
         return $arreglo;
     }
 
     /**
-     * Retorna todos los obj menu a los que el usuario puede acceder
-     * Devuelve un array MenuRol
+     * permite dar un array de los datos del objeto
      * @param array $param
-     * @return array|null
+     * @return ARRAY
      */
-    public function buscarPermisos($param){
+    public function darArray($param = "")
+    {
 
-        $arreglo = null;
+        $arregloObjAbmRol = $this->buscar($param);
+        $listadoArray = [];
 
-        $where = " true ";
-        if($param != null){
-            if(array_key_exists("id",$param)){
-                $where.= "and idrol = '". $param["id"]  ."'";
+        if (count($arregloObjAbmRol) > 0) {
+
+            foreach ($arregloObjAbmRol as $objAbmRol) {
+                $arrayAbmRol = [
+                    'idrol' => $objAbmRol->getId(),
+                    'rodescripcion' => $objAbmRol->getDescripcion()
+                ];
+
+                array_push($listadoArray, $arrayAbmRol);
             }
         }
-
-        $obj = new MenuRol();
-        $arreglo = $obj->listar($where);
-        return $arreglo;
+        return  $listadoArray;
     }
 }
-
-?>
