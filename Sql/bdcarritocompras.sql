@@ -52,6 +52,7 @@ CREATE TABLE `usuariorol` (
 CREATE TABLE `compra` (
     `idcompra` bigint(20) NOT NULL AUTO_INCREMENT,
     `cofecha` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `costoTotal` INT NOT NULL DEFAULT 0,
     `idusuario` bigint(20) NOT NULL,
     PRIMARY KEY (`idcompra`),
     FOREIGN KEY (`idusuario`) REFERENCES `usuario`(`idusuario`) ON UPDATE CASCADE
@@ -83,7 +84,8 @@ CREATE TABLE `compraestado` (
 
 CREATE TABLE `producto` (
     `idproducto` bigint(20) NOT NULL AUTO_INCREMENT,
-    `pronombre` int(11) NOT NULL,
+    `pronombre` varchar(55) NOT NULL,
+    `valor` INT NOT NULL DEFAULT 0,
     `prodetalle` varchar(512) NOT NULL,
     `procantstock` int(11) NOT NULL,
     PRIMARY KEY (`idproducto`)
