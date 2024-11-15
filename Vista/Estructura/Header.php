@@ -40,7 +40,7 @@
 
         <span class="me-3"><a href="iniciar_sesion.php" class="text-decoration-none" data-options="plain:true">Iniciar Sesion</a></span>
 
-        <span class="me-3"><a href="#" class="text-decoration-none" data-options="plain:true">Carrito</a></span>
+        <span class="me-3"><a href="carrito.php" class="text-decoration-none" data-options="plain:true">Carrito</a></span>
 
         </nav>
     </header>
