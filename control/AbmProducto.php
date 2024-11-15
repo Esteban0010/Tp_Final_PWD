@@ -10,8 +10,6 @@ class AbmProducto
 //     PRIMARY KEY (`idproducto`)
 //     ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
-
-
 {
     /**
      * Carga un objeto Producto a partir de un arreglo asociativo.
@@ -20,15 +18,20 @@ class AbmProducto
      */
     private function cargarObjeto($param)
     {
+        //echo "<script>console.log(" . json_encode('cargarObjeto(param) en el abm - aca esta el error') . ");</script>";
+        //verEstructuraJson($param);
         $obj = null;
-        if (array_key_exists('idproducto', $param) && array_key_exists('pronombre', $param) && array_key_exists('prodetalle', $param) && array_key_exists('procantstock', $param)) {
+        if (array_key_exists('pronombre', $param) && array_key_exists('prodetalle', $param) && array_key_exists('procantstock', $param) && array_key_exists('valor', $param)) {
+            
             $obj = new Producto();
-            $obj->setear(
-                null,
-                $param['pronombre'],
-                $param['prodetalle'],
-                $param['procantstock']
-            );
+            if(isset($param['idproducto'])){
+                // Si tiene un Id, que se lo ponga (modificar)
+                $obj->setear($param['idproducto'], $param['pronombre'], $param['prodetalle'], $param['procantstock'], $param['valor']);                
+            } else {
+                // Si no tiene ID no es necesario poner el param, ya que es autoincremental (insertar)
+                $obj->setear(null, $param['pronombre'], $param['prodetalle'], $param['procantstock'], $param['valor']);
+            }
+            
         }
         return $obj;
     }
@@ -43,7 +46,8 @@ class AbmProducto
         $obj = null;
         if (isset($param['idproducto'])) {
             $obj = new Producto();
-            $obj->setear($param['idproducto'], null, null, null);
+            $obj->setIdProducto($param['id']);
+            $obj->cargar();
         }
         return $obj;
     }
@@ -66,7 +70,14 @@ class AbmProducto
     public function alta($param)
     {
         $resp = false;
+        $param['idproducto'] = null;
         $elObjProducto = $this->cargarObjeto($param);
+
+        
+        //verEstructuraJson($elObjtTabla);
+
+        //echo "<script>console.log(" . json_encode($param) . ");</script>";
+
 
         if ($elObjProducto !== null && $elObjProducto->insertar()) {
             $resp = true;
@@ -103,6 +114,10 @@ class AbmProducto
         if ($this->seteadosCamposClaves($param)) {
             $elObjProducto = $this->cargarObjeto($param);
 
+            //echo "<script>console.log(" . json_encode('objeto en el abm') . ");</script>";
+            
+            //verEstructuraJson($param);
+
             if ($elObjProducto !== null && $elObjProducto->modificar()) {
                 $resp = true;
             }
@@ -117,11 +132,11 @@ class AbmProducto
      */
     public function buscar($param)
     {
-        $where = "";
+        $where = " true ";
 
         if ($param <> NULL) {
             if (isset($param['idproducto'])) {
-                $where .= " idproducto = " . $param['idproducto'];
+                $where .= " and idproducto = " . $param['idproducto'];
             }
 
             if (isset($param['pronombre'])) {
@@ -134,6 +149,10 @@ class AbmProducto
 
             if (isset($param['procantstock'])) {
                 $where .= " and procantstock ='" . $param['procantstock'] . "'";
+            }
+
+            if (isset($param['valor'])) {
+                $where .= " and valor ='" . $param['valor'] . "'";
             }
         }
 
@@ -155,3 +174,4 @@ class AbmProducto
         return $existe;
     }
 }
+
