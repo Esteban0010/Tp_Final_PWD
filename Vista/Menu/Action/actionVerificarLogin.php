@@ -13,11 +13,9 @@ if ($datos['accion']=="login"){
     $resp = $session->iniciar($datos['usnombre'],$datos['uspassword']);    
     if($resp){          
         header("Location: ../paginaSegura.php");
-        exit();   
     } else {
         $mensaje ="Error, usuario o password incorrecto";
-        header("Location: ../login.php?msg=" . urlencode($mensaje));
-        exit();
+        header("Location: ../iniciar_sesion.php?msg=" . urlencode($mensaje));
     }
 }
 
@@ -28,7 +26,6 @@ if ($datos['accion']=="cerrar"){
     if($respuesta) {
         $mensaje ="Session Cerrada.";
         header("Location: ../iniciar_sesion.php?msg=" . urlencode($mensaje));
-        exit();    }
-    
+    }    
 }
 ?>

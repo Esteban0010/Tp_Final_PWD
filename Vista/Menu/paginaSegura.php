@@ -2,7 +2,6 @@
 include_once("../../configuracion.php");
 include_once "../Estructura/HeaderSeguro.php";
 $datos = data_submitted();
-//print_r($datos);
 //verEstructura($datos);
 ?>
 
@@ -13,8 +12,7 @@ $datos = data_submitted();
         //echo("<script>location.href = '../home/index.php';</script>");
         } else {
             $mensaje ="Error, vuelva a iniciar sesion";
-            header("Location: login.php?msg=" . urlencode($mensaje));
-            exit();
+            header("Location: iniciar_sesion.php?msg=" . urlencode($mensaje));
         }
     ?>
     <div>
