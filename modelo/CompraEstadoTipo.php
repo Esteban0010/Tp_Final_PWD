@@ -62,6 +62,15 @@ class CompraEstadoTipo
         $this->mensajeoperacion = $valor;
     }
 
+    /**CREATE TABLE `compraestadotipo` (  yo, fran, le agregue AUTO_INCREMENT al `idcompraestadotipo` para simplificar el trabajo
+        `idcompraestadotipo` int(11) NOT NULL AUTO_INCREMENT,
+        `cetdescripcion` varchar(50) NOT NULL,
+        `cetdetalle` varchar(256) NOT NULL,
+        PRIMARY KEY (`idcompraestadotipo`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+    */
+    
+    //cargar
     public function cargar()
     {
         $respuesta = false;
@@ -82,6 +91,7 @@ class CompraEstadoTipo
         return $respuesta;
     }
 
+    //insertar
     public function insertar()
     {
         $resp = false;
@@ -102,6 +112,7 @@ class CompraEstadoTipo
         return $resp;
     }
 
+    //modificar
     public function modificar()
     {
         $resp = false;
@@ -121,6 +132,7 @@ class CompraEstadoTipo
         return $resp;
     }
 
+    //eliminar
     public function eliminar()
     {
         $resp = false;
@@ -137,6 +149,8 @@ class CompraEstadoTipo
         }
         return $resp;
     }
+
+    //listar
 
     public static function listar($parametro = "")
     {
