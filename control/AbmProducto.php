@@ -129,7 +129,7 @@ class AbmProducto
             }
 
             if (isset($param['prodetalle'])) {
-                $where .= " and procantstock ='" . $param['procantstock'] . "'";
+                $where .= " and prodetalle ='" . $param['prodetalle'] . "'";
             }
 
             if (isset($param['procantstock'])) {
