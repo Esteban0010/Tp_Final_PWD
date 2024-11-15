@@ -21,7 +21,6 @@ class AbmProducto
     private function cargarObjeto($param)
     {
         $obj = null;
-
         if (array_key_exists('idproducto', $param) && array_key_exists('pronombre', $param) && array_key_exists('prodetalle', $param) && array_key_exists('procantstock', $param)) {
             $obj = new Producto();
             $obj->setear(

@@ -124,15 +124,13 @@ class AbmCompraItem
             }
 
             if (isset($param['idproducto'])) {
-                $where .= (empty($where) ? "" : " AND ") . " idproducto = " . $param['idproducto'];
+                $where .= " and idproducto ='" . $param['idproducto'] . "'";
             }
-
             if (isset($param['idcompra'])) {
-                $where .= (empty($where) ? "" : " AND ") . " idcompra = " . $param['idcompra'];
+                $where .= " and idcompra ='" . $param['idcompra'] . "'";
             }
-
             if (isset($param['cicantidad'])) {
-                $where .= (empty($where) ? "" : " AND ") . " cicantidad = " . $param['cicantidad'];
+                $where .= " and cicantidad ='" . $param['cicantidad'] . "'";
             }
         }
 
