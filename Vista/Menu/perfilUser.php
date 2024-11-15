@@ -2,14 +2,18 @@
 include_once("../../configuracion.php");
 include_once "../Estructura/Header.php";
 $datos = data_submitted();
-//verEstructura($datos);
 $objAbmUsuario = new AbmUsuario();
+verEstructura($datos);
+$usuario = $objAbmUsuario->buscar($datos['idusuario']);
+verEstructura($usuario[0]);
 
 $obj = NULL;
 if (isset($datos['idusuario']) && $datos['idusuario'] <> -1) {
-    $listaTabla = $objAbmUsuario->buscar($datos);
+    $listaTabla = $objAbmUsuario->buscar($datos['idusuario']);
+
     if (count($listaTabla) == 1) {
         $obj = $listaTabla[0];
+
 
         //$objAbmRol = new AbmRol();
         //$listaRol = $objAbmRol->buscar($datos);
