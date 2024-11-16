@@ -35,7 +35,7 @@
         <nav class="navbar navbar-expand-lg bg-white" style="width:100%; border: 1px solid black;">
             <span class="me-3"><a href="menu.php" class="text-decoration-none" data-options="plain:true">Hogar</a></span>
 
-            <span class="me-3"><a href="#" class="text-decoration-none" data-options="plain:true">Productos</a> </span>
+            <span class="me-3"><a href="productos.php" class="text-decoration-none" data-options="plain:true">Productos</a> </span>
 
             <!-- input busqueda -->
             <span class="me-3"><input class="easyui-searchbox" data-options="prompt:'Buscar Producto...',searcher:doSearch"></span>
