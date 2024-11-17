@@ -116,11 +116,7 @@ class Producto
     {
         $resp = false;
         $base = new BaseDatos();
-        $sql = "INSERT INTO producto(pronombre, prodetalle, procantstock, valor) VALUES(
-            '" . $this->getProNombre() . "',
-            '" . $this->getProDetalle() . "',
-            " . $this->getProCantStock() . "',
-            " . $this->getValor() . ");";
+        $sql = "INSERT INTO producto(pronombre, prodetalle, procantstock, valor) VALUES('" . $this->getProNombre() . "', '" . $this->getProDetalle() . "', " . $this->getProCantStock() . ", " . $this->getValor() . ");";
         
         //echo "<script>console.log(" . json_encode($sql) . ");</script>";
         
@@ -145,9 +141,13 @@ class Producto
         $sql = "UPDATE producto SET 
             pronombre='" . $this->getProNombre() . "', 
             prodetalle='" . $this->getProDetalle() . "', 
-            procantstock=" . $this->getProCantStock() . "', 
+            procantstock=" . $this->getProCantStock() . ", 
             valor=" . $this->getValor() .
             " WHERE idproducto=" . $this->getIdProducto();
+
+            //echo "<script>console.log(" . json_encode($sql) . ");</script>";
+
+
         if ($base->Iniciar()) {
             if ($base->Ejecutar($sql) >= 0) {
                 $resp = true;

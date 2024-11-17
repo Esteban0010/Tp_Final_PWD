@@ -10,6 +10,8 @@ class AbmProducto
 //     PRIMARY KEY (`idproducto`)
 //     ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
+
+
 {
     /**
      * Carga un objeto Producto a partir de un arreglo asociativo.
@@ -19,7 +21,9 @@ class AbmProducto
     private function cargarObjeto($param)
     {
         //echo "<script>console.log(" . json_encode('cargarObjeto(param) en el abm - aca esta el error') . ");</script>";
+        //echo "<script>console.log(" . json_encode($param) . ");</script>";
         //verEstructuraJson($param);
+        
         $obj = null;
         if (array_key_exists('pronombre', $param) && array_key_exists('prodetalle', $param) && array_key_exists('procantstock', $param) && array_key_exists('valor', $param)) {
             
@@ -28,8 +32,10 @@ class AbmProducto
                 // Si tiene un Id, que se lo ponga (modificar)
                 $obj->setear($param['idproducto'], $param['pronombre'], $param['prodetalle'], $param['procantstock'], $param['valor']);                
             } else {
+                //echo "<script>console.log(" . json_encode('incremento') . ");</script>";
                 // Si no tiene ID no es necesario poner el param, ya que es autoincremental (insertar)
                 $obj->setear(null, $param['pronombre'], $param['prodetalle'], $param['procantstock'], $param['valor']);
+                //verEstructuraJson($param);
             }
             
         }
@@ -46,7 +52,7 @@ class AbmProducto
         $obj = null;
         if (isset($param['idproducto'])) {
             $obj = new Producto();
-            $obj->setIdProducto($param['id']);
+            $obj->setIdProducto($param['idproducto']);
             $obj->cargar();
         }
         return $obj;
@@ -74,12 +80,18 @@ class AbmProducto
         $elObjProducto = $this->cargarObjeto($param);
 
         
-        //verEstructuraJson($elObjtTabla);
+        //verEstructuraJson($elObjProducto);
 
         //echo "<script>console.log(" . json_encode($param) . ");</script>";
 
+        //verEstructuraJson($elObjProducto);
 
         if ($elObjProducto !== null && $elObjProducto->insertar()) {
+            
+            //verEstructuraJson($elObjProducto);
+
+            //echo "<script>console.log(" . json_encode($param) . ");</script>";
+
             $resp = true;
         }
         return $resp;
@@ -93,8 +105,10 @@ class AbmProducto
     public function baja($param)
     {
         $resp = false;
+        //echo "<script>console.log(" . json_encode($param) . ");</script>";
         if ($this->seteadosCamposClaves($param)) {
             $elObjProducto = $this->cargarObjetoConClave($param);
+            //verEstructuraJson($elObjProducto);
             if ($elObjProducto !== null && $elObjProducto->eliminar()) {
                 $resp = true;
             }
@@ -111,16 +125,25 @@ class AbmProducto
     {
         $resp = false;
 
+        //echo "<script>console.log(" . json_encode($param) . ");</script>";
+
+        
+
         if ($this->seteadosCamposClaves($param)) {
             $elObjProducto = $this->cargarObjeto($param);
 
             //echo "<script>console.log(" . json_encode('objeto en el abm') . ");</script>";
+            //echo "<script>console.log(" . json_encode('objeto en el abm') . ");</script>";
             
-            //verEstructuraJson($param);
+            //verEstructuraJson($elObjProducto);
 
             if ($elObjProducto !== null && $elObjProducto->modificar()) {
+
+                //echo "<script>console.log(" . json_encode('Entro a la modificacion') . ");</script>";
                 $resp = true;
-            }
+            } 
+            //echo "<script>console.log(" . json_encode('NO Entro a la Modificacion!!!!') . ");</script>";
+            
         }
         return $resp;
     }
@@ -174,4 +197,3 @@ class AbmProducto
         return $existe;
     }
 }
-
