@@ -1,120 +1,99 @@
 <?php
 include_once("../../configuracion.php");
-include_once "../Estructura/Header.php";
-$datos = data_submitted();
-$objAbmUsuario = new AbmUsuario();
-verEstructura($datos);
-$usuario = $objAbmUsuario->buscar($datos['idusuario']);
-verEstructura($usuario[0]);
+include_once "../Estructura/HeaderSeguro.php";
+$objAbmUsuario = new AbmUsuario;
+$session = new Session;
+$datos = $session->getUsuario();
+$id = $datos->getId();
 
 $obj = NULL;
-if (isset($datos['idusuario']) && $datos['idusuario'] <> -1) {
-    $listaTabla = $objAbmUsuario->buscar($datos['idusuario']);
+if (isset($id) && $id <> -1) {
+    $listaTabla = $objAbmUsuario->buscar($id);
 
     if (count($listaTabla) == 1) {
-        $obj = $listaTabla[0];
-
-
-        //$objAbmRol = new AbmRol();
-        //$listaRol = $objAbmRol->buscar($datos);
-        //$objRol= $listaRol[0];
+        $usuario = $listaTabla[0];
+        verEstructura($usuario);
     }
 } else {
-    echo "<div>no hay nada</div>";
+    echo "<div>no hay datos cargados</div>";
 }
-/*
-(esto es para verificar si el id de Session sigue activo y darme cuenta de otros detalles para utilizar, muy interesante!)
-
-$objSession = new Session();
-$res = $objSession->validar();
-if($res){
-    echo "<div>si session</div>";
-} else {
-    echo "<div>no session</div>";
-}
-verEstructura($objSession->getUsuario());*/
 ?>
 
-<div class="container d-flex justify-content-center align-items-center" style="height: 79vh;">
 
-    <!-- form -->
-    <form method="POST" action="Action/actionActualizarLogin.php" class="bg-white p-4 rounded shadow" style="width: 100%; max-width: 600px;">
+<div class="container mt-5">
+    <h1 class="text-center">Mi Perfil</h1>
 
-        <!-- input hidden -->
-        <!-- id -->
-        <input type="hidden" id="idusuario" name="idusuario" value="<?php echo ($obj != null) ? $obj->getId() : "-1" ?>" readonly required>
-        <!-- accion -->
-        <input type="hidden" id="accion" name="accion" value="<?php echo ($datos['accion'] != null) ? $datos['accion'] : "nose" ?>">
-        <!-- deshabilitado -->
-        <input type="hidden" id="usdeshabilitado" name="usdeshabilitado" class="form-control" value="<?php echo $obj->getDeshabilitado(); ?>">
+    <form id="fm" class="mt-4" style="width: 100%; max-width: 600px; margin: 0 auto;">
+        <div class="row">
+            <!-- Nombre -->
+            <div class="col-md-12 mb-3 d-flex align-items-center">
+                <label for="nombre" class="form-label me-3">Nombre</label>
+                <input type="hidden" id="id" name="id" value="<?php echo $usuario->getId(); ?>">
+                <input type="text" id="nombre" name="nombre" class="form-control me-3" value="<?php echo $usuario->getNombre(); ?>" readonly>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="editarCampo('nombre')">Editar</button>
+            </div>
 
-        <!-- nombre de usuario -->
-        <div class="row mb-12">
-            <div class="col-sm-12">
-                <div class="form-group has-feedback">
-                    <label for="usnombre" class="control-label my-1">Nombre:</label>
-                    <div class="input-group">
-                        <input type="text" id="usnombre" name="usnombre" class="form-control" value="<?php echo ($obj != null) ? $obj->getNombre() : "" ?>" required>
-                    </div>
-                </div>
+            <!-- Mail -->
+            <div class="col-md-12 mb-3 d-flex align-items-center">
+                <label for="mail" class="form-label me-3">Mail</label>
+                <input type="text" id="mail" name="mail" class="form-control me-3" value="<?php echo $usuario->getMail(); ?>" readonly>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="editarCampo('mail')">Editar</button>
+            </div>
+
+            <!-- Contraseña -->
+            <div class="col-md-12 mb-3 d-flex align-items-center">
+                <label for="password" class="form-label me-3">Contraseña</label>
+                <input type="password" id="password" name="password" class="form-control me-3" value="<?php echo $usuario->getPassword(); ?>" readonly>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="editarCampo('password')">Editar</button>
             </div>
         </div>
 
-        <!-- uspass -->
-        <div class="row mb-12">
-            <div class="col-sm-12">
-                <div class="form-group has-feedback">
-                    <label for="uspass" class="control-label my-1">Password:</label>
-                    <div class="input-group">
-                        <input type="password" id="uspass" name="uspass" class="form-control" value="<?php echo ($obj != null) ? $obj->getPassword() : "" ?>" required>
-                    </div>
-                </div>
-            </div>
+        <!-- Botón de guardar -->
+        <div class="d-flex justify-content-center mt-4">
+            <button type="button" class="btn btn-primary" onclick="guardarCambios()">Guardar Cambios</button>
         </div>
-
-        <!-- usmail -->
-        <div class="row mb-12">
-            <div class="col-sm-12">
-                <div class="form-group has-feedback">
-                    <label for="usmail" class="control-label my-1">Mail:</label>
-                    <div class="input-group">
-                        <input type="email" id="usmail" name="usmail" class="form-control" value="<?php echo ($obj != null) ? $obj->getMail() : "" ?>" required>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Descripcion del Rol-->
-        <!-- <div class="row mb-12">
-                <div class="col-sm-12">
-                    <div class="form-group has-feedback">
-                        <label for="nombre" class="control-label my-1">Rol:</label>
-                        <div class="input-group">
-                            <select class="form-select" id="rol" name="rol" >
-                                <?php
-                                /*if ($objRol != null){
-                                        echo '<option selected value="'.$objRol->getDescripcion().'">'.$objRol->getDescripcion().' </option>';  
-                                        if($objRol->getDescripcion() == 'cliente'){
-                                            echo '<option value="vendedor">vendedor</option>';
-                                        } else {
-                                            echo '<option value="cliente">cliente</option>';
-                                        }                 
-                                    } */
-                                ?>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-
-        <!-- input submit -->
-        <input type="submit" class="btn btn-primary btn-block my-3 col-sm-12" value="<?php echo ($datos['accion'] != null) ? $datos['accion'] : "nose" ?>">
-
-        <div class="my-1"><a class="btn btn-secondary" role="button" href="listarUsuario.php?">Volver</a></div>
-
     </form>
-
 </div>
+
+<!-- Scripts -->
+<script>
+    function editarCampo(campoId) {
+        const campo = document.getElementById(campoId);
+        campo.removeAttribute('readonly'); // Habilitar edición
+        campo.focus(); // Colocar el cursor en el campo
+    }
+
+    function guardarCambios() {
+        var formData = $('#fm').serialize();
+
+        $.ajax({
+            url: 'Action/actionActualizarPerfil1.php',
+            data: formData,
+            dataType: 'json',
+            success: function(response) {
+                if (response.respuesta) {
+                    alert(response.mensaje || 'Cambios guardados correctamente.');
+                    // Redirige si es necesario
+                    if (response.redirect) {
+                        window.location.href = response.redirect;
+                    }
+                } else {
+                    alert(response.errorMsg || 'Hubo un error al guardar los cambios.');
+                }
+            },
+            error: function() {
+                alert('Error al conectar con el servidor.');
+            }
+        });
+    }
+</script>
+
+
+
+
+
+
+
 
 <?php
 include_once "../Estructura/Footer.php";

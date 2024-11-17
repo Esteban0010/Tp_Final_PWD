@@ -11,13 +11,13 @@ class AbmUsuario
         $obj = null;
         if (array_key_exists('usnombre', $param) && array_key_exists('uspass', $param) && array_key_exists('usmail', $param) && array_key_exists('usdeshabilitado', $param)) {
             $obj = new Usuario();
-            if(isset($param['idusuario'])){
+            if (isset($param['idusuario'])) {
                 // Si tiene un Id, que se lo ponga (modificar)
                 $obj->setear($param['idusuario'], $param['usnombre'], $param['uspass'], $param['usmail'], $param['usdeshabilitado']);
             } else {
                 // Si no tiene ID no es necesario poner el param, ya que es autoincremental (insertar)
                 $obj->setear(null, $param['usnombre'], $param['uspass'], $param['usmail'], $param['usdeshabilitado']);
-            }            
+            }
         }
         return $obj;
     }
@@ -44,7 +44,7 @@ class AbmUsuario
      * @return BOOLEAN
      */
     private function seteadosCamposClaves($param)
-    {   
+    {
         return isset($param['idusuario']);
     }
 
@@ -93,7 +93,9 @@ class AbmUsuario
         $resp = false;
         if ($this->seteadosCamposClaves($param)) {
             $objAbmUsuario = $this->cargarObjeto($param);
-            //verEstructura($objAbmUsuario);
+            // verEstructura($objAbmUsuario);
+            echo "<script>console.log(" . json_encode($objAbmUsuario) . ");</script>";
+
             if ($objAbmUsuario != null && $objAbmUsuario->modificar()) {
                 // se rompe en modifciar()
                 //verEstructura($param);
@@ -109,14 +111,14 @@ class AbmUsuario
      * @return ARRAY
      */
     public function buscar($param)
-    {   
+    {
         $where = "true";
         if ($param <> NULL) {
 
             if (isset($param['idusuario'])) {
                 $where .= " and idusuario = " . $param['idusuario'] . "";
             }
-            
+
             if (isset($param['usnombre'])) {
                 $where .= " and usnombre = '" . $param['usnombre'] . "'";
             }
@@ -164,6 +166,4 @@ class AbmUsuario
         }
         return  $listadoArray;
     }
-
 }
-?>
