@@ -2,17 +2,7 @@
 include_once("../../configuracion.php");
 include_once "../Estructura/Header.php";
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrito Dinámico</title>
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
-<body>
+
     <div class="container ">
         <div class="wrapper wrapper-content animated fadeInRight" style="min-height: 80vh">
             <div class="row">
@@ -20,8 +10,8 @@ include_once "../Estructura/Header.php";
                 <div class="col-md-9">
                     <div class="ibox">
                         <div class="ibox-title">
-                            <span class="pull-right">(<strong id="item-count">0</strong>) items</span>
-                            <h5>Items in your cart</h5>
+                            <span class="pull-right">(<strong id="item-count">0</strong>) productos</span>
+                            <h5>Productos seleccionados</h5>
                         </div>
                         <!-- Contenedor de productos -->
                         <div id="productos-container"></div>
@@ -31,7 +21,7 @@ include_once "../Estructura/Header.php";
                 <div class="col-md-3">
                     <div class="ibox">
                         <div class="ibox-title">
-                            <h5>Cart Summary</h5>
+                            <h5>Resumen de compra</h5>
                         </div>
                         <div class="ibox-content">
                             <span>Total</span>
@@ -100,13 +90,11 @@ include_once "../Estructura/Header.php";
                                         <dd>A description list is perfect for defining terms.</dd>
                                     </dl>
                                     <div class="m-t-sm">
-                                        <a href="#" class="text-muted"><i class="fa fa-gift"></i> Add gift package</a>
-                                        |
                                         <a href="#" class="text-muted remove-item" data-id="${producto.id}"><i class="fa fa-trash"></i> Remove item</a>
                                     </div>
                                 </td>
                                 <td>
-                                    $${producto.precio.toFixed(2)}  <!-- Usamos producto.precio -->
+                                    $${producto.precio}  <!-- Usamos producto.precio -->
                                 </td>
                                 <td width="65">
                                     <input type="text" class="form-control text-center" value="${producto.cantidad}">
@@ -144,8 +132,6 @@ include_once "../Estructura/Header.php";
     });
 });
     </script>
-</body>
-</html>
 <?php
 include_once "../Estructura/Footer.php";
 ?>

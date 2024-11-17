@@ -1,91 +1,144 @@
 <?php
 include_once("../../configuracion.php");
-include_once "../Estructura/HeaderSeguro.php";
+include_once "../Estructura/Header.php";
 $datos = data_submitted();
 $objControl = new AbmProducto();
 $List_Producto = $objControl->buscar(null);
-//verEstructura($List_Producto);
-//verEstructura($datos);
 ?>
-    <h1>Productos</h1>
+<h1>Productos</h1>
 
-    <?php
-    //echo "<div>" . count($List_Producto) ."</div>";
+<?php
+if (count($List_Producto) > 0) {
+    echo "<div id=\"cc\" class=\"easyui-layout\" style=\"width:100%; min-height:300px; overflow:auto;\">";
 
-    if (count($List_Producto) > 0) {
-        echo "<div id=\"cc\" class=\"easyui-layout\" style=\"width:100%; min-height:300px; overflow:auto;\">"; // Cambié el height a min-height
+    // Contenedor con clases Bootstrap
+    echo "<div class=\"container-fluid p-2\" style=\"background:#fff;\">";
+    echo "<div class=\"row justify-content-center g-3\">";
 
-        // Contenedor con clases Bootstrap
-        echo "<div class=\"container-fluid p-2\" style=\"background:#fff;\">";
+    foreach ($List_Producto as $objProducto) {
+        echo '<div class="col-12 col-sm-6 col-md-4 col-lg-3">';
+echo '<div id="card" name="card" class="card text-center border-dark h-100">';
+echo '<div class="card-body">';
+echo '<span class="card-title" data-id="' . $objProducto->getIdProducto() . '">' . $objProducto->getIdProducto() . '</span><br>';
+echo '<span class="card-subtitle mb-2 text-muted" data-name="' . $objProducto->getProNombre() . '">' . $objProducto->getProNombre() . '</span><br>';
+echo '<span class="card-text" data-detail="' . $objProducto->getProDetalle() . '">' . $objProducto->getProDetalle() . '</span><br>';
+echo '<span class="card-text" data-stock="' . $objProducto->getProCantStock() . '">' . $objProducto->getProCantStock() . '</span><br>';
+echo '<span class="card-text" data-price="' . $objProducto->getValor() . '">' . $objProducto->getValor() . '</span><br>';
+// Select para elegir cantidad
+echo '<label for="quantity-' . $objProducto->getIdProducto() . '">Cantidad:</label>';
+echo '<select id="quantity-' . $objProducto->getIdProducto() . '" class="form-control quantity-select">';
+for ($i = 1; $i <= $objProducto->getProCantStock(); $i++) {
+    echo '<option value="' . $i . '">' . $i . '</option>';
+}
+echo '</select><br>';
+// Botón para comprar
+echo '<button class="btn btn-primary mt-2 buy-button" data-id="' . $objProducto->getIdProducto() . '">Comprar Producto</button>';
+echo "</div>";
+echo "</div>";
+echo "</div>";
+    }
 
-        echo "<div class=\"row justify-content-center g-3\">"; // Fila con espaciado entre tarjetas
+    echo "</div>";
+    echo "</div>";
+    echo "</div>";
+} else {
+    echo "<div> No Hay Productos Cargados</div>";
+}
+?>
 
-        foreach ($List_Producto as $objProducto) {
-            echo '<div class="col-12 col-sm-6 col-md-4 col-lg-3">'; // Cada tarjeta ocupa 1/4 en pantallas grandes
-            echo '<div id="card" name="card" class="card text-center border-dark h-100">';
-            echo '<div class="card-body">';
-            echo '<span class="card-title" value="' . $objProducto->getIdProducto() . '">' . $objProducto->getIdProducto() . '</span><br>';
-            echo '<span class="card-subtitle mb-2 text-muted">' . $objProducto->getProNombre() . '</span><br>';
-            echo '<span class="card-text">' . $objProducto->getProDetalle() . '</span><br>';
-            echo '<span class="card-text">' . $objProducto->getProCantStock() . '</span><br>';
-            echo '<span class="card-text">' . $objProducto->getValor() . '</span><br>';
-            echo '<button class="btn btn-primary mt-2">Comprar Producto</button>';
-            echo "</div>";
-            echo "</div>";
-            echo "</div>";
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Evento para aumentar la cantidad
+        $(document).on('click', '.quantity-increase', function () {
+            const productId = $(this).data('id');
+            const $input = $('#quantity-' + productId);
+            const maxStock = parseInt($input.data('max'));
+            let currentValue = parseInt($input.val());
+
+            if (currentValue < maxStock) {
+                $input.val(currentValue + 1);
+            } else {
+                alert('Cantidad máxima alcanzada.');
+            }
+        });
+
+        // Evento para disminuir la cantidad
+        $(document).on('click', '.quantity-decrease', function () {
+            const productId = $(this).data('id');
+            const $input = $('#quantity-' + productId);
+            let currentValue = parseInt($input.val());
+
+            if (currentValue > 1) {
+                $input.val(currentValue - 1);
+            }
+        });
+
+        // Evento al hacer clic en el botón "Comprar Producto"
+        $(document).on('click', '.buy-button', function () {
+            // Obtener el ID del producto
+            const productId = $(this).data('id');
+            const quantity = parseInt($('#quantity-' + productId).val());
+
+            // Realizar solicitud AJAX para verificar el stock
+            $.ajax({
+                url: './Action/verificarStock.php',
+                method: 'POST',
+                data: { idProducto: productId, cantidad: quantity },
+                dataType: 'json',
+                success: function (response) {
+    if (response.success) {
+        // Obtener la tarjeta del producto
+        const card = $(`[data-id="${productId}"]`).closest('.card-body');
+        const productName = card.find('[data-name]').data('name');
+        const productDetail = card.find('[data-detail]').data('detail');
+        const productPrice = card.find('[data-price]').data('price');
+
+        // Crear el objeto del producto
+        const product = {
+            id: productId,
+            nombre: productName,
+            descripcion: productDetail,
+            precio: productPrice,
+            cantidad: quantity
+        };
+
+        // Obtener el carrito del localStorage
+        const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+        // Buscar si el producto ya está en el carrito
+        const existingProductIndex = carrito.findIndex(p => p.id === productId);
+
+        if (existingProductIndex !== -1) {
+            // Si ya está en el carrito, actualizamos la cantidad
+            carrito[existingProductIndex].cantidad += quantity;
+
+            // Verificamos que no exceda el stock disponible
+            if (carrito[existingProductIndex].cantidad > response.stockDisponible) {
+                alert('Cantidad seleccionada excede el stock disponible.');
+                carrito[existingProductIndex].cantidad = response.stockDisponible; // Ajustar al máximo permitido
+            } else {
+                alert('Cantidad actualizada en el carrito.');
+            }
+        } else {
+            // Si no está en el carrito, lo agregamos
+            carrito.push(product);
+            alert('Producto agregado al carrito.');
         }
 
-        echo "</div>"; // Cierra la fila
-        echo "</div>"; // Cierra el contenedor
-        echo "</div>"; // Cierra la capa de EasyUI
-
-
+        // Guardar el carrito actualizado en el localStorage
+        localStorage.setItem('carrito', JSON.stringify(carrito));
     } else {
-        echo "<div> No Hay Productos Cargados</div>"; // no hay productos cargados
+        alert(response.message); // Mostrar mensaje de error si no hay stock
     }
-    ?>
-
-    <script type="text/javascript"></script>
+},
+                error: function () {
+                    alert('Error al verificar el stock.');
+                }
+            });
+        });
+    });
+</script>
 
 <?php
 include_once "../Estructura/Footer.php";
 ?>
-<!-- 
-El carácter \' en PHP se utiliza para escapar comillas simples dentro de una cadena delimitada por comillas simples. Esto le dice al intérprete de PHP que esa comilla simple no marca el final de la cadena, sino que es parte del contenido de la misma.
-
-echo 'It\'s a beautiful day!';
-// Salida: It's a beautiful day!
-
-¿Por qué es necesario?
-Cuando defines una cadena en PHP usando comillas simples ('), cualquier otra comilla simple dentro de esa cadena se interpretará como el final de la misma. Si no la escapas, obtendrás un error de sintaxis.
-
-Sin escapar:
-php:
-echo 'It's a beautiful day!';
-// Error: syntax error, unexpected 's' (T_STRING)
-
-Con escapar:
-php:
-echo 'It\'s a beautiful day!';
-// Salida: It's a beautiful day!
-
-Escapando en HTML:
-En tu caso, el atributo data-options contiene una estructura como esta:
-html:
-data-options='region:'center''
-
-Aquí, el segundo par de comillas simples ('center') entra en conflicto con las comillas simples externas de data-options. Para solucionarlo, escapamos las comillas internas:
-
-php:
-echo "<div data-options='region:\'center\''></div>";
-Esto produce un HTML válido para que EasyUI pueda interpretarlo correctamente:
-
-html:
-<div data-options='region:'center''></div>
-
-Resumen:
-\' es usado para incluir comillas simples dentro de cadenas delimitadas por comillas simples.
-Ayuda a evitar conflictos de sintaxis y errores en el código.
--->
-
-</html>
