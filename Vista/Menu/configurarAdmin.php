@@ -16,6 +16,7 @@ $List_Producto = $objControl->buscar(null);
                 <th field="prodetalle" width="60">Detalle</th>
                 <th field="procantstock" width="60">Cantidad de Stock</th>
                 <th field="valor" width="60">Valor</th>
+                <th field="proarchivo" width="100">URL Imagen</th>
             </tr>
         </thead>
     </table>
@@ -31,7 +32,7 @@ $List_Producto = $objControl->buscar(null);
     <div id="dlg" class="easyui-dialog" style="width:600px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
     
         <!-- formulario -->
-        <form id="fm" method="POST" novalidate style="margin:0;padding:20px 50px">
+        <form id="fm" method="POST" style="margin:0;padding:20px 50px" novalidate>
 
             <!-- Cuando hacen click en nuevo menu o editar menu, aparece este formulario -->
             <h3>Informacion Del Producto:</h3>
@@ -58,7 +59,14 @@ $List_Producto = $objControl->buscar(null);
             <div style="margin-bottom:10px">
                 <label for="valor">Valor por Unidad:</label>
                 <input type="number" name="valor" id="valor" class="easyui-numberbox" style="width:100%" required="true">
-            </div>     
+            </div>  
+            
+            <!-- imagen -->
+            <div style="margin-bottom:10px">                
+                <label for="proarchivo">URL Imagen del Producto:</label>
+                <input type="text" name="proarchivo" id="proarchivo" class="easyui-textbox" style="width:100%" required="true">
+
+            </div>
 
         </form>
 

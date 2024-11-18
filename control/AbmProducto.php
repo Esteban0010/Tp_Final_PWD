@@ -23,21 +23,20 @@ class AbmProducto
         //echo "<script>console.log(" . json_encode('cargarObjeto(param) en el abm - aca esta el error') . ");</script>";
         //echo "<script>console.log(" . json_encode($param) . ");</script>";
         //verEstructuraJson($param);
-        
+
         $obj = null;
-        if (array_key_exists('pronombre', $param) && array_key_exists('prodetalle', $param) && array_key_exists('procantstock', $param) && array_key_exists('valor', $param)) {
-            
+        if (array_key_exists('pronombre', $param) && array_key_exists('prodetalle', $param) && array_key_exists('procantstock', $param) && array_key_exists('valor', $param) && array_key_exists('proarchivo', $param)) {
+
             $obj = new Producto();
-            if(isset($param['idproducto'])){
+            if (isset($param['idproducto'])) {
                 // Si tiene un Id, que se lo ponga (modificar)
-                $obj->setear($param['idproducto'], $param['pronombre'], $param['prodetalle'], $param['procantstock'], $param['valor']);                
+                $obj->setear($param['idproducto'], $param['pronombre'], $param['prodetalle'], $param['procantstock'], $param['valor'], $param['proarchivo']);
             } else {
                 //echo "<script>console.log(" . json_encode('incremento') . ");</script>";
                 // Si no tiene ID no es necesario poner el param, ya que es autoincremental (insertar)
-                $obj->setear(null, $param['pronombre'], $param['prodetalle'], $param['procantstock'], $param['valor']);
+                $obj->setear(null, $param['pronombre'], $param['prodetalle'], $param['procantstock'], $param['valor'], $param['proarchivo']);
                 //verEstructuraJson($param);
             }
-            
         }
         return $obj;
     }
@@ -79,7 +78,7 @@ class AbmProducto
         $param['idproducto'] = null;
         $elObjProducto = $this->cargarObjeto($param);
 
-        
+
         //verEstructuraJson($elObjProducto);
 
         //echo "<script>console.log(" . json_encode($param) . ");</script>";
@@ -87,7 +86,7 @@ class AbmProducto
         //verEstructuraJson($elObjProducto);
 
         if ($elObjProducto !== null && $elObjProducto->insertar()) {
-            
+
             //verEstructuraJson($elObjProducto);
 
             //echo "<script>console.log(" . json_encode($param) . ");</script>";
@@ -127,23 +126,23 @@ class AbmProducto
 
         //echo "<script>console.log(" . json_encode($param) . ");</script>";
 
-        
+
 
         if ($this->seteadosCamposClaves($param)) {
             $elObjProducto = $this->cargarObjeto($param);
 
             //echo "<script>console.log(" . json_encode('objeto en el abm') . ");</script>";
             //echo "<script>console.log(" . json_encode('objeto en el abm') . ");</script>";
-            
+
             //verEstructuraJson($elObjProducto);
 
             if ($elObjProducto !== null && $elObjProducto->modificar()) {
 
                 //echo "<script>console.log(" . json_encode('Entro a la modificacion') . ");</script>";
                 $resp = true;
-            } 
+            }
             //echo "<script>console.log(" . json_encode('NO Entro a la Modificacion!!!!') . ");</script>";
-            
+
         }
         return $resp;
     }
@@ -177,6 +176,10 @@ class AbmProducto
             if (isset($param['valor'])) {
                 $where .= " and valor ='" . $param['valor'] . "'";
             }
+
+            if (isset($param['proarchivo'])) {
+                $where .= " and proarchivo ='" . $param['proarchivo'] . "'";
+            }
         }
 
         return Producto::listar($where);
@@ -196,4 +199,5 @@ class AbmProducto
         }
         return $existe;
     }
+
 }

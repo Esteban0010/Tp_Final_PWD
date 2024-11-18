@@ -12,6 +12,7 @@ foreach ($list as $elem) {
     $nuevoElem["prodetalle"] = $elem->getProDetalle();
     $nuevoElem["procantstock"] = $elem->getProCantStock();
     $nuevoElem["valor"] = $elem->getValor();    
+    $nuevoElem["proarchivo"] = $elem->getProArchivo();  
 
     array_push($arreglo_salida, $nuevoElem);
 }

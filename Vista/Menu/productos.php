@@ -19,6 +19,7 @@ if (count($List_Producto) > 0) {
         echo '<div class="col-12 col-sm-6 col-md-4 col-lg-3">';
 echo '<div id="card" name="card" class="card text-center border-dark h-100">';
 echo '<div class="card-body">';
+echo '<span class="card-title" data-id="' . $objProducto->getProArchivo() . '"><img src="' . $objProducto->getProArchivo() . '" alt="producto" class="w-75"></span><br>';
 echo '<span class="card-title" data-id="' . $objProducto->getIdProducto() . '">' . $objProducto->getIdProducto() . '</span><br>';
 echo '<span class="card-subtitle mb-2 text-muted" data-name="' . $objProducto->getProNombre() . '">' . $objProducto->getProNombre() . '</span><br>';
 echo '<span class="card-text" data-detail="' . $objProducto->getProDetalle() . '">' . $objProducto->getProDetalle() . '</span><br>';

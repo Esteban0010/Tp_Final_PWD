@@ -7,25 +7,28 @@ class Producto
     private $prodetalle;
     private $procantstock;
     private $valor;
+    private $proarchivo; // text de url del archivo para la base de datos
     private $mensajeoperacion;
 
     public function __construct()
-    {
+    {        
         $this->idproducto = "";
         $this->pronombre = "";
         $this->prodetalle = "";
         $this->procantstock = "";
         $this->valor = "";
+        $this->proarchivo = "";
         $this->mensajeoperacion = "";
     }
 
-    public function setear($idproducto, $pronombre, $prodetalle, $procantstock, $valor)
+    public function setear($idproducto, $pronombre, $prodetalle, $procantstock, $valor, $proarchivo)
     {
         $this->setIdProducto($idproducto);
         $this->setProNombre($pronombre);
         $this->setProDetalle($prodetalle);
         $this->setProCantStock($procantstock);
         $this->setValor($valor);
+        $this->setProArchivo($proarchivo);
     }
 
      /* get */
@@ -53,6 +56,11 @@ class Producto
     public function getValor() {
 		return $this->valor;
 	}
+
+    public function getProArchivo()
+    {
+        return $this->proarchivo;
+    }  
 
     public function getMensajeOperacion()
     {
@@ -84,6 +92,11 @@ class Producto
     public function setValor($value) {
 		$this->valor = $value;
 	}
+    
+    public function setProArchivo($value) 
+    {
+        $this->proarchivo = $value;
+    }
 
     public function setMensajeOperacion($valor)
     {
@@ -101,7 +114,7 @@ class Producto
             if ($res > -1) {
                 if ($res > 0) {
                     $row = $base->Registro();
-                    $this->setear($row['idproducto'], $row['pronombre'], $row['prodetalle'], $row['procantstock'], $row['valor']);
+                    $this->setear($row['idproducto'], $row['pronombre'], $row['prodetalle'], $row['procantstock'], $row['valor'], $row['proarchivo']);
                     $respuesta = true;
                 }
             }
@@ -116,7 +129,7 @@ class Producto
     {
         $resp = false;
         $base = new BaseDatos();
-        $sql = "INSERT INTO producto(pronombre, prodetalle, procantstock, valor) VALUES('" . $this->getProNombre() . "', '" . $this->getProDetalle() . "', " . $this->getProCantStock() . ", " . $this->getValor() . ");";
+        $sql = "INSERT INTO producto(pronombre, prodetalle, procantstock, valor, proarchivo) VALUES('" . $this->getProNombre() . "', '" . $this->getProDetalle() . "', " . $this->getProCantStock() . ", " . $this->getValor() . ", '" . $this->getProArchivo() . "');";
         
         //echo "<script>console.log(" . json_encode($sql) . ");</script>";
         
@@ -141,8 +154,8 @@ class Producto
         $sql = "UPDATE producto SET 
             pronombre='" . $this->getProNombre() . "', 
             prodetalle='" . $this->getProDetalle() . "', 
-            procantstock=" . $this->getProCantStock() . ", 
-            valor=" . $this->getValor() .
+            procantstock=" . $this->getProCantStock() . ", valor=" . $this->getValor() . ", 
+            proarchivo='" . $this->getProArchivo() . "'" .
             " WHERE idproducto=" . $this->getIdProducto();
 
             //echo "<script>console.log(" . json_encode($sql) . ");</script>";
@@ -197,7 +210,7 @@ class Producto
             if ($res > 0) {
                 while ($row = $base->Registro()) {
                     $obj = new Producto();
-                    $obj->setear($row['idproducto'], $row['pronombre'], $row['prodetalle'], $row['procantstock'], $row['valor']);
+                    $obj->setear($row['idproducto'], $row['pronombre'], $row['prodetalle'], $row['procantstock'], $row['valor'], $row['proarchivo']);
                     array_push($arreglo, $obj);
                 }
             }
@@ -207,4 +220,5 @@ class Producto
 
         return $arreglo;
     }
+
 }

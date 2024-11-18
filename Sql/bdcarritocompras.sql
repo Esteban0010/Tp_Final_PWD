@@ -88,6 +88,7 @@ CREATE TABLE `producto` (
     `valor` INT NOT NULL DEFAULT 0,
     `prodetalle` varchar(512) NOT NULL,
     `procantstock` int(11) NOT NULL,
+    `proarchivo` VARCHAR(300) NOT NULL,
     PRIMARY KEY (`idproducto`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
