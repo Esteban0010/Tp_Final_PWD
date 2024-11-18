@@ -1,12 +1,13 @@
 <?php
 
-class Usuario{
+class Usuario
+{
 
     private $id;
     private $nombre;
     private $password;
     private $mail;
-    private $deshabilitado; 
+    private $deshabilitado;
     private $mensajeoperacion;
 
     public function __construct()
@@ -22,10 +23,10 @@ class Usuario{
     public function setear($id, $nombre, $password, $mail, $deshabilitado)
     {
         $this->setId($id);
-        $this->setNombre($nombre);       
+        $this->setNombre($nombre);
         $this->setPassword($password);
         $this->setMail($mail);
-        $this->setDeshabilitado($deshabilitado);        
+        $this->setDeshabilitado($deshabilitado);
     }
 
     public function getId()
@@ -57,7 +58,7 @@ class Usuario{
     {
         return $this->mensajeoperacion;
     }
-    
+
 
     public function setId($valor)
     {
@@ -82,7 +83,7 @@ class Usuario{
     {
         $this->deshabilitado = $valor;
     }
-    
+
     public function setMensajeoperacion($valor)
     {
         $this->mensajeoperacion = $valor;
@@ -97,7 +98,7 @@ class Usuario{
             $res = $base->Ejecutar($sql);
             if ($res > -1) {
                 if ($res > 0) {
-                    $row = $base->Registro();     
+                    $row = $base->Registro();
                     $this->setear($row['idusuario'], $row['usnombre'], $row['uspass'], $row['usmail'], $row['usdeshabilitado']);
                     $respuesta = true;
                 }
@@ -132,15 +133,14 @@ class Usuario{
     }
 
     public function modificar()
-    {        
+    {
         $resp = false;
         $base = new BaseDatos();
-        $sql = "UPDATE usuario SET usnombre='" . $this->getNombre() . 
+        $sql = "UPDATE usuario SET usnombre='" . $this->getNombre() .
             "', uspass='" . $this->getPassword() .
             "', usmail='" . $this->getMail() .
             "', usdeshabilitado='" . $this->getDeshabilitado() .
             "' WHERE idusuario=" . $this->getId();
-        echo "<div>" . $sql . "</div>";    
         if ($base->Iniciar()) {
             if ($base->Ejecutar($sql) >= 0) {
                 $resp = true;
@@ -171,38 +171,34 @@ class Usuario{
     }
 
     public static function listar($parametro = "")
-    {           
+    {
         $arreglo = array();
         $base = new BaseDatos();
         $sql = "SELECT * FROM usuario ";
-        
+
         if ($parametro != "") {
             $sql .= 'WHERE ' . $parametro;
         }
         //echo "<div>" .  $sql . "</div>";
 
         $res = $base->Ejecutar($sql);
-        
+
         if ($res > -1) {
-            
+
             if ($res > 0) {
-                while ($row = $base->Registro()) {       
+                while ($row = $base->Registro()) {
 
-                        $obj = new Usuario();
+                    $obj = new Usuario();
 
-                        $obj->setear($row['idusuario'], $row['usnombre'], $row['uspass'], $row['usmail'], $row['usdeshabilitado']);
-                        
-                        array_push($arreglo, $obj);
+                    $obj->setear($row['idusuario'], $row['usnombre'], $row['uspass'], $row['usmail'], $row['usdeshabilitado']);
 
-                }                
-            }  
-
+                    array_push($arreglo, $obj);
+                }
+            }
         } else {
             throw new Exception("usuario->listar: " . $base->getError());
         }
 
         return $arreglo;
     }
-
 }
-?>

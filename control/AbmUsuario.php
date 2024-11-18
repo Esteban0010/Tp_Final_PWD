@@ -94,7 +94,7 @@ class AbmUsuario
         if ($this->seteadosCamposClaves($param)) {
             $objAbmUsuario = $this->cargarObjeto($param);
             // verEstructura($objAbmUsuario);
-            echo "<script>console.log(" . json_encode($objAbmUsuario) . ");</script>";
+            // echo "<script>console.log(" . json_encode($objAbmUsuario) . ");</script>";
 
             if ($objAbmUsuario != null && $objAbmUsuario->modificar()) {
                 // se rompe en modifciar()

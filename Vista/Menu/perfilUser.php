@@ -12,7 +12,7 @@ if (isset($id) && $id <> -1) {
 
     if (count($listaTabla) == 1) {
         $usuario = $listaTabla[0];
-        verEstructura($usuario);
+        // verEstructura($usuario);
     }
 } else {
     echo "<div>no hay datos cargados</div>";
@@ -74,9 +74,9 @@ if (isset($id) && $id <> -1) {
                 if (response.respuesta) {
                     alert(response.mensaje || 'Cambios guardados correctamente.');
                     // Redirige si es necesario
-                    if (response.redirect) {
-                        window.location.href = response.redirect;
-                    }
+                    // if (response.redirect) {
+                    //     window.location.href = response.redirect;
+                    // }
                 } else {
                     alert(response.errorMsg || 'Hubo un error al guardar los cambios.');
                 }
@@ -87,10 +87,6 @@ if (isset($id) && $id <> -1) {
         });
     }
 </script>
-
-
-
-
 
 
 
