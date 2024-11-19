@@ -2,9 +2,9 @@
 include_once("../../../configuracion.php");
 // Llamar a la función para procesar los datos
 $datos = data_submitted();
-verEstructura($datos);
+//verEstructura($datos);
 $datos['uspass'] = md5($datos['uspass']); //encripta los datos
-verEstructura($datos);
+//verEstructura($datos);
 if ($datos['accion'] == "login") {
 
 
