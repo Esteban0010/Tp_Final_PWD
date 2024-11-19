@@ -48,12 +48,18 @@ if ($resp) {
     <header>
         <nav class="navbar navbar-expand-lg bg-white easyui-linkbutton" style="width:100%;">
 
-            <a href="#" class="easyui-linkbutton" data-options="plain:true">Hogar</a>
-            <a href="#" class="easyui-linkbutton" data-options="plain:true">Productos</a>
+
+            <span class="me-3"><a href="menu.php" class="text-decoration-none" data-options="plain:true">Hogar</a></span>
+
+            <span class="me-3"><a href="productos.php" class="text-decoration-none" data-options="plain:true">Productos</a></span>
+            
             <input class="easyui-searchbox" data-options="prompt:'Buscar Producto...',searcher:doSearch" style="width:50%;">
             <!-- <a href="iniciar_sesion.php" class="easyui-linkbutton" data-options="plain:true">Iniciar Sesion</a> -->
-            <a class="easyui-linkbutton" href="Action/actionVerificarLogin.php?accion=cerrar">Cerrar Sesion</a></div>
-            <a href="#" class="easyui-linkbutton" data-options="plain:true">Carrito</a>
+            
+            <span class="me-3"><a class="text-decoration-none" href="Action/actionVerificarLogin.php?accion=cerrar">Cerrar Sesion</a></span>
+
+            <span class="me-3"><a href="carrito.php" class="text-decoration-none" class="easyui-linkbutton" data-options="plain:true">Carrito</a></span>
+
             <span class="me-3"><a href="perfilUser.php" class="text-decoration-none" data-options="plain:true">Mi perfil </a></span>
 
         </nav>
