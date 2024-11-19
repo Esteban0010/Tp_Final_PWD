@@ -91,6 +91,7 @@ class AbmUsuario
     {
         //verEstructura($param);
         $resp = false;
+
         if ($this->seteadosCamposClaves($param)) {
             $objAbmUsuario = $this->cargarObjeto($param);
             // verEstructura($objAbmUsuario);

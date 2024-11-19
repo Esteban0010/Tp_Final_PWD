@@ -18,48 +18,62 @@
     cerrar(). Cierra la sesión actual.
 */
 
-class Session {
+class Session
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         session_start();
     }
 
     /**
-    * Actualiza las variables de sesión con los valores ingresados.
-    */
-    public function iniciar($nombreUsuario, $psw) {
+     * Actualiza las variables de sesión con los valores ingresados.
+     */
+
+    public function iniciar($nombreUsuario, $psw)
+    {
         $resp = false;
         $obj = new AbmUsuario();
-        $param['usnombre'] = $nombreUsuario;
-        $param['uspassword'] = $psw;
-        $param['usdeshabilitado'] = '0000-00-00 00:00:00';
 
+        // Buscar al usuario por nombre
+        $param['usnombre'] = $nombreUsuario;
+        $param['usdeshabilitado'] = '0000-00-00 00:00:00'; // Verifica que el usuario no esté deshabilitado
         $objUsuario = $obj->buscar($param);
-        //verEstructura($objUsuario[0]);
+
         if (count($objUsuario) > 0) {
             $usuario = $objUsuario[0];
-            $_SESSION['idusuario'] = $usuario->getId();
-            $resp = true;
+
+            if ($psw === $usuario->getPassword()) {
+                $_SESSION['idusuario'] = $usuario->getId();
+                $resp = true;
+            } else {
+                // Contraseña incorrecta
+                $this->cerrar();
+            }
         } else {
             $this->cerrar();
         }
+
         return $resp;
     }
-    
+
+
+
+
     /**
-    * Valida si la sesión actual tiene usuario y psw válidos. Devuelve true o false.
-    */
+     * Valida si la sesión actual tiene usuario y psw válidos. Devuelve true o false.
+     */
     public function validar()
     {
         $resp = false;
         if ($this->activa() && isset($_SESSION['idusuario']))
             $resp = true;
         return $resp;
-    } 
-    
+    }
+
     /**
-    *Devuelve true o false si la sesión está activa o no.
-    */
+     *Devuelve true o false si la sesión está activa o no.
+     */
     public function activa()
     {
         $resp = false;
@@ -76,11 +90,11 @@ class Session {
             }
         }
         return $resp;
-    }    
-    
+    }
+
     /**
-    * Devuelve el usuario logeado.
-    */
+     * Devuelve el usuario logeado.
+     */
     public function getUsuario()
     {
         $usuario = null;
@@ -96,8 +110,8 @@ class Session {
     }
 
     /**
-    * Devuelve el rol del usuario logeado.
-    */
+     * Devuelve el rol del usuario logeado.
+     */
     public function getRol()
     {
         $list_rol = null;
@@ -116,8 +130,8 @@ class Session {
     }
 
     /**
-    *Cierra la sesión actual.
-    */
+     *Cierra la sesión actual.
+     */
     public function cerrar()
     {
         $resp = true;
@@ -125,6 +139,4 @@ class Session {
         // $_SESSION['idusuario']=null;
         return $resp;
     }
-
 }
-?>

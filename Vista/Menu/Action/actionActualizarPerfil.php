@@ -23,6 +23,8 @@ if ($password) {
     $parametros['password'] = $password;
 }
 
+
+
 $abmUsuario->modificar($parametros);
 
 header('Location: miperfil.php?success=1');
