@@ -2,8 +2,9 @@
 include_once("../../../configuracion.php");
 // Llamar a la función para procesar los datos
 $datos = data_submitted();
-//$datos['password'] = md5($datos['password']); //encripta los datos
-
+verEstructura($datos);
+$datos['uspass'] = md5($datos['uspass']); //encripta los datos
+verEstructura($datos);
 if ($datos['accion'] == "login") {
 
 
@@ -14,8 +15,8 @@ if ($datos['accion'] == "login") {
     if ($resp) {
         header("Location: ../paginaSegura.php");
     } else {
-        $mensaje = "Error, usuario o password incorrecto";
-        header("Location: ../iniciar_sesion.php?msg=" . urlencode($mensaje));
+        //$mensaje = "Error, usuario o password incorrecto";
+        //header("Location: ../iniciar_sesion.php?msg=" . urlencode($mensaje));
     }
 }
 

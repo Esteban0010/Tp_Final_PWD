@@ -17,7 +17,6 @@ if ($resp) {
 ?>
 <div>
     <h1>Bienvenidos!</h1>
-    <div class="my-1"><a class="btn btn-info w-20" role="button" href="listarUsuario.php">Lista de Usuarios</a></div>
 
     <div class="my-1"><a class="btn btn-secondary w-20" role="button" href="Action/actionVerificarLogin.php?accion=cerrar">Cerrar Sesion</a></div>
 </div>
