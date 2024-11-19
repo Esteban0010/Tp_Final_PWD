@@ -29,7 +29,7 @@ include_once "../Estructura/Header.php";
                             <hr>
                             <div class="m-t-sm">
                                 <div class="btn-group">
-                                    <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-shopping-cart"></i> Checkout</a>
+                                    <btn id="btn-pagar" class="btn btn-primary btn-sm"><i class="fa fa-shopping-cart"></i> Pagar</btn>
                                     <a href="#" class="btn btn-white btn-sm">Cancel</a>
                                 </div>
                             </div>
@@ -129,6 +129,36 @@ include_once "../Estructura/Header.php";
 
         // Recargar la página para reflejar los cambios
         location.reload();
+    });
+});
+
+
+$(document).on('click', '#btn-pagar', function () {
+    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+    if (carrito.length === 0) {
+        alert('El carrito está vacío. Agrega productos antes de pagar.');
+        return;
+    }
+
+    // Enviar datos del carrito al servidor
+    $.ajax({
+        url: './Action/actionEjecutarCompra.php', // Ruta del archivo PHP
+        method: 'POST',
+        data: { carrito: JSON.stringify(carrito) }, // Enviar el carrito como JSON
+        dataType: 'json',
+        success: function (response) {
+            if (response.success) {
+                alert('Compra realizada con éxito.');
+                localStorage.removeItem('carrito'); // Limpiar el carrito
+                location.reload(); // Recargar la página para reflejar cambios
+            } else {
+                alert('Error al realizar la compra: ' + response.message);
+            }
+        },
+        error: function () {
+            alert('Hubo un error al procesar la compra.');
+        }
     });
 });
     </script>

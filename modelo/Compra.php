@@ -7,19 +7,19 @@ class Compra
     private $ObjUsuario; // Instancia de Usuario
     private $mensajeoperacion;
 
-    public function __construct()
-    {
-        $this->idcompra = "";
-        $this->cofecha = "";
-        $this->ObjUsuario = null; // Crear una nueva instancia de Usuario
-        $this->mensajeoperacion = "";
+    public function __construct() {
+        $this->idcompra = null;
+        $this->cofecha = null;
+        $this->costoTotal = 0;
+        $this->ObjUsuario = null;
+        $this->mensajeOperacion = "";
     }
 
-    public function setear($idcompra, $cofecha, $ObjUsuario)
-    {
-        $this->setIdcompra($idcompra);
-        $this->setCofecha($cofecha);
-        $this->setObjUsuario($ObjUsuario);
+    public function setear($idcompra, $cofecha, $costoTotal, $ObjUsuario) {
+        $this->idcompra = $idcompra;
+        $this->cofecha = $cofecha;
+        $this->costoTotal = $costoTotal;
+        $this->ObjUsuario = $ObjUsuario;
     }
 
     public function getIdcompra()
@@ -62,63 +62,64 @@ class Compra
         $this->mensajeoperacion = $valor;
     }
 
-    public function cargar()
-    {
-        $respuesta = false;
-        $base = new BaseDatos();
-        $sql = "SELECT * FROM compra WHERE idcompra = " . $this->getIdcompra();
-        if ($base->Iniciar()) {
-            $res = $base->Ejecutar($sql);
-            if ($res > -1) {
-                if ($res > 0) {
-                    $row = $base->Registro();
-                    $ObjUsuario = new Usuario();
-                    $ObjUsuario->cargar($row['idusuario']); // Cargar datos del usuario
-                    $this->setear($row['idcompra'], $row['cofecha'], $ObjUsuario);
-                    $respuesta = true;
-                }
-            }
-        } else {
-            $this->setMensajeoperacion("compra->cargar: " . $base->getError());
-        }
-        return $respuesta;
-    }
-
-    public function insertar()
-    {
+    public function cargar() {
         $resp = false;
         $base = new BaseDatos();
-        $sql = "INSERT INTO compra(cofecha, idusuario) VALUES(
-            '" . $this->getCofecha() . "',
-            '" . $this->getObjUsuario()->getId() . "');";
+        $sql = "SELECT * FROM compra WHERE idcompra = " . $this->idcompra;
         if ($base->Iniciar()) {
-            if ($id = $base->Ejecutar($sql)) {
-                $this->setIdcompra($id);
-                $resp = true;
+            if ($res = $base->Ejecutar($sql)) {
+                if ($row = $base->Registro()) {
+                    $usuario = new Usuario();
+                    $usuario->setIdusuario($row['idusuario']);
+                    $usuario->cargar();
+
+                    $this->setear(
+                        $row['idcompra'],
+                        $row['cofecha'],
+                        $row['costoTotal'],
+                        $usuario
+                    );
+                    $resp = true;
+                }
             } else {
-                $this->setMensajeoperacion("compra->insertar: " . $base->getError());
+                $this->mensajeOperacion = "Error al ejecutar la consulta: " . $base->getError();
             }
         } else {
-            $this->setMensajeoperacion("compra->insertar: " . $base->getError());
+            $this->mensajeOperacion = "Error al iniciar la base de datos: " . $base->getError();
         }
         return $resp;
     }
 
-    public function modificar()
-    {
+
+    public function insertar() {
         $resp = false;
         $base = new BaseDatos();
-        $sql = "UPDATE compra SET cofecha='" . $this->getCofecha() .
-            "', idusuario='" . $this->getObjUsuario()->getId() .
-            "' WHERE idcompra=" . $this->getIdcompra();
+        $sql = "INSERT INTO compra (cofecha, costoTotal, idusuario) VALUES ('" . $this->cofecha . "', " . $this->costoTotal . ", " . $this->ObjUsuario->getIdusuario() . ")";
         if ($base->Iniciar()) {
-            if ($base->Ejecutar($sql) >= 0) {
+            if ($id = $base->Ejecutar($sql)) {
+                $this->idcompra = $id;
                 $resp = true;
             } else {
-                $this->setMensajeoperacion("compra->modificar: " . $base->getError());
+                $this->mensajeOperacion = "Error al insertar la compra: " . $base->getError();
             }
         } else {
-            $this->setMensajeoperacion("compra->modificar: " . $base->getError());
+            $this->mensajeOperacion = "Error al iniciar la base de datos: " . $base->getError();
+        }
+        return $resp;
+    }
+
+    public function modificar() {
+        $resp = false;
+        $base = new BaseDatos();
+        $sql = "UPDATE compra SET cofecha = '" . $this->cofecha . "', costoTotal = " . $this->costoTotal . ", idusuario = " . $this->ObjUsuario->getIdusuario() . " WHERE idcompra = " . $this->idcompra;
+        if ($base->Iniciar()) {
+            if ($base->Ejecutar($sql)) {
+                $resp = true;
+            } else {
+                $this->mensajeOperacion = "Error al modificar la compra: " . $base->getError();
+            }
+        } else {
+            $this->mensajeOperacion = "Error al iniciar la base de datos: " . $base->getError();
         }
         return $resp;
     }
@@ -140,34 +141,36 @@ class Compra
         return $resp;
     }
 
-    public static function listar($parametro = "")
-    {
-        $arreglo = array();
+    public static function listar($condicion = "") {
+        $arreglo = [];
         $base = new BaseDatos();
-        $sql = "SELECT * FROM compra ";
-        
-        if ($parametro != "") {
-            $sql .= 'WHERE ' . $parametro;
+        $sql = "SELECT * FROM compra";
+        if ($condicion != "") {
+            $sql .= " WHERE " . $condicion;
         }
-
-        $res = $base->Ejecutar($sql);
-
-        if ($res > -1) {
-            if ($res > 0) {
+        if ($base->Iniciar()) {
+            if ($res = $base->Ejecutar($sql)) {
                 while ($row = $base->Registro()) {
-                    $obj = new Compra();
-                    $ObjUsuario = new Usuario();
-                    $ObjUsuario->cargar($row['idusuario']); // Cargar datos del usuario
-                    $obj->setear($row['idcompra'], $row['cofecha'], $ObjUsuario);
-                    array_push($arreglo, $obj);
+                    $compra = new Compra();
+                    $usuario = new Usuario();
+                    $usuario->setIdusuario($row['idusuario']);
+                    $usuario->cargar();
+
+                    $compra->setear(
+                        $row['idcompra'],
+                        $row['cofecha'],
+                        $row['costoTotal'],
+                        $usuario
+                    );
+                    $arreglo[] = $compra;
                 }
+            } else {
+                echo "Error al listar compras: " . $base->getError();
             }
         } else {
-            throw new Exception("compra->listar: " . $base->getError());
+            echo "Error al iniciar la base de datos: " . $base->getError();
         }
-
         return $arreglo;
     }
 }
-
 ?>

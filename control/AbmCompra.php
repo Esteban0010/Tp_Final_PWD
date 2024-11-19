@@ -10,20 +10,17 @@ class AbmCompra
     {
         $obj = null;
 
-        if (array_key_exists('idusuario', $param) && array_key_exists('cofecha', $param)) {
+        // Verificar que existan los parámetros necesarios (sin necesidad de idcompra en inserción)
+        if ( array_key_exists('cofecha', $param) && array_key_exists('costoTotal', $param)) {
             $obj = new Compra();
 
-            // Crear instancia de Usuario
-            $objUsuario = new Usuario();
-            $objUsuario->setIdUsuario($param['idusuario']);
-            $objUsuario->cargar();
 
+            // Si el idcompra está presente (modificación), asignarlo, si no (inserción), dejar null
             if (isset($param['idcompra'])) {
-                // Si tiene un ID, asignarlo (para modificar)
-                $obj->setear($param['idcompra'], $objUsuario, $param['cofecha']);
+                $obj->setear($param['idcompra'], $objUsuario, $param['cofecha'], $param['costoTotal']);
             } else {
                 // Si no tiene ID, asignar como null (para insertar)
-                $obj->setear(null, $objUsuario, $param['cofecha']);
+                $obj->setear(null, $objUsuario, $param['cofecha'], $param['costoTotal']);
             }
         }
         return $obj;
@@ -38,10 +35,13 @@ class AbmCompra
     {
         $obj = null;
 
+        // Solo se necesita el idcompra para obtener un objeto con clave primaria
         if (isset($param['idcompra'])) {
+       
             $obj = new Compra();
             $obj->setIdCompra($param['idcompra']);
         }
+       
         return $obj;
     }
 
@@ -52,6 +52,7 @@ class AbmCompra
      */
     private function seteadosCamposClaves($param)
     {
+        // Verificamos que solo idcompra sea necesario para modificar o eliminar
         return isset($param['idcompra']);
     }
 
@@ -63,6 +64,7 @@ class AbmCompra
     public function alta($param)
     {
         $resp = false;
+        // El idcompra se asigna automáticamente en la base de datos
         $param['idcompra'] = null;
 
         $obj = $this->cargarObjeto($param);
@@ -82,6 +84,7 @@ class AbmCompra
     {
         $resp = false;
 
+        // Verificamos que idcompra esté presente antes de eliminar
         if ($this->seteadosCamposClaves($param)) {
             $obj = $this->cargarObjetoConClave($param);
             if ($obj != null && $obj->eliminar()) {
@@ -100,6 +103,7 @@ class AbmCompra
     {
         $resp = false;
 
+        // Verificamos que idcompra esté presente antes de modificar
         if ($this->seteadosCamposClaves($param)) {
             $obj = $this->cargarObjeto($param);
             if ($obj != null && $obj->modificar()) {
@@ -117,8 +121,9 @@ class AbmCompra
     public function buscar($param)
     {
         $where = " true ";
-        
+
         if ($param != NULL) {
+            // Verificamos solo los campos que pueden ser utilizados en la búsqueda
             if (isset($param['idcompra'])) {
                 $where .= " and idcompra = " . $param['idcompra'];
             }
@@ -130,6 +135,7 @@ class AbmCompra
             }
         }
 
+        // Retornamos las compras que coinciden con los filtros
         $arreglo = Compra::listar($where);
         return $arreglo;
     }
