@@ -15,8 +15,8 @@ if ($datos['accion'] == "login") {
     if ($resp) {
         header("Location: ../paginaSegura.php");
     } else {
-        //$mensaje = "Error, usuario o password incorrecto";
-        //header("Location: ../iniciar_sesion.php?msg=" . urlencode($mensaje));
+        $mensaje = "Error, usuario o password incorrecto";
+        header("Location: ../iniciar_sesion.php?msg=" . urlencode($mensaje));
     }
 }
 
