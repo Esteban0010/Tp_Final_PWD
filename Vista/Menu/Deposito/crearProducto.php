@@ -1,7 +1,7 @@
 <?php
-include_once("../../configuracion.php");
+include_once("../../../configuracion.php");
 
-include_once("../Estructura/HeaderSeguro.php");
+include_once("../../Estructura/HeaderSeguro.php");
 
 
 ?>
@@ -42,5 +42,5 @@ include_once("../Estructura/HeaderSeguro.php");
     <script src="Aca irian las validaciones"></script>
 <?php
 
-include_once '../Estructura/Footer.php';
+include_once '../../Estructura/Footer.php';
 ?>

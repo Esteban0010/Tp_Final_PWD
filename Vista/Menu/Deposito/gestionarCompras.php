@@ -1,6 +1,6 @@
 <?php
-include_once("../../configuracion.php");
-include_once("../Estructura/HeaderSeguro.php");
+include_once("../../../configuracion.php");
+include_once("../../Estructura/HeaderSeguro.php");
 
 ?>
 
@@ -123,5 +123,5 @@ include_once("../Estructura/HeaderSeguro.php");
 
 
 <?php
-include_once("../Estructura/Footer.php");
+include_once("../../Estructura/Footer.php");
 ?>
