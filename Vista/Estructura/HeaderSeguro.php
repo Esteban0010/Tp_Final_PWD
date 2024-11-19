@@ -1,3 +1,20 @@
+<?php
+include_once("../../configuracion.php");
+$datos = data_submitted();
+//verEstructura($datos);
+?>
+
+<?php
+$objTrans = new Session();
+$resp = $objTrans->validar();
+if ($resp) {
+    //echo("<script>location.href = '../home/index.php';</script>");
+} else {
+    $mensaje = "Error, vuelva a iniciar sesion";
+    header("Location: iniciar_sesion.php?msg=" . urlencode($mensaje));
+}
+?>
+
 <html>
 
 <head>
@@ -34,7 +51,8 @@
             <a href="#" class="easyui-linkbutton" data-options="plain:true">Hogar</a>
             <a href="#" class="easyui-linkbutton" data-options="plain:true">Productos</a>
             <input class="easyui-searchbox" data-options="prompt:'Buscar Producto...',searcher:doSearch" style="width:50%;">
-            <a href="iniciar_sesion.php" class="easyui-linkbutton" data-options="plain:true">Iniciar Sesion</a>
+            <!-- <a href="iniciar_sesion.php" class="easyui-linkbutton" data-options="plain:true">Iniciar Sesion</a> -->
+            <a class="easyui-linkbutton" href="Action/actionVerificarLogin.php?accion=cerrar">Cerrar Sesion</a></div>
             <a href="#" class="easyui-linkbutton" data-options="plain:true">Carrito</a>
             <span class="me-3"><a href="perfilUser.php" class="text-decoration-none" data-options="plain:true">Mi perfil </a></span>
 

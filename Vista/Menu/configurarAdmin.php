@@ -1,6 +1,6 @@
 <?php
 include_once("../../configuracion.php");
-include_once "../Estructura/Header.php";
+include_once "../Estructura/HeaderSeguro.php";
 $objControl = new AbmProducto();
 $List_Producto = $objControl->buscar(null);
 //verEstructura($List_Producto);
