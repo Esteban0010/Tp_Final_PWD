@@ -58,7 +58,8 @@ class AbmUsuario
         $param['idusuario'] = null;
         $objAbmUsuario = $this->cargarObjeto($param);
         if ($objAbmUsuario != null && $objAbmUsuario->insertar()) {
-            $resp = $objAbmUsuario;
+            //$resp = $objAbmUsuario;
+            $resp = true;
         }
         return $resp;
     }

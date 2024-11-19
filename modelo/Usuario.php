@@ -119,6 +119,7 @@ class Usuario
             '" . $this->getMail() . "',
             '" . $this->getDeshabilitado() . "');";
         //echo "<div>vamos a ver el sql: " . $sql . "</div>";
+        //echo "<script>console.log(" . json_encode($sql) . ");</script>";
         if ($base->Iniciar()) {
             if ($id = $base->Ejecutar($sql)) {
                 $this->setId($id);
