@@ -159,7 +159,7 @@ class AbmUsuarioRol
                 $arrayAbmUsuarioRol = [
                     'idusuario' => $objAbmUsuarioRol->getObjIdUsuario()->getId(),
                     'usnombre' => $objAbmUsuarioRol->getObjIdUsuario()->getNombre(),
-                    'uspassword' => $objAbmUsuarioRol->getObjIdUsuario()->getPassword(),
+                    'uspass' => $objAbmUsuarioRol->getObjIdUsuario()->getPassword(),
                     'usmail' => $objAbmUsuarioRol->getObjIdUsuario()->getMail(),
                     'usdeshabilitado' => $objAbmUsuarioRol->getObjIdUsuario()->getDeshabilitado(),
                     'idrol' => $objAbmUsuarioRol->getObjIdRol()->getId(),
