@@ -1,6 +1,7 @@
 <?php
 include_once("../../../configuracion.php");
-include_once("../../Estructura/HeaderSeguro.php");
+//include_once("../../Estructura/HeaderSeguro.php");
+include_once("../../Estructura/Header.php");
 
 ?>
 
@@ -62,6 +63,7 @@ include_once("../../Estructura/HeaderSeguro.php");
                 
                 if (count($listaCompraItem) > 0) {
                     foreach ($listaCompraItem as $objCompraItem) {
+                        
                         $idProducto['idproducto'] = $objCompraItem->getObjProducto()->getIdProducto();
                         $busquedaProducto = $objProducto->buscar($idProducto);
                         $producto = $busquedaProducto[0];
