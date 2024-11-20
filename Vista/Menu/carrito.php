@@ -1,6 +1,10 @@
 <?php
 include_once("../../configuracion.php");
 include_once "../Estructura/Header.php";
+
+$session = new Session();
+
+$reistrado = $session->validar();
 ?>
 
     <div class="container ">
@@ -140,18 +144,41 @@ $(document).on('click', '#btn-pagar', function () {
         alert('El carrito está vacío. Agrega productos antes de pagar.');
         return;
     }
-
-    // Enviar datos del carrito al servidor
+   
+    // Verificar si el usuario está logueado
     $.ajax({
-        url: './Action/actionEjecutarCompra.php', // Ruta del archivo PHP
+        url: './Action/actionVerificarSesion.php', // Ruta al archivo de verificación
+        method: 'GET',
+        dataType: 'json',
+        success: function (response) {
+            
+            if (response.logged_in) {
+                // Si está logueado, proceder con la compra
+                realizarCompra(carrito);
+            } else {
+                alert('Debes iniciar sesión para realizar la compra.');
+                window.location.href = './login.php'; // Redirigir al login si no está logueado
+            }
+        },
+      
+        error: function () {
+            alert('Hubo un error al verificar la sesión.');
+        }
+    });
+});
+
+// Función para realizar la compra
+function realizarCompra(carrito) {
+    $.ajax({
+        url: './Action/actionEjecutarCompra.php',
         method: 'POST',
-        data: { carrito: JSON.stringify(carrito) }, // Enviar el carrito como JSON
+        data: { carrito: JSON.stringify(carrito) },
         dataType: 'json',
         success: function (response) {
             if (response.success) {
                 alert('Compra realizada con éxito.');
-                localStorage.removeItem('carrito'); // Limpiar el carrito
-                location.reload(); // Recargar la página para reflejar cambios
+                localStorage.removeItem('carrito');
+                location.reload();
             } else {
                 alert('Error al realizar la compra: ' + response.message);
             }
@@ -160,7 +187,7 @@ $(document).on('click', '#btn-pagar', function () {
             alert('Hubo un error al procesar la compra.');
         }
     });
-});
+}
     </script>
 <?php
 include_once "../Estructura/Footer.php";

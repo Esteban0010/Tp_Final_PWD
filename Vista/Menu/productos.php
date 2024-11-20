@@ -3,7 +3,7 @@ include_once("../../configuracion.php");
 include_once "../Estructura/Header.php";
 $datos = data_submitted();
 $objControl = new AbmProducto();
-$List_Producto = $objControl->buscar(null);
+$List_Producto = $objControl->buscar(param: null);
 ?>
 <h1>Productos</h1>
 

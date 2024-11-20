@@ -5,7 +5,10 @@ class Compra
     private $idcompra;
     private $cofecha;
     private $ObjUsuario; // Instancia de Usuario
+
+    private $costoTotal;
     private $mensajeoperacion;
+
 
     public function __construct() {
         $this->idcompra = null;
@@ -27,6 +30,12 @@ class Compra
         return $this->idcompra;
     }
 
+    public function getCostoTotal()
+    {
+        return $this->costoTotal;
+    }
+
+
     public function getCofecha()
     {
         return $this->cofecha;
@@ -45,6 +54,10 @@ class Compra
     public function setIdcompra($valor)
     {
         $this->idcompra = $valor;
+    }
+    public function setCostoTotal($costoTotal)
+    {
+         $this->costoTotal =$costoTotal ;
     }
 
     public function setCofecha($valor)
@@ -70,7 +83,7 @@ class Compra
             if ($res = $base->Ejecutar($sql)) {
                 if ($row = $base->Registro()) {
                     $usuario = new Usuario();
-                    $usuario->setIdusuario($row['idusuario']);
+                    $usuario->setId($row['idusuario']);
                     $usuario->cargar();
 
                     $this->setear(
@@ -94,7 +107,7 @@ class Compra
     public function insertar() {
         $resp = false;
         $base = new BaseDatos();
-        $sql = "INSERT INTO compra (cofecha, costoTotal, idusuario) VALUES ('" . $this->cofecha . "', " . $this->costoTotal . ", " . $this->ObjUsuario->getIdusuario() . ")";
+        $sql = "INSERT INTO compra (cofecha, costoTotal, idusuario) VALUES ('" . $this->cofecha . "', " . $this->costoTotal . ", " . $this->getObjUsuario()->getIdusuario() . ")";
         if ($base->Iniciar()) {
             if ($id = $base->Ejecutar($sql)) {
                 $this->idcompra = $id;
@@ -153,7 +166,7 @@ class Compra
                 while ($row = $base->Registro()) {
                     $compra = new Compra();
                     $usuario = new Usuario();
-                    $usuario->setIdusuario($row['idusuario']);
+                    $usuario->setId($row['idusuario']);
                     $usuario->cargar();
 
                     $compra->setear(

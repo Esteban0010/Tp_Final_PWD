@@ -16,12 +16,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         // Crear instancia de AbmCompra
         $abmCompra = new AbmCompra();
+        $session = new Session();
+        $objUsuario = $session->getUsuario();
 
         // Crear una nueva compra
         $nuevaCompra = [
             'productos' => $carrito, // Lista de productos con cantidades
             'fecha' => date('Y-m-d H:i:s'), // Fecha actual
-            'usuario_id' => 1 // ID del usuario (puede ser dinámico si hay sesión)
+            'usuario_id' => $objUsuario->getId() // ID del usuario (puede ser dinámico si hay sesión)
         ];
 
         $resultado = $abmCompra->alta($nuevaCompra);

@@ -13,14 +13,16 @@ class AbmCompra
         // Verificar que existan los parámetros necesarios (sin necesidad de idcompra en inserción)
         if ( array_key_exists('cofecha', $param) && array_key_exists('costoTotal', $param)) {
             $obj = new Compra();
-
+            $objUsuario = new Usuario();
+            $objUsuario->setId($param["usuario_id"]);
+           
 
             // Si el idcompra está presente (modificación), asignarlo, si no (inserción), dejar null
-            if (isset($param['idcompra'])) {
-                $obj->setear($param['idcompra'], $objUsuario, $param['cofecha'], $param['costoTotal']);
+            if (isset($param['usuario_id'])) {
+                $obj->setear( null,$param['cofecha'], $param['costoTotal'],$objUsuario, );
             } else {
                 // Si no tiene ID, asignar como null (para insertar)
-                $obj->setear(null, $objUsuario, $param['cofecha'], $param['costoTotal']);
+                $obj->setear(null,  $param['cofecha'], $param['costoTotal'],$objUsuario);
             }
         }
         return $obj;
@@ -65,7 +67,7 @@ class AbmCompra
     {
         $resp = false;
         // El idcompra se asigna automáticamente en la base de datos
-        $param['idcompra'] = null;
+        
 
         $obj = $this->cargarObjeto($param);
 
