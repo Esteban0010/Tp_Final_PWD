@@ -97,6 +97,7 @@ class Rol{
         $base = new BaseDatos();
         $sql = "UPDATE rol SET rodescripcion='" . $this->getDescripcion() . 
             "' WHERE idrol=" . $this->getId();
+        //echo "<script>console.log(" . json_encode($sql) . ");</script>";
         if ($base->Iniciar()) {
             if ($base->Ejecutar($sql)) {
                 $resp = true;

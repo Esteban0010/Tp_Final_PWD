@@ -65,6 +65,6 @@ if ($resp) {
         </nav>
     </header>
 
-    <main class="container mt-2">
+    <main class="container">
 
         <h2>pagina segura</h2>

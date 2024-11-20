@@ -9,10 +9,15 @@ class AbmRol
     private function cargarObjeto($param)
     {
         $obj = null;
-        if (array_key_exists('rodescripcion', $param)) { //usnombre
+        if (array_key_exists('rodescripcion', $param)) { //usnombre 
             $obj = new Rol();
-            // El ID no es necesario al crear un nuevo Rol, ya que es autoincremental
-            $obj->setear(null, $param['rodescripcion']);
+            if(isset($param['idrol'])){
+                // Si tiene un Id, que se lo ponga (modificar)
+                $obj->setear($param['idrol'], $param['rodescripcion']);
+            } else {
+                // El ID no es necesario al crear un nuevo Rol, ya que es autoincremental
+                $obj->setear(null, $param['rodescripcion']);
+            }
         }
         return $obj;
     }
@@ -84,11 +89,17 @@ class AbmRol
      * @return boolean
      */
     public function modificacion($param)
-    {
+    {   
+        //echo "<script>console.log(" . json_encode('viene parametro:') . ");</script>";
+        //verEstructuraJson($param);
         $resp = false;
         if ($this->seteadosCamposClaves($param)) {
             $objAbmRol = $this->cargarObjeto($param);
+            //verEstructuraJson($objAbmRol);
+            //echo "<script>console.log(" . json_encode($objAbmRol) . ");</script>";
+            //echo "<script>console.log(" . json_encode('antes de entrar modificar') . ");</script>";
             if ($objAbmRol != null && $objAbmRol->modificar()) {
+                //echo "<script>console.log(" . json_encode('entro modificar') . ");</script>";
                 $resp = true;
             }
         }
