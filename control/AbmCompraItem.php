@@ -18,18 +18,26 @@ class AbmCompraItem
      */
     private function cargarObjeto($param)
     {
-        $obj = null;
+        $objCompraItem = null;
 
         if (array_key_exists('idcompraitem', $param) && array_key_exists('idproducto', $param)  && array_key_exists('idcompra', $param) && array_key_exists('cicantidad', $param)) {
-            $obj = new CompraItem;
-            $obj->setear(
-                null,
-                $param['idproducto'],
-                $param['idcompra'],
+            $objProducto = new Producto();
+            $objProducto->setIdProducto($param['idproducto']);
+            $objProducto->cargar();
+
+            $objCompra = new Compra();
+            $objCompra->setIdcompra($param['idcompra']);
+            $objCompra->cargar();
+
+            $objCompraItem = new CompraItem();
+            $objCompraItem->setear(
+                $param['idcompraitem'],
+                $objProducto,
+                $objCompra,
                 $param['cicantidad']
             );
         }
-        return $obj;
+        return $objCompraItem;
     }
 
     /**
@@ -65,6 +73,7 @@ class AbmCompraItem
     public function alta($param)
     {
         $resp = false;
+        $param['idcompraitem'] = null;
         $elObjCompraItem = $this->cargarObjeto($param);
 
         if ($elObjCompraItem !== null && $elObjCompraItem->insertar()) {
@@ -133,8 +142,9 @@ class AbmCompraItem
                 $where .= " and cicantidad ='" . $param['cicantidad'] . "'";
             }
         }
-
-        return CompraItem::listar($where);
+        $objCompraItem = new CompraItem();
+        $arregloCompraItem = $objCompraItem->listar($where);
+        return $arregloCompraItem;
     }
 
     /**
