@@ -5,14 +5,13 @@ $objAbmUsuario = new AbmUsuario;
 $session = new Session;
 $datos = $session->getUsuario();
 $id = $datos->getId();
+verEstructura($datos);
 
-$obj = NULL;
 if (isset($id) && $id <> -1) {
     $listaTabla = $objAbmUsuario->buscar($id);
 
-    if (count($listaTabla) == 1) {
+    if (count($listaTabla) > 0) {
         $usuario = $listaTabla[0];
-        // verEstructura($usuario);
     }
 } else {
     echo "<div>no hay datos cargados</div>";
@@ -22,6 +21,7 @@ if (isset($id) && $id <> -1) {
 
 <div class="container mt-5">
     <h1 class="text-center">Mi Perfil</h1>
+
 
     <form id="fm" class="mt-4" style="width: 100%; max-width: 600px; margin: 0 auto;">
         <div class="row">
@@ -46,49 +46,76 @@ if (isset($id) && $id <> -1) {
             <!-- Contraseña actual -->
             <div class="col-md-12 mb-3 d-flex align-items-center" id="passwordActualContainer">
                 <label for="password" class="form-label me-3">Contraseña Actual</label>
-                <input type="password" id="password" name="password" class="form-control me-3" value="******" readonly>
+                <input type="password" id="password" name="password" class="form-control me-3" value="<?php echo $usuario->getPassword(); ?>" readonly>
                 <button type="button" class="btn btn-secondary btn-sm" onclick="editarCampo('password')">Editar</button>
             </div>
 
-            <!-- Nueva contraseña (inicialmente oculto con "hidden") -->
-            <div class="col-md-12 mb-3 d-flex align-items-center" id="nuevaPasswordContainer" style='display: none;'>
+            <!-- Nueva contraseña (inicialmente oculta con "d-none") -->
+            <div class="col-md-12 mb-3 d-none align-items-center" id="nuevaPasswordContainer">
                 <label for="nuevaPassword" class="form-label me-3">Nueva Contraseña</label>
-                <input type="password" id="nuevaPassword" name="nuevaPassword" class="form-control">
+                <input type="password" id="nuevaPassword" name="nuevaPassword" class="form-control me-3" placeholder="Nueva contraseña" oninput="validarContrasenias()">
+                <br>
+                <label for="repetirPassword" class="form-label me-3">Repetir Contraseña</label>
+                <input type="password" id="repetirPassword" name="repetirPassword" class="form-control me-3" placeholder="Repetir contraseña" oninput="validarContrasenias()">
+                <br>
+                <span id="mensajeError" class="text-danger d-none">Contraseñas no coincidentes</span>
             </div>
 
 
             <!-- Botón de guardar -->
             <div class="d-flex justify-content-center mt-4">
-                <button type="button" class="btn btn-primary" onclick="guardarCambios()">Guardar Cambios</button>
+                <button type="button" id="guardarBtn" class="btn btn-primary" onclick="guardarCambios()" disabled>Guardar Cambios</button>
             </div>
     </form>
+
 </div>
 
-<!-- Scripts -->
+<br> <br> <br>
 <script>
     function editarCampo(campoId) {
-        if (campoId === ' password') {
-            // Ocultar el contenedor de contraseña actual
-            document.getElementById('passwordActualContainer').style.display = 'none';
+        const guardarBtn = $('#guardarBtn');
 
-            // Mostrar el contenedor para la nueva contraseña
-            const nuevaPasswordContainer = document.getElementById('nuevaPasswordContainer');
-            nuevaPasswordContainer.style.display = 'flex';
+        if (campoId === 'password') {
+            // Ocultar el contenedor de Contraseña Actual
+            $('#passwordActualContainer').addClass('d-none');
 
-            // Enfocar el campo de nueva contraseña
-            document.getElementById('nuevaPassword').focus();
+            // Mostrar el contenedor para Nueva Contraseña
+            $('#nuevaPasswordContainer').removeClass('d-none');
+            $('#nuevaPassword').focus();
         } else {
             // Habilitar edición para otros campos
             const campo = document.getElementById(campoId);
-            campo.removeAttribute('readonly');
-            campo.focus();
+            campo.removeAttribute('readonly'); // Habilitar edición
+            campo.focus(); // Colocar el foco en el campo
+            guardarBtn.removeAttr('disabled');
+
+        }
+
+
+
+    }
+
+    function validarContrasenias() {
+        const nuevaPassword = $('#nuevaPassword').val();
+        const repetirPassword = $('#repetirPassword').val();
+        const mensajeError = $('#mensajeError');
+        const guardarBtn = $('#guardarBtn');
+
+        if (nuevaPassword === repetirPassword && nuevaPassword.length > 5) {
+            // Las contraseñas coinciden
+            mensajeError.addClass('d-none'); // Ocultar mensaje de error
+            guardarBtn.removeAttr('disabled'); // Habilitar botón de guardar
+        } else {
+            // Las contraseñas no coinciden
+            mensajeError.removeClass('d-none'); // Mostrar mensaje de error
+            guardarBtn.attr('disabled', true); // Deshabilitar botón de guardar
         }
     }
 
-
-
     function guardarCambios() {
         var formData = $('#fm').serialize();
+
+
 
         $.ajax({
             url: 'Action/actionActualizarPerfil1.php',
@@ -97,10 +124,7 @@ if (isset($id) && $id <> -1) {
             success: function(response) {
                 if (response.respuesta) {
                     alert(response.mensaje || 'Cambios guardados correctamente.');
-                    // Redirige si es necesario
-                    // if (response.redirect) {
-                    // window.location.href=response.redirect;
-                    // }
+
                 } else {
                     alert(response.errorMsg || 'Hubo un error al guardar los cambios.');
                 }
@@ -109,6 +133,17 @@ if (isset($id) && $id <> -1) {
                 alert('Error al conectar con el servidor.');
             }
         });
+
+        const contraseniaactual = $('#passwordActualContainer').val;
+        $('#nuevaPassword').val = contraseniaactual;
+
+        $('#nuevaPasswordContainer').addClass('d-none'); // Ocultar nueva contraseña
+        $('#passwordActualContainer').removeClass('d-none'); // Mostrar contraseña actual
+
+        // Deshabilitar el botón de guardar nuevamente
+        $('#guardarBtn').attr('disabled', true);
+
+
     }
 </script>
 

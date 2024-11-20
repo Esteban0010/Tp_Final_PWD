@@ -30,7 +30,7 @@ try {
             'usnombre' => $datos['nombre'],
             'usmail' => $datos['mail'],
             'uspass' =>  $contrasenia,
-            'usdeshabilitado' => null,
+            'usdeshabilitado' => "null",
         ];
         // echo "<script>console.log(" . json_encode("no pasaS") . ");</script>";
         // Actualiza los datos del usuario
