@@ -170,7 +170,7 @@ $List_Usuario = $objControlUsuario->buscar(null);
                 <label for="usmail">Mail:</label>
                 <input type="text" name="usmail" id="usmail" class="easyui-textbox" style="width:100%" required="true">
             </div>
-            
+
             <!-- rodescripcion -->
             <div style="margin-bottom:10px">
                 <select type="text" id="rodescripcion" name="rodescripcion" class="easyui-combobox" data-options="panelHeight:'auto'" style="width:100%" require>
@@ -178,7 +178,7 @@ $List_Usuario = $objControlUsuario->buscar(null);
                         <option value="cliente">Cliente</option>
                         <option value="deposito">Deposito</option>
                 </select>
-            </div>
+            </div> 
 
             <!-- usdeshabilitado hidden -->
             <div style="margin-bottom:10px">
@@ -227,20 +227,20 @@ $List_Usuario = $objControlUsuario->buscar(null);
 
     <h1>Roles</h1>
 
-    <table id="dg-roles" title="Administrador de Roles" class="easyui-datagrid" style="width:1200px;height:450px" url="Action/usuarioAdmin/listar_Usuario.php" toolbar="#toolbar-rol" pagination="true" rownumbers="true" fitColumns="true" singleSelect="true"> 
+    <table id="dg-rol" title="Administrador de Roles" class="easyui-datagrid" style="width:1200px;height:450px" url="Action/usuarioAdmin/listar_Rol.php" toolbar="#toolbar-rol" pagination="true" rownumbers="true" fitColumns="true" singleSelect="true"> 
         <thead>
             <tr>
-                <th field="idusuario" width="60">ID de Usuario</th>
                 <th field="idrol" width="60">ID de Rol</th>
+                <th field="rodescripcion" width="60">Descripcion</th>
             </tr>
         </thead>
     </table>
 
     <!-- opciones para hacer ABM en la tabla -->
     <div id="toolbar-rol">
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUsuario()">Nuevo Usuario </a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUsuario()">Editar Usuario</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUsuario()">Eliminar Usuario</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newrol()">Nuevo Rol</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editRol()">Editar Rol</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyRol()">Eliminar Rol</a>
     </div>
 
     <!-- Modal -->
@@ -250,19 +250,16 @@ $List_Usuario = $objControlUsuario->buscar(null);
         <form id="fm-rol" method="POST" style="margin:0;padding:20px 50px" novalidate>
 
             <!-- Cuando hacen click en nuevo menu o editar menu, aparece este formulario -->
-            <h3>Informacion Del Usuario:</h3>
+            <h3>Informacion Del Rol:</h3>
 
-            <!-- idusuario -->
+            <!-- rodescripcion -->
             <div style="margin-bottom:10px">
-                <label for="idusuario">Id del usuario:</label>
-                <input type="number" name="idusuario" id="idusuario" class="easyui-textbox" style="width:100%" required="true">
-            </div>
-
-            <!-- idrol -->
-            <div style="margin-bottom:10px">
-                <label for="uspass">Id del rol:</label>
-                <input type="number" name="idrol" id="idrol" class="easyui-textbox" style="width:100%" required="true">
-            </div>
+                <select type="text" id="rodescripcion" name="rodescripcion" class="easyui-combobox" data-options="panelHeight:'auto'" style="width:100%" require>
+                        <!-- <option value="">Seleccione un Rol...</option> -->
+                        <option value="cliente">Cliente</option>
+                        <option value="deposito">Deposito</option>
+                </select>
+            </div>            
 
         </form>
 
@@ -270,10 +267,10 @@ $List_Usuario = $objControlUsuario->buscar(null);
     <!-- Fin Modal -->
 
     <!-- botones del formulario -->
-    <div id="dlg-buttons-usuario">
+    <div id="dlg-buttons-rol">
 
         <!-- boton Aceptar del formulario -->
-        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveUsuario()" style="width:90px">Aceptar</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveRol()" style="width:90px">Aceptar</a>
 
         <!-- boton Cancelar del formulario -->
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-rol').dialog('close')" style="width:90px">Cancelar</a>
@@ -308,181 +305,8 @@ $List_Usuario = $objControlUsuario->buscar(null);
 
 
 
+<script src="../Asets/js/configurarAdmin.js"></script>
 
-
-
-
-    <script type="text/javascript">
-        var url;
-        
-        // almacena un nuevo (alta)
-        function newProducto() {
-            $('#dlg').dialog('open').dialog('center').dialog('setTitle', 'Nuevo Producto');
-            $('#fm').form('clear');
-            url = 'Action/alta_Producto.php';
-        }
-
-         // edita (modificacion)
-        function editProducto() {
-            var row = $('#dg').datagrid('getSelected');
-            if (row) {
-                $('#dlg').dialog('open').dialog('center').dialog('setTitle', 'Editar Producto');
-                $('#fm').form('load', row);
-                url = 'Action/edit_Producto.php?idproducto=' + row.idproducto;
-                //console.log(row.idproducto); // Imprime el valor de url en la consola                
-            }
-        }
-
-        // actualiza (ultimo paso)
-        function saveProducto() {
-            //alert("Accion");
-            $('#fm').form('submit', {
-                url: url,                
-                onSubmit: function() {
-                    return $(this).form('validate');
-                },                
-                success: function(result) {
-                    var result = eval('(' + result + ')');
-                    //console.log(result); // Imprime el contenido de $data en la consola
-                    //var result = JSON.parse(result); // Si necesitas usar la respuesta como JSON
-
-                    //alert("Volvio Serviodr");
-                    if (!result.respuesta) {
-                        $.messager.show({
-                            title: 'Error',
-                            msg: result.errorMsg
-                        });
-                    } else {
-
-                        $('#dlg').dialog('close'); // close the dialog
-                        $('#dg').datagrid('reload'); // reload 
-                    }
-                }
-            });
-        }
-
-        // elimina
-        function destroyProducto() {
-            var row = $('#dg').datagrid('getSelected');
-            if (row) {
-                $.messager.confirm('Confirm', 'Seguro que desea eliminar el Producto?', function(r) {
-                    if (r) {   
-                        $.post('Action/eliminar_Producto.php?idproducto=' + row.idproducto, {
-                            idproducto: row.id
-                            },
-                            function(result) {
-                                
-                                if (result.respuesta) {
-                                    $('#dg').datagrid('reload'); // reload the  data
-                                } else {
-                                    $.messager.show({ // show error message
-                                        title: 'Error',
-                                        msg: result.errorMsg
-                                    });
-                                }
-                            }, 'json');
-                    }
-                });
-            }
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        ///----------------------------------------------
-
-
-
-         // almacena un nuevo (alta)
-        function newUsuario() {
-            $('#dlg-usuario').dialog('open').dialog('center').dialog('setTitle', 'Nuevo Usuario');
-            $('#fm-usuario').form('clear');
-            url = 'Action/usuarioAdmin/alta_Usuario.php';
-        }
-
-         // edita (modificacion)
-        function editUsuario() {
-            var row = $('#dg-usuario').datagrid('getSelected');
-            if (row) {
-                $('#dlg-usuario').dialog('open').dialog('center').dialog('setTitle', 'Editar Usuario');
-                $('#fm-usuario').form('load', row);
-                //url = 'Action//usuarioAdmin/edit_Usuario.php?idusuario=' + row.idusuario + '&rodescripcion=' + row.rodescripcion;
-                url = 'Action//usuarioAdmin/edit_Usuario.php?idusuario=' + row.idusuario;
-                //console.log(row.idusuario); // Imprime el valor de url en la consola                
-            }
-        }
-
-        // actualiza (ultimo paso)
-        function saveUsuario() {
-            //alert("Accion");
-            $('#fm-usuario').form('submit', {
-                url: url,                
-                onSubmit: function() {
-                    return $(this).form('validate');
-                },                
-                success: function(result) {
-                    var result = eval('(' + result + ')');
-                    //console.log(result); // Imprime el contenido de $data en la consola
-                    //var result = JSON.parse(result); // Si necesitas usar la respuesta como JSON
-
-                    //alert("Volvio Serviodr");
-                    if (!result.respuesta) {
-                        $.messager.show({
-                            title: 'Error',
-                            msg: result.errorMsg
-                        });
-                    } else {
-
-                        $('#dlg-usuario').dialog('close'); // close the dialog
-                        $('#dg-usuario').datagrid('reload'); // reload 
-                    }
-                }
-            });
-        }
-
-        // elimina
-        function destroyUsuario() {
-            var row = $('#dg-usuario').datagrid('getSelected');
-            if (row) {
-                $.messager.confirm('Confirm', 'Seguro que desea eliminar el Producto?', function(r) {
-                    if (r) {   
-                        $.post('Action//usuarioAdmin/eliminar_Usuario.php?idusuario=' + row.idusuario, {
-                            idusuario: row.id
-                            },
-                            function(result) {
-                                
-                                if (result.respuesta) {
-                                    $('#dg-usuario').datagrid('reload'); // reload the  data
-                                } else {
-                                    $.messager.show({ // show error message
-                                        title: 'Error',
-                                        msg: result.errorMsg
-                                    });
-                                }
-                            }, 'json');
-                    }
-                });
-            }
-        }
-    </script>
 <?php
 include_once "../Estructura/Footer.php";
 ?>

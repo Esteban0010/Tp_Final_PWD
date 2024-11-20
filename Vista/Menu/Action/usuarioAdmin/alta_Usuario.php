@@ -23,7 +23,7 @@ if (isset($data['usnombre'])) {
     $idRol = $colObjRol[count($colObjRol)-1]['idrol'];             //obtenie el id del objeto en especificio (ultimo)
 
     $arrayIdUsuario = ["idusuario" => $idUsuario];    // se crea un array con la clave para obtener el objeto
-    $arrayIdRol = ["idusuario" => $idRol];            // se crea un array con la clave para obtener el objeto
+    $arrayIdRol = ["idrol" => $idRol];            // se crea un array con la clave para obtener el objeto
 
     $objUsuario = $objAbmUsuario->buscar($arrayIdUsuario); // obtiene el objeto usaurio
     $objRol = $objAbmRol->buscar($arrayIdRol);             // obtiene el objeto rol
