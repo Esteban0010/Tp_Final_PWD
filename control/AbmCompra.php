@@ -77,15 +77,33 @@ class AbmCompra
 
         if ($obj != null && $obj->insertar()) {
             $idCompra = $obj->getIdcompra();
-            foreach ($param["productos"] as $producto) { // Uso correcto de foreach
+            foreach ($param["productos"] as $producto) { 
                 $compraItem = new AbmCompraItem;
-                $nuevaCompraItem = [
-                    'idcompra' => $idCompra, 
-                    'idproducto' => $producto["id"], 
-                    'cicantidad' => $producto["cantidad"] 
-                ];
-                $compraItem->alta($nuevaCompraItem);
+                $compraProd = new Producto;
+                $compraProd->setIdProducto($producto["id"]);
+                // Buscar el producto en la base de datos
+                if ($compraProd->cargar()) {
+                    // Actualizar stock del producto
+                    $nuevoStock = $compraProd->getProCantStock() - $producto["cantidad"];
+                    if ($nuevoStock < 0) {
+                        // Si el stock es insuficiente, abortamos
+                        throw new Exception("Stock insuficiente para el producto ID: " . $producto["id"]);
+                    }
+    
+                    $compraProd->setProCantStock($nuevoStock);
+                    $compraProd->modificar();
+    
+                    // Crear y registrar el ítem de compra
+                    $nuevaCompraItem = [
+                        'idcompra' => $idCompra,
+                        'idproducto' => $producto["id"],
+                        'cicantidad' => $producto["cantidad"]
+                    ];
+                    $compraItem->alta($nuevaCompraItem);
+                } else {
+                    throw new Exception("El producto con ID: " . $producto["id"] . " no fue encontrado.");
                 }
+            }
               $compraEstado = new AbmCompraEstado;
               $nuevaCompraEstado = [
                 'idcompra' => $idCompra, 
