@@ -1,8 +1,6 @@
 <?php
 include_once "../../../configuracion.php";
 //include_once "../../Estructura/HeaderSeguro.php";
-$objControl = new AbmProducto();
-$List_Producto = $objControl->buscar(null);
 
 
 ?>
@@ -11,9 +9,6 @@ $List_Producto = $objControl->buscar(null);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>e-commerce seguro</title>
-
-    <!-- css bootstrap 5 -->
-    <link href="../../Asets/librerias/bootstrap-5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- css bootstrap 5 -->
     <link href="../../Asets/librerias/bootstrap-5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -37,7 +32,7 @@ $List_Producto = $objControl->buscar(null);
 <h1>Productos</h1>
 
 <table id="dg" title="Administrador de Productos" class="easyui-datagrid" style="width:1000px;height:450px"
-    url="Action/listar_Producto.php" toolbar="#toolbar" pagination="true" rownumbers="true" fitColumns="true"
+    url="../Action/listar_Producto.php" toolbar="#toolbar" pagination="true" rownumbers="true" fitColumns="true"
     singleSelect="true">
     <thead>
         <tr>
@@ -198,9 +193,6 @@ function destroyProducto() {
         });
     }
 }
-
-
-///----------------------------------------------
 </script>
 <?php
 include_once "../../Estructura/Footer.php";

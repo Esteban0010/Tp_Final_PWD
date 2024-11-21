@@ -108,18 +108,18 @@ class AbmCompraEstado{
      * @return array
      */
     public function buscar($param){
-        $where = " true ";
+        $where = "true ";
         if ($param<>null){
-            if  (isset($param['idcompraestado']))
-                $where.=" and idcompraestado ='".$param['idcompraestado']."'";
-            if  (isset($param['idcompra']))
-                $where.=" and idcompra ='".$param['idcompra']."'";
-            if  (isset($param['idcompraestadotipo']))
-                $where.=" and idcompraestadotipo ='".$param['idcompraestadotipo']."'";
-            if  (isset($param['cefechaini']))
-                $where.=" and cefechaini ='".$param['cefechaini']."'";
-            if  (isset($param['cefechafin']))
-                $where.=" and cefechafin ='".$param['cefechafin']."'";
+            if (isset($param['idcompraestado']))
+            $where .= " AND idcompraestado = '" . $param['idcompraestado'] . "'";
+        if (isset($param['idcompra']))
+            $where .= " AND idcompra = '" . $param['idcompra'] . "'";
+        if (isset($param['idcompraestadotipo']))
+            $where .= " AND idcompraestadotipo = '" . $param['idcompraestadotipo'] . "'";
+        if (isset($param['cefechaini']))
+            $where .= " AND cefechaini = '" . $param['cefechaini'] . "'";
+        if (isset($param['cefechafin']))
+            $where .= " AND cefechafin = '" . $param['cefechafin'] . "'";
         }
         $obj = new CompraEstado();
         $arreglo = $obj->listar($where);

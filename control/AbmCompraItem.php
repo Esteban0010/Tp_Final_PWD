@@ -125,21 +125,21 @@ class AbmCompraItem
      */
     public function buscar($param)
     {
-        $where = "";
+        $where = "true";
 
         if ($param !== null) {
             if (isset($param['idcompraitem'])) {
-                $where .= " idcompraitem = " . $param['idcompraitem'];
+                $where .= " AND idcompraitem = " . $param['idcompraitem'];
             }
 
             if (isset($param['idproducto'])) {
-                $where .= " and idproducto ='" . $param['idproducto'] . "'";
+                $where .= " AND idproducto ='" . $param['idproducto'] . "'";
             }
             if (isset($param['idcompra'])) {
-                $where .= " and idcompra ='" . $param['idcompra'] . "'";
+                $where .= " AND idcompra ='" . $param['idcompra'] . "'";
             }
             if (isset($param['cicantidad'])) {
-                $where .= " and cicantidad ='" . $param['cicantidad'] . "'";
+                $where .= " AND cicantidad ='" . $param['cicantidad'] . "'";
             }
         }
         $objCompraItem = new CompraItem();

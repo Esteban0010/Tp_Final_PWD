@@ -206,7 +206,7 @@ $this->cefechafin = $cefechafin;
         $base = new BaseDatos();
         $sql = "SELECT * FROM compraestado ";
         if ($parametro != "") {
-          $sql .= " WHERE ".$parametro;
+          $sql .= ' WHERE '.$parametro;
         }
      
         $res = $base->Ejecutar($sql);
@@ -235,5 +235,3 @@ $this->cefechafin = $cefechafin;
 
   
     }
-
-

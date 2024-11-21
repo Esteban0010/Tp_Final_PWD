@@ -14,7 +14,7 @@ class Compra
         $this->idcompra = null;
         $this->cofecha = null;
         $this->costoTotal = 0;
-        $this->ObjUsuario = null;
+        $this->ObjUsuario = new Usuario();
         $this->mensajeOperacion = "";
     }
 
@@ -110,7 +110,7 @@ class Compra
         $sql = "INSERT INTO compra (cofecha, costoTotal, idusuario) VALUES ('" . $this->cofecha . "', " . $this->costoTotal . ", " . $this->getObjUsuario()->getIdusuario() . ")";
         if ($base->Iniciar()) {
             if ($id = $base->Ejecutar($sql)) {
-                $this->idcompra = $id;
+                $this->setIdcompra($id);
                 $resp = true;
             } else {
                 $this->mensajeOperacion = "Error al insertar la compra: " . $base->getError();

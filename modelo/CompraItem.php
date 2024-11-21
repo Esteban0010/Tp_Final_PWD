@@ -163,7 +163,7 @@ class CompraItem
         if ($condicion != "") {
             $consultaCompraItem = $consultaCompraItem . ' WHERE ' . $condicion;
         }
-        $consultaCompraItem .= " ORDER BY idcompraitem ";
+        
         if ($base->Iniciar()) {
             if ($base->Ejecutar($consultaCompraItem)) {
                 $arregloCompraitem = array();
