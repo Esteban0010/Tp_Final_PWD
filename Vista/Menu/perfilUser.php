@@ -1,21 +1,12 @@
 <?php
 include_once("../../configuracion.php");
 include_once "../Estructura/HeaderSeguro.php";
-$objAbmUsuario = new AbmUsuario;
-$session = new Session;
-$datos = $session->getUsuario();
+$datos = $objTrans->getUsuario();
 $id = $datos->getId();
+
+
 verEstructura($datos);
 
-if (isset($id) && $id <> -1) {
-    $listaTabla = $objAbmUsuario->buscar($id);
-
-    if (count($listaTabla) > 0) {
-        $usuario = $listaTabla[0];
-    }
-} else {
-    echo "<div>no hay datos cargados</div>";
-}
 ?>
 
 
@@ -27,126 +18,72 @@ if (isset($id) && $id <> -1) {
         <div class="row">
 
             <!-- ID -->
-            <input type="hidden" id="id" name="id" value="<?php echo $usuario->getId(); ?>">
+            <input type="hidden" id="id" name="id" value="<?php echo $datos->getId(); ?>">
 
             <!-- Nombre -->
-            <div class="col-md-12 mb-3 d-flex align-items-center">
-                <label for="nombre" class="form-label me-3">Nombre</label>
-                <input type="text" id="nombre" name="nombre" class="form-control me-3" value="<?php echo $usuario->getNombre(); ?>" readonly>
-                <button type="button" class="btn btn-secondary btn-sm" onclick="editarCampo('nombre')">Editar</button>
+            <div class="col-md-12 mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <div class="input-group">
+                    <input type="text" id="nombre" name="nombre" class="form-control" value="<?php echo $datos->getNombre(); ?>" readonly>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="editarCampo('nombre')">Editar</button>
+                    <div class="invalid-feedback">Por favor, ingrese un Nombre válido.</div>
+
+                </div>
             </div>
 
             <!-- Mail -->
-            <div class="col-md-12 mb-3 d-flex align-items-center">
-                <label for="mail" class="form-label me-3">Mail</label>
-                <input type="text" id="mail" name="mail" class="form-control me-3" value="<?php echo $usuario->getMail(); ?>" readonly>
-                <button type="button" class="btn btn-secondary btn-sm" onclick="editarCampo('mail')">Editar</button>
+            <div class="col-md-12 mb-3">
+                <label for="mail" class="form-label">Mail</label>
+                <div class="input-group">
+                    <input type="text" id="mail" name="mail" class="form-control" value="<?php echo $datos->getMail(); ?>" readonly>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="editarCampo('mail')">Editar</button>
+                    <div class="invalid-feedback">Por favor, ingrese un Correo válido.</div>
+
+                </div>
             </div>
 
             <!-- Contraseña actual -->
-            <div class="col-md-12 mb-3 d-flex align-items-center" id="passwordActualContainer">
-                <label for="password" class="form-label me-3">Contraseña Actual</label>
-                <input type="password" id="password" name="password" class="form-control me-3" value="<?php echo $usuario->getPassword(); ?>" readonly>
-                <button type="button" class="btn btn-secondary btn-sm" onclick="editarCampo('password')">Editar</button>
+            <div class="col-md-12 mb-3 " id="passwordActualContainer">
+
+                <label for="password" class="form-label ">Contraseña Actual</label>
+                <div class="input-group">
+                    <input type="password" id="password" name="password" class="form-control " value="<?php echo $datos->getPassword(); ?>" readonly>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="editarCampo('password')">Editar</button>
+                </div>
             </div>
 
             <!-- Nueva contraseña (inicialmente oculta con "d-none") -->
             <div class="col-md-12 mb-3 d-none align-items-center" id="nuevaPasswordContainer">
                 <label for="nuevaPassword" class="form-label me-3">Nueva Contraseña</label>
-                <input type="password" id="nuevaPassword" name="nuevaPassword" class="form-control me-3" placeholder="Nueva contraseña" oninput="validarContrasenias()">
+                <input type="password" id="nuevaPassword" name="nuevaPassword" class="form-control me-3" placeholder="Nueva contraseña">
                 <br>
                 <label for="repetirPassword" class="form-label me-3">Repetir Contraseña</label>
-                <input type="password" id="repetirPassword" name="repetirPassword" class="form-control me-3" placeholder="Repetir contraseña" oninput="validarContrasenias()">
+                <input type="password" id="repetirPassword" name="repetirPassword" class="form-control me-3" placeholder="Repetir contraseña">
                 <br>
                 <span id="mensajeError" class="text-danger d-none">Contraseñas no coincidentes</span>
             </div>
 
 
+            <div id="mensajeResultado" class="d-none mt-3 "> </div>
+
+
             <!-- Botón de guardar -->
             <div class="d-flex justify-content-center mt-4">
                 <button type="button" id="guardarBtn" class="btn btn-primary" onclick="guardarCambios()" disabled>Guardar Cambios</button>
+
             </div>
+
+
+        </div>
+
+
     </form>
 
 </div>
 
 <br> <br> <br>
-<script>
-    function editarCampo(campoId) {
-        const guardarBtn = $('#guardarBtn');
 
-        if (campoId === 'password') {
-            // Ocultar el contenedor de Contraseña Actual
-            $('#passwordActualContainer').addClass('d-none');
-
-            // Mostrar el contenedor para Nueva Contraseña
-            $('#nuevaPasswordContainer').removeClass('d-none');
-            $('#nuevaPassword').focus();
-        } else {
-            // Habilitar edición para otros campos
-            const campo = document.getElementById(campoId);
-            campo.removeAttribute('readonly'); // Habilitar edición
-            campo.focus(); // Colocar el foco en el campo
-            guardarBtn.removeAttr('disabled');
-
-        }
-
-
-
-    }
-
-    function validarContrasenias() {
-        const nuevaPassword = $('#nuevaPassword').val();
-        const repetirPassword = $('#repetirPassword').val();
-        const mensajeError = $('#mensajeError');
-        const guardarBtn = $('#guardarBtn');
-
-        if (nuevaPassword === repetirPassword && nuevaPassword.length > 5) {
-            // Las contraseñas coinciden
-            mensajeError.addClass('d-none'); // Ocultar mensaje de error
-            guardarBtn.removeAttr('disabled'); // Habilitar botón de guardar
-        } else {
-            // Las contraseñas no coinciden
-            mensajeError.removeClass('d-none'); // Mostrar mensaje de error
-            guardarBtn.attr('disabled', true); // Deshabilitar botón de guardar
-        }
-    }
-
-    function guardarCambios() {
-        var formData = $('#fm').serialize();
-
-
-
-        $.ajax({
-            url: 'Action/actionActualizarPerfil1.php',
-            data: formData,
-            dataType: 'json',
-            success: function(response) {
-                if (response.respuesta) {
-                    alert(response.mensaje || 'Cambios guardados correctamente.');
-
-                } else {
-                    alert(response.errorMsg || 'Hubo un error al guardar los cambios.');
-                }
-            },
-            error: function() {
-                alert('Error al conectar con el servidor.');
-            }
-        });
-
-        const contraseniaactual = $('#passwordActualContainer').val;
-        $('#nuevaPassword').val = contraseniaactual;
-
-        $('#nuevaPasswordContainer').addClass('d-none'); // Ocultar nueva contraseña
-        $('#passwordActualContainer').removeClass('d-none'); // Mostrar contraseña actual
-
-        // Deshabilitar el botón de guardar nuevamente
-        $('#guardarBtn').attr('disabled', true);
-
-
-    }
-</script>
-
+<script src="../Asets/js/perfilUser.js"></script>
 
 
 

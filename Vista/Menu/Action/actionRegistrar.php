@@ -3,7 +3,7 @@ include_once("../../../configuracion.php");
 include_once "../../Estructura/Header.php";
 $resp = false;
 $datos = data_submitted();
-$datos['uspass'] = md5($datos['uspass']);
+// $datos['uspass'] = md5($datos['uspass']);
 //verEstructura($datos);
 
 if (isset($datos)) {
@@ -21,8 +21,8 @@ if (isset($datos)) {
 
         //verEstructura($colObjUsuario);
 
-        $idUsuario = $colObjUsuario[count($colObjUsuario)-1]['idusuario']; //obtenie el id del objeto en especificio (ultimo)
-        $idRol = $colObjRol[count($colObjRol)-1]['idusuario'];             //obtenie el id del objeto en especificio (ultimo)
+        $idUsuario = $colObjUsuario[count($colObjUsuario) - 1]['idusuario']; //obtenie el id del objeto en especificio (ultimo)
+        $idRol = $colObjRol[count($colObjRol) - 1]['idusuario'];             //obtenie el id del objeto en especificio (ultimo)
 
         $arrayIdUsuario = ["idusuario" => $idUsuario];    // se crea un array con la clave para obtener el objeto
         $arrayIdRol = ["idusuario" => $idRol];            // se crea un array con la clave para obtener el objeto
@@ -34,12 +34,11 @@ if (isset($datos)) {
 
         $res3 = $objAbmUsuarioRol->alta($nuevaColObjRol); // se agregan los datos del objeto usuarioRol en la BD
 
-        if($res1 && $res2 && $res3){ // dar mensaje para el h1 de titulo
+        if ($res1 && $res2 && $res3) { // dar mensaje para el h1 de titulo
             $mensaje = "Usuario Registrado!";
         } else {
             $mensaje = "Ups, Usuario No Registrado!";
         }
-        
     } else {
         $mensaje = "Ups, No Hay Datos Enviados!";
     }
@@ -52,11 +51,10 @@ if (isset($datos)) {
     // Otra opción sería usar el método header de PHP para redirigir, 
     // que es más seguro y confiable cuando se hace al inicio del procesamiento del script:
     //header("Location: ../login.php");
-    
+
     // este es fran-----------------------------------------------------
     header("Location: ../iniciar_sesion.php?msg=" . urlencode($mensaje));
     exit();
-
 }
 
 /*
@@ -92,4 +90,3 @@ if (isset($datos)) {
     exit();: Asegúrate de usar exit(); después de header para detener la ejecución del script después de la redirección.
     Con esto, tu redirección debería funcionar correctamente con el mensaje incluido en la URL.
 */
-?>

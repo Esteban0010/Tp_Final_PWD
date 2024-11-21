@@ -1,9 +1,9 @@
 <?php
 include_once '../../../configuracion.php';
 
-session_start();
+// session_start();
 
-header('Content-Type: application/json'); // Asegura que el cliente reciba JSON
+// header('Content-Type: application/json'); // Asegura que el cliente reciba JSON
 
 $datos = data_submitted(); //datos que actualizan USUARIO
 $abmUsuario = new AbmUsuario();
@@ -29,7 +29,7 @@ try {
             'idusuario' => $datos['id'],
             'usnombre' => $datos['nombre'],
             'usmail' => $datos['mail'],
-            'uspass' =>  $contrasenia,
+            'uspass' =>  md5($contrasenia),
             'usdeshabilitado' => "null",
         ];
         // echo "<script>console.log(" . json_encode("no pasaS") . ");</script>";
@@ -38,21 +38,15 @@ try {
         if ($abmUsuario->modificacion($parametros)) {
             $response = [
                 'respuesta' => true,
-                'mensaje' => 'Datos actualizados correctamente.',
                 'redirect' => '../perfilUser.php?success=1'
             ];
-        } else {
-            throw new Exception('No se pudo actualizar el usuario. Verifica los datos ingresados.');
         }
-    } else {
-        throw new Exception('No se recibieron datos suficientes para la actualización.');
     }
 } catch (Exception $e) {
     // Manejo de errores
     $response = [
 
         'respuesta' => false,
-        'errorMsg' => $e->getMessage()
     ];
 }
 ob_clean();

@@ -43,8 +43,10 @@ class Session
         if (count($objUsuario) > 0) {
             $usuario = $objUsuario[0];
 
-            if ($psw === $usuario->getPassword()) {
+            if (md5($psw) === $usuario->getPassword()) {
                 $_SESSION['idusuario'] = $usuario->getId();
+                $psw = $usuario->getPassword();
+                // md5($psw);
                 $resp = true;
             } else {
                 // Contraseña incorrecta
