@@ -328,16 +328,11 @@ include_once "../Estructura/HeaderSeguro.php";
         <!-- Descripción -->
         <div style="margin-bottom:10px">
             <input name="medescripcion" id="medescripcion" class="easyui-textbox" required="true" label="Descripción:" style="width:100%">
-        </div>
-
-        <!-- Deshabilitado -->
-        <div style="margin-bottom:10px">
-            <input name="medeshabilitado" id="medeshabilitado" class="easyui-checkbox" label="Deshabilitar:" value="medeshabilitado">
-        </div>
+        </div>      
 
         <!-- idpadre -->
         <div style="margin-bottom:10px">
-                <input name="idpadre" id="idpadre" class="easyui-combobox" label="Submenú De:" style="width:100%">
+            <input name="idpadre" id="idpadre" class="easyui-combobox" label="Submenú De:" style="width:100%">
         </div>
 
         <!-- usdeshabilitado hidden -->

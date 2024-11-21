@@ -14,11 +14,12 @@ $arreglo_salida = array();
 foreach ($list as $elem) {
     $nuevoElem = array();
     $nuevoElem['id'] = $elem->getIdMenu(); // El valor que se guarda en el combobox
-    $nuevoElem['text'] = $elem->getMenombre();  // El texto que se muestra en el combobox
+    $nuevoElem['text'] = $elem->getIdMenu();  // El texto que se muestra en el combobox
 
     array_push($arreglo_salida, $nuevoElem);
 }
 
+//verEstructura($arreglo_salida);
 // Devuelve los submenús en formato JSON
 echo json_encode($arreglo_salida, JSON_UNESCAPED_UNICODE);
 ?>

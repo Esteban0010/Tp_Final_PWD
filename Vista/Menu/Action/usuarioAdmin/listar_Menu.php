@@ -12,7 +12,7 @@ foreach ($list as $elem) {
     $nuevoElem["medescripcion"] = $elem->getMedescripcion();
     $nuevoElem["idpadre"] = $elem->getObjMenu();
     if ($elem->getObjMenu() != null) {
-        $nuevoElem["idpadre"] = $elem->getObjMenu()->getMeNombre();
+        $nuevoElem["idpadre"] = $elem->getObjMenu()->getIdMenu();
     }
     $nuevoElem["medeshabilitado"] = $elem->getMedeshabilitado();
 

@@ -5,7 +5,7 @@
         function newProducto() {
             $('#dlg').dialog('open').dialog('center').dialog('setTitle', 'Nuevo Producto');
             $('#fm').form('clear');
-            url = 'Action/alta_Producto.php';
+            url = 'Action//usuarioAdmin/alta_Producto.php';
         }
 
          // edita (modificacion)
@@ -14,7 +14,7 @@
             if (row) {
                 $('#dlg').dialog('open').dialog('center').dialog('setTitle', 'Editar Producto');
                 $('#fm').form('load', row);
-                url = 'Action/edit_Producto.php?idproducto=' + row.idproducto;
+                url = 'Action//usuarioAdmin/edit_Producto.php?idproducto=' + row.idproducto;
                 //console.log(row.idproducto); // Imprime el valor de url en la consola                
             }
         }
@@ -53,7 +53,7 @@
             if (row) {
                 $.messager.confirm('Confirm', 'Seguro que desea eliminar el Producto?', function(r) {
                     if (r) {   
-                        $.post('Action/eliminar_Producto.php?idproducto=' + row.idproducto, {
+                        $.post('Action//usuarioAdmin/eliminar_Producto.php?idproducto=' + row.idproducto, {
                             idproducto: row.id
                             },
                             function(result) {
@@ -294,18 +294,42 @@
 
 
          // almacena un nuevo (alta)
-        function newMenu() {
+        /*function newMenu() {
             $('#dlg-menu').dialog('open').dialog('center').dialog('setTitle', 'Nuevo Menú');
             $('#fm-menu').form('clear');
 
             // Cargar los submenús para el nuevo menú
             $('#idpadre').combobox('reload', 'Action/usuarioAdmin/listar_Submenus.php'); // Carga los submenús desde listar_submenus.php
 
+            // Configura correctamente el combobox si aún no está inicializado
+            $('#idpadre').combobox({
+                valueField: 'id', // El campo que se utiliza como valor
+                //textField: 'id' // El campo que se muestra
+                textField: 'text' // El campo que se muestra
+            })
+
             url = 'Action/usuarioAdmin/alta_Menu.php';
-        }
+        }*/
+
+            function newMenu() {
+                $('#dlg-menu').dialog('open').dialog('center').dialog('setTitle', 'Nuevo Menú');
+                $('#fm-menu').form('clear');
+    
+                // Cargar los submenús para el nuevo menú
+                $('#idpadre').combobox('reload', 'Action/usuarioAdmin/listar_Submenus.php'); // Carga los submenús desde listar_submenus.php
+    
+                // Configura correctamente el combobox si aún no está inicializado
+                $('#idpadre').combobox({
+                    valueField: 'id', // El campo que se utiliza como valor
+                    //textField: 'id' // El campo que se muestra
+                    textField: 'text' // El campo que se muestra
+                });
+    
+                url = 'Action/usuarioAdmin/alta_menu.php';
+            }
 
         // edita (modificacion)
-        function editMenu() {
+        /*function editMenu() {
             var row = $('#dg-menu').datagrid('getSelected');
             if (row) {
                 $('#dlg-menu').dialog('open').dialog('center').dialog('setTitle', 'Editar Menú');
@@ -317,10 +341,25 @@
                 // Configurar la URL para editar el menú
                 url = 'Action/usuarioAdmin/edit_Menu.php?medeshabilitado=' + row.medeshabilitado + '&idmenu=' + row.idmenu;
             }
-        }
+        }*/
+
+
+            function editMenu() {
+                var row = $('#dg-menu').datagrid('getSelected');
+                if (row) {
+                    $('#dlg-menu').dialog('open').dialog('center').dialog('setTitle', 'Editar Menú');
+                    $('#fm-menu').form('load', row);
+    
+                    // Cargar los submenús en el combobox cuando se edita
+                    $('#idpadre').combobox('reload', 'Action/usuarioAdmin/listar_Submenus.php'); // Carga los submenús
+    
+                    // Configurar la URL para editar el menú
+                    url = 'Action/usuarioAdmin//edit_menu.php?medeshabilitado=' + row.medeshabilitado + '&idmenu=' + row.idmenu;
+                }
+            }
 
         // actualiza (ultimo paso)
-        function saveMenu() {
+        /*function saveMenu() {
             $('#fm-menu').form('submit', {
                 url: url,
                 onSubmit: function() {
@@ -339,10 +378,31 @@
                     }
                 }
             });
-        }
+        }*/
+
+            function saveMenu() {
+                $('#fm-menu').form('submit', {
+                    url: url,
+                    onSubmit: function() {
+                        return $(this).form('validate');
+                    },
+                    success: function(result) {
+                        var result = JSON.parse(result);
+                        if (!result.respuesta) {
+                            $.messager.show({
+                                title: 'Error',
+                                msg: result.errorMsg
+                            });
+                        } else {
+                            $('#dlg-menu').dialog('close');
+                            $('#dg-menu').datagrid('reload');
+                        }
+                    }
+                });
+            }
 
         // elimina
-        function destroyMenu() {
+        /*function destroyMenu() {
             var row = $('#dg-menu').datagrid('getSelected');
             if (row) {
                 $.messager.confirm('Confirmar', '¿Está seguro de eliminar el menú?', function(r) {
@@ -360,6 +420,26 @@
                     }
                 });
             }
-        }
+        }*/
+
+            function destroyMenu() {
+                var row = $('#dg-menu').datagrid('getSelected');
+                if (row) {
+                    $.messager.confirm('Confirmar', '¿Está seguro de eliminar el menú?', function(r) {
+                        if (r) {
+                            $.post('Action/usuarioAdmin/eliminar_menu.php?idmenu=' + row.idmenu, function(result) {
+                                if (result.respuesta) {
+                                    $('#dg-menu').datagrid('reload');
+                                } else {
+                                    $.messager.show({
+                                        title: 'Error',
+                                        msg: result.errorMsg
+                                    });
+                                }
+                            }, 'json');
+                        }
+                    });
+                }
+            }
 
 
