@@ -13,7 +13,7 @@ class Menu
         $this->idmenu = "";
         $this->menombre = "";
         $this->medescripcion = "";
-        $this->ObjMenu = new Menu();
+        $this->ObjMenu = null;
         $this->medeshabilitado = "";
         $this->mensajeoperacion = "";
     }
