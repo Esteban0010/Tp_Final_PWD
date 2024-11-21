@@ -2,15 +2,14 @@
 include_once("../../../configuracion.php");
 // Llamar a la función para procesar los datos
 $datos = data_submitted();
-//verEstructura($datos);
+verEstructura($datos);
 
 if ($datos['accion'] == "login") {
-
-
     // Iniciar la sesión
     $session = new Session(); // Esto llama a session_start() en el constructor
+    // $datos['uspass'] = md5($datos['uspass']); //encripta los datos
+
     $resp = $session->iniciar($datos['usnombre'], $datos['uspass']);
-    $datos['uspass'] = md5($datos['uspass']); //encripta los datos
 
     if ($resp) {
 

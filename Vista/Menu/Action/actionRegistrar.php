@@ -3,7 +3,6 @@ include_once("../../../configuracion.php");
 include_once "../../Estructura/Header.php";
 $resp = false;
 $datos = data_submitted();
-// $datos['uspass'] = md5($datos['uspass']);
 //verEstructura($datos);
 
 if (isset($datos)) {
@@ -11,6 +10,7 @@ if (isset($datos)) {
     $objAbmRol = new AbmRol();
     $objAbmUsuario = new AbmUsuario();
     $objAbmUsuarioRol = new AbmUsuarioRol();
+    $datos['uspass'] = md5($datos['uspass']);
 
     $res1 = $objAbmRol->alta($datos);     // carga al objeto y sube los daots a la BD
     $res2 = $objAbmUsuario->alta($datos); // carga al objeto y sube los daots a la BD

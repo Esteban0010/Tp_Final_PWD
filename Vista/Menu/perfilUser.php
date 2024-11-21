@@ -47,7 +47,7 @@ verEstructura($datos);
 
                 <label for="password" class="form-label ">Contraseña Actual</label>
                 <div class="input-group">
-                    <input type="password" id="password" name="password" class="form-control " value="<?php echo $datos->getPassword(); ?>" readonly>
+                    <input type="password" id="password" name="password" class="form-control " value="12345678" readonly>
                     <button type="button" class="btn btn-secondary btn-sm" onclick="editarCampo('password')">Editar</button>
                 </div>
             </div>
@@ -70,7 +70,6 @@ verEstructura($datos);
             <!-- Botón de guardar -->
             <div class="d-flex justify-content-center mt-4">
                 <button type="button" id="guardarBtn" class="btn btn-primary" onclick="guardarCambios()" disabled>Guardar Cambios</button>
-
             </div>
 
 

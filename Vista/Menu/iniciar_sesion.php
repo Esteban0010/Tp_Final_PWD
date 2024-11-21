@@ -41,7 +41,7 @@ $datos = data_submitted();
             <input type="text" id="usnombre" name="usnombre" class="form-control" placeholder="Ingrese un Nombre de Usuario..." required>
 
             <!-- uspass -->
-            <label for="text" class="form-label my-1">Password:</label>
+            <label for="uspass" class="form-label my-1">Password:</label>
             <input type="password" id="uspass" name="uspass" class="form-control" placeholder="Ingrese un Password..." required>
 
             <input type="hidden" id="accion" name="accion" value="login">
