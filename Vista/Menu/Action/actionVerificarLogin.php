@@ -3,16 +3,17 @@ include_once("../../../configuracion.php");
 // Llamar a la función para procesar los datos
 $datos = data_submitted();
 //verEstructura($datos);
-$datos['uspass'] = md5($datos['uspass']); //encripta los datos
-//verEstructura($datos);
+
 if ($datos['accion'] == "login") {
 
 
     // Iniciar la sesión
     $session = new Session(); // Esto llama a session_start() en el constructor
     $resp = $session->iniciar($datos['usnombre'], $datos['uspass']);
+    $datos['uspass'] = md5($datos['uspass']); //encripta los datos
 
     if ($resp) {
+
         header("Location: ../paginaSegura.php");
     } else {
         $mensaje = "Error, usuario o password incorrecto";
