@@ -86,7 +86,7 @@ class AbmMenu
         $param['idmenu'] = null;
         $param['medeshabilitado'] = null;
 
-        //verEstructuraJson($param);
+        verEstructuraJson($param);
 
         $elObjtTabla = $this->cargarObjeto($param);
 

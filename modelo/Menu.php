@@ -13,8 +13,8 @@ class Menu
         $this->idmenu = "";
         $this->menombre = "";
         $this->medescripcion = "";
-        $this->ObjMenu = null;
-        $this->medeshabilitado = ''; //antes habia null
+        $this->ObjMenu = new Menu();
+        $this->medeshabilitado = "";
         $this->mensajeoperacion = "";
     }
 
@@ -23,7 +23,7 @@ class Menu
         $this->setIdmenu($idmenu);
         $this->setMenombre($menombre);
         $this->setMedescripcion($medescripcion);
-        $this->setObjMenu($ObjMenu);
+        $this->setObjMenu($ObjMenu); // objeto
         $this->setMedeshabilitado($medeshabilitado);
     }
 

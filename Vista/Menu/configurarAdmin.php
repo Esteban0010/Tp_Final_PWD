@@ -1,14 +1,22 @@
 <?php
 include_once("../../configuracion.php");
 include_once "../Estructura/HeaderSeguro.php";
-$objControl = new AbmProducto();
-$List_Producto = $objControl->buscar(null);
+//$objControl = new AbmProducto();
+//$List_Producto = $objControl->buscar(null);
 //verEstructura($List_Producto);
-$objControlUsuario = new AbmUsuario();
-$List_Usuario = $objControlUsuario->buscar(null);
+//$objControlUsuario = new AbmUsuario();
+//$List_Usuario = $objControlUsuario->buscar(null);
 //verEstructura($List_Usuario);
+
+$objControl = new AbmMenu();
+$List_Menu = $objControl->buscar(null);
+$combo = '<div style="margin-bottom:10px"><select class="easyui-combobox" id="idpadre" name="idpadre"  style="width:100%;"><option></option>';
+foreach ($List_Menu as $objMenu) {
+    $combo .= '<option value="' . $objMenu->getIdmenu() . '">' . $objMenu->getMenombre() . ':' . $objMenu->getMedescripcion() . '</option>';
+}$combo .= '</select></div>';
 ?>
 
+<!-- ================================== productos ========================================== -->
     <h1>Productos</h1>
 
     <table id="dg" title="Administrador de Productos" class="easyui-datagrid" style="width:1200px;height:450px" url="Action/listar_Producto.php" toolbar="#toolbar" pagination="true" rownumbers="true" fitColumns="true" singleSelect="true"> 
@@ -117,8 +125,8 @@ $List_Usuario = $objControlUsuario->buscar(null);
 
 
 
-<!-- ======================================================================================== -->
-    <!-- usuarios -->
+    <!-- =============================== usuarios ========================================== -->
+
 
     <h1>Usuarios</h1>
 
@@ -222,15 +230,14 @@ $List_Usuario = $objControlUsuario->buscar(null);
 
 
 
-    <!-- ======================================================================================== -->
-    <!-- roles -->
+    <!-- ================================== roles ========================================== -->
 
     <h1>Roles</h1>
 
     <table id="dg-rol" title="Administrador de Roles" class="easyui-datagrid" style="width:1200px;height:450px" url="Action/usuarioAdmin/listar_Rol.php" toolbar="#toolbar-rol" pagination="true" rownumbers="true" fitColumns="true" singleSelect="true"> 
         <thead>
             <tr>
-                <th field="idrol" width="60">ID de Rol</th>
+                <th field="idrol" width="60">ID</th>
                 <th field="rodescripcion" width="60">Descripcion</th>
             </tr>
         </thead>
@@ -274,6 +281,96 @@ $List_Usuario = $objControlUsuario->buscar(null);
 
         <!-- boton Cancelar del formulario -->
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-rol').dialog('close')" style="width:90px">Cancelar</a>
+
+    </div>
+    <!-- Fin botones del formulario -->
+
+    <br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- =================================== menu ========================================== -->
+    <h1>Menu</h1>
+
+    <table id="dg-menu" title="Administrador de Menu" class="easyui-datagrid" style="width:1200px;height:450px" url="Action/usuarioAdmin/listar_Menu.php" toolbar="#toolbar-menu" pagination="true" rownumbers="true" fitColumns="true" singleSelect="true"> 
+        <thead>
+            <tr>
+                <th field="idmenu" width="60">ID</th>
+                <th field="menombre" width="60">Nombre</th>
+                <th field="medescripcion" width="60">Descripcion</th>
+                <th field="idpadre" width="60">ID de Sub Menu</th>
+                <th field="medeshabilitado" width="60">Deshabilitado</th>
+            </tr>
+        </thead>
+    </table>
+
+    <!-- opciones para hacer ABM en la tabla -->
+    <div id="toolbar-menu">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newMenu()">Nuevo Menu</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editMenu()">Editar Menu</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyMenu()">Eliminar Menu</a>
+    </div>
+
+    <!-- Modal -->
+    <div id="dlg-menu" class="easyui-dialog" style="width:600px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons-menu'">
+        <!-- formulario -->
+        <form id="fm-rol" method="POST" style="margin:0;padding:20px 50px" novalidate>
+
+            <!-- Cuando hacen click en nuevo menu o editar menu, aparece este formulario -->
+            <h3>Informacion Del Menu:</h3>
+
+            <!-- menombre -->
+        <div style="margin-bottom:10px">
+            <label for="menombre">Nombre:</label>
+            <input type="text" name="menombre" id="menombre" class="easyui-textbox" style="width:100%" required="true">
+        </div>
+
+        <!-- medescripcion -->
+        <div style="margin-bottom:10px">
+            <label for="medescripcion">Descripcion:</label>
+            <input type="text" name="medescripcion" id="medescripcion" class="easyui-textbox" style="width:100%" required="true">
+        </div>
+
+        <!-- idpadre (sub menu) -->
+        <div style="margin-bottom:10px">
+            <label for="medescripcion">Sub Menu:</label>
+                <?php
+                echo $combo;
+                ?>
+        </div>
+
+        <!-- usdeshabilitado hidden -->
+        <div style="margin-bottom:10px">
+            <input type="hidden" name="medeshabilitado" id="medeshabilitado" style="width:100%" value="<?php echo '0000-00-00 00:00:00'; ?>">
+        </div>  
+
+        </form>
+
+    </div>
+    <!-- Fin Modal -->
+
+    <!-- botones del formulario -->
+    <div id="dlg-buttons-menu">
+
+        <!-- boton Aceptar del formulario -->
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveMenu()" style="width:90px">Aceptar</a>
+
+        <!-- boton Cancelar del formulario -->
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-menu').dialog('close')" style="width:90px">Cancelar</a>
 
     </div>
     <!-- Fin botones del formulario -->
