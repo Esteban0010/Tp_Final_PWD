@@ -1,11 +1,12 @@
 <?php
 include_once "../../../../configuracion.php";
 $data = data_submitted();
-echo "<script>console.log(" . json_encode($data) . ");</script>";
+//verEstructura($data);
 $respuesta = false;
 if (isset($data['menombre'])) {
     $objC = new AbmMenu();
     $respuesta = $objC->alta($data);
+    // $respuesta restorna true
     if (!$respuesta) {
         $mensaje = " La accion  ALTA No pudo concretarse";
     }

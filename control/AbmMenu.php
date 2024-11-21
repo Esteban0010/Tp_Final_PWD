@@ -40,7 +40,7 @@ class AbmMenu
                 $obj->setear(null, $param['menombre'], $param['medescripcion'], $objmenu, $param['medeshabilitado']);
             }            
 
-            //verEstructuraJson($obj);
+            verEstructuraJson($obj);
         }
         return $obj;
     }
@@ -86,7 +86,7 @@ class AbmMenu
         $param['idmenu'] = null;
         $param['medeshabilitado'] = null;
 
-        verEstructuraJson($param);
+        //verEstructuraJson($param);
 
         $elObjtTabla = $this->cargarObjeto($param);
 

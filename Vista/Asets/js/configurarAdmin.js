@@ -243,7 +243,7 @@
             if (row) {
                 $.messager.confirm('Confirm', 'Seguro que desea eliminar el Rol?', function(r) {
                     if (r) {   
-                        $.post('Action//usuarioAdmin/eliminar_Rol.php?idrol=' + row.idrol, {
+                        $.post('Action/usuarioAdmin/eliminar_Rol.php?idrol=' + row.idrol, {
                             idrol: row.id
                             },
                             function(result) {
@@ -295,46 +295,47 @@
 
          // almacena un nuevo (alta)
         function newMenu() {
-            $('#dlg-menu').dialog('open').dialog('center').dialog('setTitle', 'Nuevo Menu');
+            $('#dlg-menu').dialog('open').dialog('center').dialog('setTitle', 'Nuevo Menú');
             $('#fm-menu').form('clear');
+
+            // Cargar los submenús para el nuevo menú
+            $('#idpadre').combobox('reload', 'Action/usuarioAdmin/listar_Submenus.php'); // Carga los submenús desde listar_submenus.php
+
             url = 'Action/usuarioAdmin/alta_Menu.php';
         }
 
-         // edita (modificacion)
+        // edita (modificacion)
         function editMenu() {
             var row = $('#dg-menu').datagrid('getSelected');
             if (row) {
-                $('#dlg-menu').dialog('open').dialog('center').dialog('setTitle', 'Editar Menu');
+                $('#dlg-menu').dialog('open').dialog('center').dialog('setTitle', 'Editar Menú');
                 $('#fm-menu').form('load', row);
-                //url = 'Action//usuarioAdmin/edit_Usuario.php?idusuario=' + row.idusuario + '&rodescripcion=' + row.rodescripcion;
-                url = 'Action//usuarioAdmin/edit_Menu.php?idmenu=' + row.idmenu ;
-                //console.log(row.idusuario); // Imprime el valor de url en la consola                
+
+                // Cargar los submenús en el combobox cuando se edita
+                $('#idpadre').combobox('reload', 'Action/usuarioAdmin/listar_Submenus.php'); // Carga los submenús
+
+                // Configurar la URL para editar el menú
+                url = 'Action/usuarioAdmin/edit_Menu.php?medeshabilitado=' + row.medeshabilitado + '&idmenu=' + row.idmenu;
             }
         }
 
         // actualiza (ultimo paso)
         function saveMenu() {
-            //alert("Accion");
             $('#fm-menu').form('submit', {
-                url: url,                
+                url: url,
                 onSubmit: function() {
                     return $(this).form('validate');
-                },                
+                },
                 success: function(result) {
-                    var result = eval('(' + result + ')');
-                    //console.log(result); // Imprime el contenido de $data en la consola
-                    //var result = JSON.parse(result); // Si necesitas usar la respuesta como JSON
-
-                    //alert("Volvio Serviodr");
+                    var result = JSON.parse(result);
                     if (!result.respuesta) {
                         $.messager.show({
                             title: 'Error',
                             msg: result.errorMsg
                         });
                     } else {
-
-                        $('#dlg-menu').dialog('close'); // close the dialog
-                        $('#dg-menu').datagrid('reload'); // reload 
+                        $('#dlg-menu').dialog('close');
+                        $('#dg-menu').datagrid('reload');
                     }
                 }
             });
@@ -344,22 +345,18 @@
         function destroyMenu() {
             var row = $('#dg-menu').datagrid('getSelected');
             if (row) {
-                $.messager.confirm('Confirm', 'Seguro que desea eliminar el Menu?', function(r) {
-                    if (r) {   
-                        $.post('Action//usuarioAdmin/eliminar_Menu.php?idMenu=' + row.idmenu, {
-                            idmenu: row.id
-                            },
-                            function(result) {
-                                
-                                if (result.respuesta) {
-                                    $('#dg-rol').datagrid('reload'); // reload the  data
-                                } else {
-                                    $.messager.show({ // show error message
-                                        title: 'Error',
-                                        msg: result.errorMsg
-                                    });
-                                }
-                            }, 'json');
+                $.messager.confirm('Confirmar', '¿Está seguro de eliminar el menú?', function(r) {
+                    if (r) {
+                        $.post('Action/usuarioAdmin/eliminar_Menu.php?idmenu=' + row.idmenu, function(result) {
+                            if (result.respuesta) {
+                                $('#dg-menu').datagrid('reload');
+                            } else {
+                                $.messager.show({
+                                    title: 'Error',
+                                    msg: result.errorMsg
+                                });
+                            }
+                        }, 'json');
                     }
                 });
             }
