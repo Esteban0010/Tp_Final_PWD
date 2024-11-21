@@ -11,18 +11,22 @@ class AbmCompra
         $obj = null;
 
         // Verificar que existan los parámetros necesarios (sin necesidad de idcompra en inserción)
-        if ( array_key_exists('cofecha', $param) && array_key_exists('costoTotal', $param)) {
+        if ( array_key_exists('cofecha', $param) ) {
             $obj = new Compra();
             $objUsuario = new Usuario();
             $objUsuario->setId($param["usuario_id"]);
-           
-
+            $objUsuario->cargar();
+            $costoTotal = 0;
+            
+            foreach ($param["productos"] as $producto) { // Uso correcto de foreach
+                $costoTotal += $producto["precio"] * $producto["cantidad"]; // Faltaba el punto y coma al final
+                }
             // Si el idcompra está presente (modificación), asignarlo, si no (inserción), dejar null
             if (isset($param['usuario_id'])) {
-                $obj->setear( null,$param['cofecha'], $param['costoTotal'],$objUsuario, );
+                $obj->setear( null,$param['cofecha'], $costoTotal,$objUsuario, );
             } else {
                 // Si no tiene ID, asignar como null (para insertar)
-                $obj->setear(null,  $param['cofecha'], $param['costoTotal'],$objUsuario);
+                $obj->setear(null,  $param['cofecha'], $costoTotal,$objUsuario);
             }
         }
         return $obj;
@@ -63,7 +67,7 @@ class AbmCompra
      * @param array $param
      * @return boolean
      */
-    public function alta($param)
+  public function alta($param)
     {
         $resp = false;
         // El idcompra se asigna automáticamente en la base de datos
@@ -72,6 +76,24 @@ class AbmCompra
         $obj = $this->cargarObjeto($param);
 
         if ($obj != null && $obj->insertar()) {
+            $idCompra = $obj->getIdcompra();
+            foreach ($param["productos"] as $producto) { // Uso correcto de foreach
+                $compraItem = new AbmCompraItem;
+                $nuevaCompraItem = [
+                    'idcompra' => $idCompra, 
+                    'idproducto' => $producto["id"], 
+                    'cicantidad' => $producto["cantidad"] 
+                ];
+                $compraItem->alta($nuevaCompraItem);
+                }
+              $compraEstado = new AbmCompraEstado;
+              $nuevaCompraEstado = [
+                'idcompra' => $idCompra, 
+                'idcompraestadotipo' => 1, 
+                'cefechaini' => date('Y-m-d H:i:s'), 
+                'cefechafin' => null
+            ];
+            $compraEstado->alta($nuevaCompraEstado);
             $resp = true;
         }
         return $resp;

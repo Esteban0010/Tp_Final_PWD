@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Crear una nueva compra
         $nuevaCompra = [
             'productos' => $carrito, // Lista de productos con cantidades
-            'fecha' => date('Y-m-d H:i:s'), // Fecha actual
+            'cofecha' => date('Y-m-d H:i:s'), // Fecha actual
             'usuario_id' => $objUsuario->getId() // ID del usuario (puede ser dinámico si hay sesión)
         ];
 

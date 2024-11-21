@@ -8,7 +8,22 @@ class CompraItem
     private $mensajeFuncion;
 
 
-    
+    public function __construct()
+    {
+        $this->idCompraItem = "";
+        $this->objProducto = new Producto;
+        $this->objCompra = new Compra;
+        $this->cantidad = ""; 
+    }
+
+    public function setear($idCompraItem, $objProducto, $objCompra, $cantidad) {
+        $this->idCompraItem = $idCompraItem;
+        $this->objProducto = $objProducto;
+        $this->objCompra = $objCompra;
+        $this->cantidad = $cantidad;
+    }
+
+
     public function setIdCompraItem($idCompraItem)
     {
         $this->idCompraItem = $idCompraItem;
@@ -72,24 +87,7 @@ class CompraItem
     /************* Metodos *************/
     
 
-    public function __construct()
-    {
-        $this->idCompraItem = "";
-        $this->objProducto = new Producto;
-        $this->objCompra = new Compra;
-        $this->cantidad = ""; 
-    }
-
-    public function setear($idCompraItem, $idProducto, $idCompra, $cantidad)
-    {
-        $this->objProducto->setIdProducto($idProducto);
-        $this->objCompra->setIdCompra($idCompra);
-        $this->setIdCompraItem($idCompraItem);
-        $this->setCantidad($cantidad);
-        $this->objProducto->cargar();
-        $this->objCompra->cargar();
-    }
-
+  
     public function insertar()
     {
         $base = new BaseDatos();

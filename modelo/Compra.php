@@ -107,7 +107,7 @@ class Compra
     public function insertar() {
         $resp = false;
         $base = new BaseDatos();
-        $sql = "INSERT INTO compra (cofecha, costoTotal, idusuario) VALUES ('" . $this->cofecha . "', " . $this->costoTotal . ", " . $this->getObjUsuario()->getIdusuario() . ")";
+        $sql = "INSERT INTO compra (cofecha, costoTotal, idusuario) VALUES ('" . $this->cofecha . "', " . $this->costoTotal . ", " . $this->getObjUsuario()->getId() . ")";
         if ($base->Iniciar()) {
             if ($id = $base->Ejecutar($sql)) {
                 $this->setIdcompra($id);
