@@ -12,39 +12,27 @@ if ($datos['accion'] == "login") {
     $resp = $session->iniciar($datos['usnombre'], $datos['uspass']);
 
     if ($resp) {
-        $response['respuesta'] = 1;
-        $response['redirect'] = 'paginaSegura.php';
+        $response = [
+            'respuesta' => true,
+            'redirect' => 'paginaSegura.php'
+        ];
     } else {
-        $response['respuesta'] = 2;
+        $response = [
+            'respuesta' => false,
+            'redirect' => 'iniciar_sesion.php'
+        ];
     }
 } elseif ($datos['accion'] == "cerrar") {
     $objSession = new Session();
-    $objSession->cerrar(); //true 
-    $response['respuesta'] = 3;
-    $response['redirect'] = 'iniciar_sesion.php';
+    // $response['respuesta'] =  //true 
+    //     $response['redirect'] = 'iniciar_sesion.php';
+    $response = [
+        'respuesta' => $objSession->cerrar(),
+        'redirect' => 'iniciar_sesion.php'
+    ];
 }
 
+// Limpia el buffer de salida y envía la respuesta JSON
 ob_clean();
 echo json_encode($response);
 exit;
-
-
-// if ($datos['accion'] == "login") {
-
-//     $session = new Session();
-//     $resp = $session->iniciar($datos['usnombre'], $datos['uspass']);
-
-//     if ($resp) {
-//         $response['respuesta'] = true;
-//         $response['redirect'] = 'paginaSegura.php';
-//     } else {
-//         $response['respuesta'] = false;
-//     }
-// } elseif ($datos['accion'] == "cerrar") {
-//     $objSession = new Session();
-//     $response['respuesta'] = 'no pongamos nada '; //true 
-//     $response['redirect'] = 'iniciar_sesion.php';
-//     $objSession->cerrar();
-// }
-
-// Limpia el buffer de salida y envía la respuesta JSON

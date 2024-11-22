@@ -83,7 +83,7 @@ function mensaje(response) {
   } else if (response.respuesta === false) {
       mensajeResultado
           .addClass('alert alert-danger')
-          .html('<i class="bi bi-exclamation-circle me-2"></i> Error, datos no registrados, usario existente');
+          .html('<i class="bi bi-exclamation-circle me-2"></i> Error, datos no registrados, usario ya existente');
         //    window.location.href = response.redirect;
 
   }
