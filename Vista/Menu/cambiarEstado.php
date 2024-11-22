@@ -51,7 +51,7 @@
      echo "Estado de la compra no encontrado.";
    }
  } else {
-   echo "Datos inválidos.";
+   echo "Datos no validos.";
  }
 
 

@@ -1,38 +1,17 @@
 <?php
-include_once "../../../configuracion.php";
-//include_once "../../Estructura/HeaderSeguro.php";
+//include_once "../../../configuracion.php";
+include_once "../Estructura/HeaderSeguro.php";
 
 
 ?>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>e-commerce seguro</title>
 
-    <!-- css bootstrap 5 -->
-    <link href="../../Asets/librerias/bootstrap-5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- js bootstrap 5 -->
-    <script src="../../Asets/librerias/bootstrap-5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- jquery-easyui -->
-    <link rel="stylesheet" type="text/css" href="../../Asets/librerias/jquery-easyui-1.11.0/themes/default/easyui.css">
-    <link rel="stylesheet" type="text/css" href="../../Asets/librerias/jquery-easyui-1.11.0/themes/icon.css">
-    <link rel="stylesheet" type="text/css" href="../../Asets/librerias/jquery-easyui-1.11.0/themes/color.css">
-    <link rel="stylesheet" type="text/css" href="../../Asets/librerias/jquery-easyui-1.11.0/demo/demo.css">
-    <script type="text/javascript" src="../../Asets/librerias/jquery-easyui-1.11.0/jquery.min.js"></script>
-    <!-- jquery-3.6.0 (debe estar antes que jquery-easyui-1.11.0) -->
-    <script src="../../Asets/librerias/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript" src="../../Asets/librerias/jquery-easyui-1.11.0/jquery.easyui.min.js"></script>
-
-</head>
 
 
 <h1>Productos</h1>
 
 <table id="dg" title="Administrador de Productos" class="easyui-datagrid" style="width:1000px;height:450px"
-    url="../Action/listar_Producto.php" toolbar="#toolbar" pagination="true" rownumbers="true" fitColumns="true"
+    url="Action/listar_Producto.php" toolbar="#toolbar" pagination="true" rownumbers="true" fitColumns="true"
     singleSelect="true">
     <thead>
         <tr>
@@ -127,7 +106,7 @@ var url;
 function newProducto() {
     $('#dlg').dialog('open').dialog('center').dialog('setTitle', 'Nuevo Producto');
     $('#fm').form('clear');
-    url = '../Action/alta_Producto.php';
+    url = 'Action/alta_Producto.php';
 }
 
 // edita (modificacion)
@@ -136,7 +115,7 @@ function editProducto() {
     if (row) {
         $('#dlg').dialog('open').dialog('center').dialog('setTitle', 'Editar Producto');
         $('#fm').form('load', row);
-        url = '../Action/edit_Producto.php?idproducto=' + row.idproducto;
+        url = 'Action/edit_Producto.php?idproducto=' + row.idproducto;
         //console.log(row.idproducto); // Imprime el valor de url en la consola                
     }
 }
@@ -175,7 +154,7 @@ function destroyProducto() {
     if (row) {
         $.messager.confirm('Confirm', 'Seguro que desea eliminar el Producto?', function(r) {
             if (r) {
-                $.post('../Action/eliminar_Producto.php?idproducto=' + row.idproducto, {
+                $.post('Action/eliminar_Producto.php?idproducto=' + row.idproducto, {
                         idproducto: row.id
                     },
                     function(result) {
@@ -195,5 +174,5 @@ function destroyProducto() {
 }
 </script>
 <?php
-include_once "../../Estructura/Footer.php";
+include_once "../Estructura/Footer.php";
 ?>
