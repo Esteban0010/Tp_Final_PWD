@@ -75,10 +75,11 @@ $reistrado = $session->validar();
                     <table class="table shoping-cart-table">
                         <tbody>
                             <tr>
-                                <td width="90">
-                                    <div class="cart-product-imitation text-center">
-                                        <i class="fa fa-box fa-2x"></i>
-                                    </div>
+                                <td>
+                                <div class="cart-product-imitation text-center">
+                                <i class="fa fa-box fa-2x"></i>
+                                <img src="${producto.img}" alt="producto" class="w-50">
+                                </div>
                                 </td>
                                 <td class="desc">
                                     <h3>
@@ -89,12 +90,8 @@ $reistrado = $session->validar();
                                     <p class="small">
                                         ${producto.descripcion}
                                     </p>
-                                    <dl class="small m-b-none">
-                                        <dt>Description lists</dt>
-                                        <dd>A description list is perfect for defining terms.</dd>
-                                    </dl>
                                     <div class="m-t-sm">
-                                        <a href="#" class="text-muted remove-item" data-id="${producto.id}"><i class="fa fa-trash"></i> Remove item</a>
+                                        <a href="#" class="text-muted remove-item" data-id="${producto.id}"><i class="fa fa-trash"></i> Remover producto</a>
                                     </div>
                                 </td>
                                 <td>
