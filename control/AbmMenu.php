@@ -135,7 +135,10 @@ class AbmMenu
             //echo "<script>console.log(" . json_encode('objeto en el abm') . ");</script>";
             //verEstructuraJson($param);
             $elObjtMenu = $this->cargarObjeto($param);
+            
             //verEstructuraJson($elObjtMenu);
+
+            
             if ($elObjtMenu != null && $elObjtMenu->modificar()) {
                 $resp = true;
                 //verEstructuraJson($elObjtMenu);

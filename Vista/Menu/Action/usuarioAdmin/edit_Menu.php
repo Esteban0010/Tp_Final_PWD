@@ -1,16 +1,18 @@
 <?php
 include_once "../../../../configuracion.php";
+//header('Content-Type: application/json; charset=utf-8');
 $data = data_submitted();
+//error_log('Datos recibidos: ' . print_r($data, true));
 $respuesta = false;
-$data['idmenu'] = (int) $data['idmenu'];
-if(isset($data['idpadre'])){
+if(isset($data['idmenu'])){
+    $data['idmenu'] = (int) $data['idmenu'];
+}
+if(isset($data['idpadre']) && $data['idpadre'] != 'null'){
     $data['idpadre'] = (int) $data['idpadre'];
 }
-// Para depuración, envía el contenido de $data como respuesta JSON
-//echo json_encode($data);
-//exit; // Detiene la ejecución después de enviar los datos
+
 //echo "<script>console.log(" . json_encode('Esto es antes de modificar(), en edit_menu.php') . ");</script>";
-verEstructuraJson($data);
+//verEstructuraJson($data);
 
 //echo "<script>console.log(" . json_encode($data) . ");</script>";
 
@@ -22,7 +24,7 @@ if (isset($data['idmenu'])) {
 
         $sms_error = " La accion  MODIFICACION No pudo concretarse";
     } else $respuesta = true;
-}
+} 
 $retorno['respuesta'] = $respuesta;
 if (isset($mensaje)) {
 

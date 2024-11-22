@@ -6,7 +6,7 @@ include_once "../Estructura/HeaderSeguro.php";
 <!-- ================================== productos ========================================== -->
 <h1>Productos</h1>
 
-<table id="dg" title="Administrador de Productos" class="easyui-datagrid" style="width:1200px;height:450px" url="Action/listar_Producto.php" toolbar="#toolbar" pagination="true" rownumbers="true" fitColumns="true" singleSelect="true">
+<table id="dg" title="Administrador de Productos" class="easyui-datagrid" style="width:1200px;height:450px" url="Action/listar_Producto.php" toolbar="#toolbar"  fitColumns="true" singleSelect="true">
     <thead>
         <tr>
             <th field="idproducto" width="60">ID</th>
@@ -85,46 +85,18 @@ include_once "../Estructura/HeaderSeguro.php";
 
 <br>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!-- =============================== usuarios ========================================== -->
 
 
 <h1>Usuarios</h1>
 
-<table id="dg-usuario" title="Administrador de Usuarios" class="easyui-datagrid" style="width:1200px;height:450px" url="Action/usuarioAdmin/listar_Usuario.php" toolbar="#toolbar-usuario" pagination="true" rownumbers="true" fitColumns="true" singleSelect="true">
+<table id="dg-usuario" title="Administrador de Usuarios" class="easyui-datagrid" style="width:1200px;height:450px" url="Action/usuarioAdmin/listar_Usuario.php" toolbar="#toolbar-usuario" fitColumns="true" singleSelect="true">
     <thead>
         <tr>
             <th field="idusuario" width="60">ID</th>
             <th field="usnombre" width="60">Nombre</th>
             <th field="uspass" width="100">Contraseña</th>
             <th field="usmail" width="60">Mail</th>
-            <!-- <th field="rodescripcion" width="60">Descripcion</th> -->
             <th field="usdeshabilitado" width="60">Deshabilitado</th>
         </tr>
     </thead>
@@ -134,14 +106,12 @@ include_once "../Estructura/HeaderSeguro.php";
 <div id="toolbar-usuario">
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUsuario()">Nuevo Usuario </a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUsuario()">Editar Usuario</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUsuario()">Eliminar Usuario</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deshabilitarUsuario()">Deshabilitar Usuario</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="habilitarUsuario()">Habilitar Usuario</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="habilitarUsuario()">Habilitar Usuario</a>
 </div>
 
 <!-- Modal -->
 <div id="dlg-usuario" class="easyui-dialog" style="width:600px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons-usuario'">
-    <!-- <div id="dlg-usuario" class="easyui-dialog" style="width:50%;height:auto;" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'"> -->
     <!-- formulario -->
     <form id="fm-usuario" method="POST" style="margin:0;padding:20px 50px" novalidate>
 
@@ -199,29 +169,11 @@ include_once "../Estructura/HeaderSeguro.php";
 
 <br>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!-- ================================== roles ========================================== -->
 
 <h1>Roles</h1>
 
-<table id="dg-rol" title="Administrador de Roles" class="easyui-datagrid" style="width:1200px;height:450px" url="Action/usuarioAdmin/listar_Rol.php" toolbar="#toolbar-rol" pagination="true" rownumbers="true" fitColumns="true" singleSelect="true">
+<table id="dg-rol" title="Administrador de Roles" class="easyui-datagrid" style="width:1200px;height:450px" url="Action/usuarioAdmin/listar_Rol.php" toolbar="#toolbar-rol" fitColumns="true" singleSelect="true">
     <thead>
         <tr>
             <th field="idrol" width="60">ID</th>
@@ -232,14 +184,11 @@ include_once "../Estructura/HeaderSeguro.php";
 
 <!-- opciones para hacer ABM en la tabla -->
 <div id="toolbar-rol">
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newrol()">Nuevo Rol</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editRol()">Editar Rol</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyRol()">Eliminar Rol</a>
 </div>
 
 <!-- Modal -->
 <div id="dlg-rol" class="easyui-dialog" style="width:600px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons-rol'">
-    <!-- <div id="dlg-usuario" class="easyui-dialog" style="width:50%;height:auto;" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'"> -->
     <!-- formulario -->
     <form id="fm-rol" method="POST" style="margin:0;padding:20px 50px" novalidate>
 
@@ -274,22 +223,6 @@ include_once "../Estructura/HeaderSeguro.php";
 
 <br>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!-- =================================== menu ========================================== -->
 <h1>Menu</h1>
 
@@ -307,9 +240,10 @@ include_once "../Estructura/HeaderSeguro.php";
 
 <!-- opciones para hacer ABM en la tabla -->
 <div id="toolbar-menu">
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newMenu()">Nuevo Menu</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editMenu()">Editar Menu</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyMenu()">Eliminar Menu</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deshabilitarMenu()">Deshabilitar Menu</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="habilitarMenu()">Habilitar Menu</a>
+
 </div>
 
 <!-- Modal -->
@@ -343,7 +277,6 @@ include_once "../Estructura/HeaderSeguro.php";
     </form>
 
 </div>
-<!-- Fin Modal -->
 
 <!-- botones del formulario -->
 <div id="dlg-buttons-menu">
@@ -358,31 +291,6 @@ include_once "../Estructura/HeaderSeguro.php";
 <!-- Fin botones del formulario -->
 
 <br>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <script src="../Asets/js/configurarAdmin.js"></script>
 
