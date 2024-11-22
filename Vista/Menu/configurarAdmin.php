@@ -293,7 +293,7 @@ include_once "../Estructura/HeaderSeguro.php";
 <!-- =================================== menu ========================================== -->
 <h1>Menu</h1>
 
-<table id="dg-menu" title="Administrador de Menu" class="easyui-datagrid" style="width:1200px;height:450px" url="Action/usuarioAdmin/listar_Menu.php" toolbar="#toolbar-menu" pagination="true" rownumbers="true" fitColumns="true" singleSelect="true">
+<table id="dg-menu" title="Administrador de Menu" class="easyui-datagrid" style="width:1200px;height:450px" url="Action/usuarioAdmin/listar_Menu.php" toolbar="#toolbar-menu" fitColumns="true" singleSelect="true">
     <thead>
         <tr>
             <th field="idmenu" width="60">ID</th>
