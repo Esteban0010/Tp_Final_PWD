@@ -52,10 +52,10 @@ if ($resp) {
             <span class="me-3"><a href="menu.php" class="text-decoration-none" data-options="plain:true">Hogar</a></span>
 
             <span class="me-3"><a href="productos.php" class="text-decoration-none" data-options="plain:true">Productos</a></span>
-            
+
             <input class="easyui-searchbox" data-options="prompt:'Buscar Producto...',searcher:doSearch" style="width:50%;">
             <!-- <a href="iniciar_sesion.php" class="easyui-linkbutton" data-options="plain:true">Iniciar Sesion</a> -->
-            
+
             <span class="me-3"><a class="text-decoration-none" href="Action/actionVerificarLogin.php?accion=cerrar">Cerrar Sesion</a></span>
 
             <span class="me-3"><a href="carrito.php" class="text-decoration-none" class="easyui-linkbutton" data-options="plain:true">Carrito</a></span>

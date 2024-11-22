@@ -43,7 +43,7 @@ class Session
         if (count($objUsuario) > 0) {
             $usuario = $objUsuario[0];
             verEstructura($usuario);
-            if (md5($psw) <> $usuario->getPassword()) {
+            if (md5($psw) === $usuario->getPassword()) {
                 $_SESSION['idusuario'] = $usuario->getId();
 
                 $resp = true;

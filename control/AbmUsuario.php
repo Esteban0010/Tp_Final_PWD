@@ -57,9 +57,16 @@ class AbmUsuario
         $resp = false;
         $param['idusuario'] = null;
         $objAbmUsuario = $this->cargarObjeto($param);
-        if ($objAbmUsuario != null && $objAbmUsuario->insertar()) {
+        $nombre = $objAbmUsuario->getNombre();
+        $arrayNombres = $this->buscar(['usnombre' => $nombre]);
+        // echo "<script>console.log(" . json_encode($listadoArray) . ");</script>";
+
+        // si existe objambusuario con el mismo nombre no debería de entrar
+        if (count($arrayNombres) < 1 && $objAbmUsuario != null && $objAbmUsuario->insertar()) {
             //$resp = $objAbmUsuario;
             $resp = true;
+        } else {
+            $resp = false;
         }
         return $resp;
     }

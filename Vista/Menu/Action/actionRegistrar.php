@@ -10,11 +10,16 @@ if (isset($datos)) {
     $objAbmRol = new AbmRol();
     $objAbmUsuario = new AbmUsuario();
     $objAbmUsuarioRol = new AbmUsuarioRol();
-    $datos['uspass'] = md5($datos['uspass']);
 
+    $datos['uspass'] = md5($datos['uspass']);
     $res1 = $objAbmRol->alta($datos);     // carga al objeto y sube los daots a la BD
     $res2 = $objAbmUsuario->alta($datos); // carga al objeto y sube los daots a la BD
-
+    if ($res2 <> true) {
+        $mensajeRegistro = [
+            'respuesta' => false,
+            'redirect' => 'registrarse.php'
+        ];
+    }
     if ($res1 && $res2) {
         $colObjUsuario = $objAbmUsuario->darArray(null); //obtenie una col de objetos de usuarios
         $colObjRol = $objAbmRol->darArray(null);         //obtenie una col de objetos de roles
@@ -35,17 +40,27 @@ if (isset($datos)) {
         $res3 = $objAbmUsuarioRol->alta($nuevaColObjRol); // se agregan los datos del objeto usuarioRol en la BD
 
         if ($res1 && $res2 && $res3) { // dar mensaje para el h1 de titulo
-            $mensaje = "Usuario Registrado!";
+            $mensajeRegistro = [
+                'respuesta' => true,
+                'redirect' => 'iniciar_sesion.php'
+            ];
         } else {
-            $mensaje = "Ups, Usuario No Registrado!";
+            $mensajeRegistro = [
+                'respuesta' => false,
+                'redirect' => 'registrarse.php'
+            ];
         }
     } else {
-        $mensaje = "Ups, No Hay Datos Enviados!";
+        $mensajeRegistro = [
+            'respuesta' => false,
+            'redirect' => 'registrarse.php'
+        ];
     }
-
-    echo "<div>" . $mensaje . "</div>";
-
-    //esta es una forma con el javascript:
+    ob_clean();
+    echo json_encode($mensajeRegistro);
+    exit();
+}
+ //esta es una forma con el javascript:
     //echo ("<script>location.href = '../login.php';</script>");
 
     // Otra opción sería usar el método header de PHP para redirigir, 
@@ -53,10 +68,8 @@ if (isset($datos)) {
     //header("Location: ../login.php");
 
     // este es fran-----------------------------------------------------
-    header("Location: ../iniciar_sesion.php?msg=" . urlencode($mensaje));
-    exit();
-}
 
+    // header("Location: ../registrarse.php?msg=" . urlencode($mensajeRegistro));
 /*
     Entre el script y el header... Cual es el mejor?
 

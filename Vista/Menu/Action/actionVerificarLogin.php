@@ -1,33 +1,50 @@
 <?php
 include_once("../../../configuracion.php");
-// Llamar a la función para procesar los datos
+
+
+// Llamar a la función para procesar los datos}
 $datos = data_submitted();
-$datos['uspass'] = md5($datos['uspass']);
-//verEstructura($datos);
+
 
 if ($datos['accion'] == "login") {
-    // Iniciar la sesión
-    $session = new Session(); // Esto llama a session_start() en el constructor
-    // $datos['uspass'] = md5($datos['uspass']); //encripta los datos
 
+    $session = new Session();
     $resp = $session->iniciar($datos['usnombre'], $datos['uspass']);
 
     if ($resp) {
-        //echo"<div>si</div>";
-        header("Location: ../paginaSegura.php");
+        $response['respuesta'] = 1;
+        $response['redirect'] = 'paginaSegura.php';
     } else {
-        //echo"<div>no</div>";
-        $mensaje = "Error, usuario o password incorrecto";
-        header("Location: ../iniciar_sesion.php?msg=" . urlencode($mensaje));
+        $response['respuesta'] = 2;
     }
+} elseif ($datos['accion'] == "cerrar") {
+    $objSession = new Session();
+    $objSession->cerrar(); //true 
+    $response['respuesta'] = 3;
+    $response['redirect'] = 'iniciar_sesion.php';
 }
 
-if ($datos['accion'] == "cerrar") {
-    // Cerrar la sesión
-    $objSession = new Session();
-    $respuesta = $objSession->cerrar();
-    if ($respuesta) {
-        $mensaje = "Session Cerrada.";
-        header("Location: ../iniciar_sesion.php?msg=" . urlencode($mensaje));
-    }
-}
+ob_clean();
+echo json_encode($response);
+exit;
+
+
+// if ($datos['accion'] == "login") {
+
+//     $session = new Session();
+//     $resp = $session->iniciar($datos['usnombre'], $datos['uspass']);
+
+//     if ($resp) {
+//         $response['respuesta'] = true;
+//         $response['redirect'] = 'paginaSegura.php';
+//     } else {
+//         $response['respuesta'] = false;
+//     }
+// } elseif ($datos['accion'] == "cerrar") {
+//     $objSession = new Session();
+//     $response['respuesta'] = 'no pongamos nada '; //true 
+//     $response['redirect'] = 'iniciar_sesion.php';
+//     $objSession->cerrar();
+// }
+
+// Limpia el buffer de salida y envía la respuesta JSON

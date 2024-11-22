@@ -264,4 +264,5 @@ function validar() {
   
   // Asigna el valor encriptado de vuelta al campo de entrada
   password.value = encriptado;
+
 }

@@ -4,19 +4,24 @@ include_once "../Estructura/Header.php";
 
 <div class="container d-flex justify-content-center align-items-center" id="container" style="height: 88vh;">
 
-    <form action="Action/actionRegistrar.php" method="POST" class="bg-white p-4 rounded shadow" style="width: 100%; max-width: 400px;">
+    <form id="fm" action="Action/actionRegistrar.php" method="POST" class="bg-white p-4 rounded shadow" style="width: 100%; max-width: 400px;">
 
         <h2 class="text-center mb-2">Registrarse</h2>
 
         <div class="mb-3">
 
             <!-- usnombre -->
-            <label for="usnombre" class="form-label my-1">Nombre de Usuario:</label>
-            <input type="text" id="usnombre" name="usnombre" class="form-control" placeholder="Ingrese un Nombre de Usuario..." required>
-
+            <div>
+                <label for="usnombre" class="form-label my-1">Nombre de Usuario:</label>
+                <input type="text" id="usnombre" name="usnombre" class="form-control" placeholder="Ingrese un Nombre de Usuario..." required>
+                <div class="invalid-feedback">El usuario debe contener solo letras.</div>
+            </div>
             <!-- usmail -->
-            <label for="usmail" class="form-label my-1">Mail:</label>
-            <input type="mail" id="usmail" name="usmail" class="form-control" placeholder="Ingrese un Mail: Mail@a.com..." required>
+            <div>
+                <label for="usmail" class="form-label my-1">Mail:</label>
+                <input type="mail" id="usmail" name="usmail" class="form-control" placeholder="Ingrese un Mail: Mail@a.com..." required>
+                <div class="invalid-feedback">Por favor, ingrese un mail válido. (@)</div>
+            </div>
 
             <!-- rodescripcion -->
             <div hidden>
@@ -28,16 +33,21 @@ include_once "../Estructura/Header.php";
                     <option value="vendedor">Vendedor</option>
                 </select> -->
             </div>
+            <div>
+                <label for="uspass" class="form-label my-1">Password:</label>
+                <input type="password" id="uspass" name="uspass" class="form-control" placeholder="Ingrese un Password..." required>
+                <div class="invalid-feedback">Solo debecontener numeros.</div>
+            </div>
             <!-- uspassword -->
-            <label for="uspass" class="form-label my-1">Password:</label>
-            <input type="text" id="uspass" name="uspass" class="form-control" placeholder="Ingrese un Password..." required>
+
 
             <!-- hidden usdeshabilitado -->
             <input type="hidden" id="usdeshabilitado" name="usdeshabilitado" class="form-control" value="<?php echo '0000-00-00 00:00:00'; ?>">
             <!-- date('Y-m-d H:i:s') -->
         </div>
-
-        <button type="submit" class="btn btn-success w-100">Enviar</button>
+        <div id="mensajeResultado" class="d-none mt-3 "> </div>
+        <!-- botones  -->
+        <button type="button" class="btn btn-success w-100" onclick="guardarCambios()">Enviar</button>
         <div class="my-1"><a class="btn btn-primary w-100" role="button" href="iniciar_sesion.php">Volver</a></div>
 
 
@@ -47,7 +57,7 @@ include_once "../Estructura/Header.php";
 
 
 <!-- js validacion formulario -->
-<!-- <script src="Asets/md5.js"></script> -->
+<script src="../Asets/js/registrarUsuario.js"></script>
 <?php
 include_once "../Estructura/Footer.php";
 ?>
