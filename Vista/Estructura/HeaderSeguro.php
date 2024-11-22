@@ -69,7 +69,7 @@ if ($resp) {
 
             <span class="me-3"><a href="perfilUser.php" class="text-decoration-none" data-options="plain:true">Mi perfil </a></span>
         
-            <span class="me-3"><a href="Deposito/gestionarCompra3.php" class="text-decoration-none" data-options="plain:true">Gestion de Compra</a></span>
+            <span class="me-3"><a href="gestionarCompra3.php" class="text-decoration-none" data-options="plain:true">Gestion de Compra</a></span>
 
             <span class="me-3"><a href="configurarAdmin.php" class="text-decoration-none" data-options="plain:true">Administrador</a></span>
 
