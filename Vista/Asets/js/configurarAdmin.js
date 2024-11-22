@@ -5,7 +5,7 @@ var url;
 function newProducto() {
     $('#dlg').dialog('open').dialog('center').dialog('setTitle', 'Nuevo Producto');
     $('#fm').form('clear');
-    url = 'Action//usuarioAdmin/alta_Producto.php';
+    url = 'Action/usuarioAdmin/alta_Producto.php';
 }
 
 // edita (modificacion)
@@ -14,7 +14,7 @@ function editProducto() {
     if (row) {
         $('#dlg').dialog('open').dialog('center').dialog('setTitle', 'Editar Producto');
         $('#fm').form('load', row);
-        url = 'Action//usuarioAdmin/edit_Producto.php?idproducto=' + row.idproducto;
+        url = 'Action/usuarioAdmin/edit_Producto.php?idproducto=' + row.idproducto;
         //console.log(row.idproducto); // Imprime el valor de url en la consola                
     }
 }
@@ -53,7 +53,7 @@ function destroyProducto() {
     if (row) {
         $.messager.confirm('Confirm', 'Seguro que desea eliminar el Producto?', function (r) {
             if (r) {
-                $.post('Action//usuarioAdmin/eliminar_Producto.php?idproducto=' + row.idproducto, {
+                $.post('Action/usuarioAdmin/eliminar_Producto.php?idproducto=' + row.idproducto, {
                     idproducto: row.id
                 },
                     function (result) {
@@ -90,7 +90,7 @@ function editUsuario() {
         $('#dlg-usuario').dialog('open').dialog('center').dialog('setTitle', 'Editar Usuario');
         $('#fm-usuario').form('load', row);
         //url = 'Action//usuarioAdmin/edit_Usuario.php?idusuario=' + row.idusuario + '&rodescripcion=' + row.rodescripcion;
-        url = 'Action//usuarioAdmin/edit_Usuario.php?idusuario=' + row.idusuario;
+        url = 'Action/usuarioAdmin/edit_Usuario.php?idusuario=' + row.idusuario;
         //console.log(row.idusuario); // Imprime el valor de url en la consola                
     }
 }
@@ -131,7 +131,7 @@ function destroyUsuario() {
     if (row) {
         $.messager.confirm('Confirm', 'Seguro que desea eliminar el Producto?', function (r) {
             if (r) {
-                $.post('Action//usuarioAdmin/eliminar_Usuario.php?idusuario=' + row.idusuario, {
+                $.post('Action/usuarioAdmin/eliminar_Usuario.php?idusuario=' + row.idusuario, {
                     idusuario: row.id
                 },
                     function (result) {
@@ -203,7 +203,7 @@ function editRol() {
         $('#dlg-rol').dialog('open').dialog('center').dialog('setTitle', 'Editar Rol');
         $('#fm-rol').form('load', row);
         //url = 'Action//usuarioAdmin/edit_Usuario.php?idusuario=' + row.idusuario + '&rodescripcion=' + row.rodescripcion;
-        url = 'Action//usuarioAdmin/edit_Rol.php?idrol=' + row.idrol;
+        url = 'Action/usuarioAdmin/edit_Rol.php?idrol=' + row.idrol;
         //console.log(row.idusuario); // Imprime el valor de url en la consola                
     }
 }
