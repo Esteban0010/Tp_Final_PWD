@@ -15,33 +15,14 @@ class AbmMenuRol{
      * @return MenuRol
      */
     private function cargarObjeto($param){
-        $objCompra = null;
+        $objMenuRol = null;
         
-        /*OBSERVACIÓN: Se puede verificar la existencia de las claves que sean necesarias
-        en vez de obligar a cargar todo, esto puede aplicar en caso de que se quiera
-        cargar un objeto del cual no se tengan todos los datos.
-        En este caso se carga todo*/
-        
-        if( 
-        array_key_exists('idmenu', $param) &&
-        array_key_exists('idrol', $param)
-        ){
-            $objMenu = new Menu();
-            $objMenu->setIdmenu($param['idmenu']);
-            $objMenu->cargar();
-
-            $objRol = new Rol();
-            $objRol->setId($param['idrol']);
-            $objRol->cargar();
-
+        if(array_key_exists('idmenu', $param) && array_key_exists('idrol', $param)){
             $objMenuRol = new MenuRol();
-
-            $objMenuRol->setear(
-                $objMenu,
-                $objRol
-            );
+            $objMenuRol->setear($param['idmenu'], $param['idrol']);            
         }
-        return $objCompra;
+        //verEstructuraJson($objMenuRol);
+        return $objMenuRol;
     }
     
     /**
@@ -54,21 +35,10 @@ class AbmMenuRol{
      * @return Compra
      */
     private function cargarObjetoConClave($param){
-        $obj = null;
-        
+        $obj = null;        
         if(isset($param['idmenu']) && isset($param['idrol'])){
-
-            $objMenu = new Menu();
-            $objMenu->setIdmenu($param['idmenu']);
-            $objMenu->cargar();
-
-            $objRol = new Rol();
-            $objRol->setId($param['idrol']);
-            $objRol->cargar();
-
             $obj = new MenuRol();
-
-            $obj->setear($objMenu, $objRol);
+            $obj->setear($param['idmenu'], $param['idrol']);
         }
         return $obj;
     }
@@ -78,11 +48,8 @@ class AbmMenuRol{
      * @param array $param
      * @return boolean
      */
-    private function seteadosCamposClaves($param){
-        $resp = false;
-        if (isset($param['idmenu']) && isset($param['idrol']))
-            $resp = true;
-        return $resp;
+    private function seteadosCamposClaves($param){        
+        return (isset($param['idmenu']) && isset($param['idrol']));
     }
     
     /**
@@ -91,15 +58,14 @@ class AbmMenuRol{
      * @param array $param
      * @return boolean
      */
-    public function alta($param){
-        $resp = false;
-
+    public function alta($param){        
+        //verEstructuraJson($param);
         /*Si el id del objeto tuviera autoincrement en la base de datos entonces los campos claves 
         del mismo deberían setearse en nulos al momento de realizar la insersión*/
         /*$param['idRol'] = null;*/
-
-        $obj = $this->cargarObjeto($param);
-        // verEstructura($obj);
+        $resp = false;
+        $obj = $this->cargarObjeto($param);        
+        //verEstructuraJson($obj);
         if ($obj != null && $obj->insertar()){
             $resp = true;
         }
@@ -166,18 +132,17 @@ class AbmMenuRol{
 
         if ($param <> NULL){
 
-            if  (isset($param['idrol']))
-                $where .= " and idrol = ".$param['idrol'];
-
             if  (isset($param['idmenu']))
-                $where.= " and idmenu = '".$param['idmenu'];
+                $where.= " and idmenu = ". $param['idmenu'];
+
+            if  (isset($param['idrol']))
+                $where .= " and idrol = ". $param['idrol'];            
 
         }
 
         //echo "<br>La condición de busqueda es: ".$where." <br><br>";
-
-        $obj = new MenuRol();
-        $arreglo = $obj->listar($where);
+        //echo "<script>console.log(" . json_encode($where) . ");</script>";
+        $arreglo = MenuRol::listar($where);
 
         return $arreglo;
     }
@@ -215,5 +180,6 @@ class AbmMenuRol{
         $colMenus = null;
     }
 }
+
 
 ?>

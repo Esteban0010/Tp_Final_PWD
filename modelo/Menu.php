@@ -146,6 +146,9 @@ class Menu
                         $objMenuPadre->cargar();
                         $resp = true;
                         $this->setear($row['idmenu'], $row['menombre'], $row['medescripcion'], $objMenuPadre, $row['medeshabilitado']);
+                    } else {                    
+                        $resp = true;
+                        $this->setear($row['idmenu'], $row['menombre'], $row['medescripcion'], null, $row['medeshabilitado']);
                     }
                 }
             }
@@ -255,6 +258,8 @@ class Menu
         if ($parametro != "") {
             $sql .= 'WHERE ' . $parametro;
         }
+        //echo "<script>console.log(" . json_encode($sql) . ");</script>";
+
         $res = $base->Ejecutar($sql);
         if ($res > -1) {
             if ($res > 0) {

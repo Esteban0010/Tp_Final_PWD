@@ -138,8 +138,9 @@
                     } else {
 
                         $('#dlg-usuario').dialog('close'); // close the dialog
-                        $('#dg-rol').datagrid('reload'); // reload 
-                        $('#dg-usuario').datagrid('reload'); // reload                         
+                        $('#dg-usuario').datagrid('reload'); // reload usaurio
+                        $('#dg-rol').datagrid('reload'); // reload rol                                            
+                        $('#dg-menu').datagrid('reload'); // reload menu
                     }
                 }
             });

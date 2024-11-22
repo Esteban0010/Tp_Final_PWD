@@ -163,8 +163,7 @@ class UsuarioRol{
             
             if ($res > 0) {
                 while ($row = $base->Registro()) {  
-                    
-                    
+
                     $objUsuario = new Usuario(); 
                     $objUsuario->setId($row['idusuario']); 
                     $objUsuario->cargar();

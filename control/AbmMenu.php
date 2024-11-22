@@ -40,7 +40,7 @@ class AbmMenu
                 $obj->setear(null, $param['menombre'], $param['medescripcion'], $objmenu, $param['medeshabilitado']);
             }            
 
-            verEstructuraJson($obj);
+            //verEstructuraJson($obj);
         }
         return $obj;
     }
@@ -161,7 +161,7 @@ class AbmMenu
             }
 
             if  (isset($param['menombre'])){
-                $where.=" and menombre =".$param['menombre'];
+                $where.=" and menombre = '".$param['menombre'] . "'";
             }
                 
             if  (isset($param['medescripcion'])){
@@ -169,7 +169,7 @@ class AbmMenu
             } 
 
             if  (isset($param['idpadre'])){
-                $where.=" and idpadre ='".$param['idpadre']."'";
+                $where.=" and idpadre =".$param['idpadre']."";
             } 
 
             if  (isset($param['medeshabilitado'])){
@@ -177,7 +177,9 @@ class AbmMenu
             }
             /* no comprobe si funciona buscar($param) */    
         }
+        //echo "<script>console.log(" . json_encode($where) . ");</script>";
         $arreglo = Menu::listar($where);
         return $arreglo;
     }
+    
 }

@@ -30,25 +30,15 @@ class MenuRol
         $this->setObjRol($objRol);
     }
 
-    //MÉTODOS GET Y SET
+    // GET 
     public function getObjMenu()
     {
         return $this->objMenu;
-    }
-
-    public function setObjMenu($objMenu)
-    {
-        $this->objMenu = $objMenu;
-    }
+    }    
 
     public function getObjRol()
     {
         return $this->objRol;
-    }
-
-    public function setObjRol($objRol)
-    {
-        $this->objRol = $objRol;
     }
 
     public function getMensajeoperacion()
@@ -56,23 +46,23 @@ class MenuRol
         return $this->mensajeoperacion;
     }
 
+
+    // SET
+    public function setObjMenu($objMenu)
+    {
+        $this->objMenu = $objMenu;
+    }
+
+    public function setObjRol($objRol)
+    {
+        $this->objRol = $objRol;
+    }   
+
     public function setMensajeoperacion($mensajeoperacion)
     {
         $this->mensajeoperacion = $mensajeoperacion;
     }
 
-   
-    //metodos
-
-    /**CREATE TABLE `menurol` (
-        `idmenu` bigint(20) NOT NULL,
-        `idrol` bigint(20) NOT NULL,
-        PRIMARY KEY  (`idmenu`,`idrol`),
-        FOREIGN KEY (`idmenu`) REFERENCES `menu`(`idmenu`) ON UPDATE CASCADE,
-        FOREIGN KEY (`idrol`) REFERENCES `rol`(`idrol`) ON UPDATE CASCADE
-    ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-    */
-    //cargar
     public function cargar()
     {
         $resp = false;
@@ -91,19 +81,19 @@ class MenuRol
                     $row = $base->Registro();
 
                     $objMenu = new Menu();
-                    $objMenu->setIdMenu($row['idmenu']);
-                    $objMenu->cargar();
-
                     $objRol = new Rol();
-                    $objRol->setIdRol($row['idrol']);
-                    $objRol->cargar();
 
-                    $this->setear($objMenu, $objRol);
-
+                    $objidMenu = $objMenu->setIdMenu($row['idmenu']);
+                    $objidRol = $objRol->setIdRol($row['idrol']);
+                    
+                    if($objMenu->cargar() && $objRol->cargar()){
+                        $this->setear($objidMenu, $objidRol);
+                        $resp = true;
+                    }                    
                 }
             }
         } else {
-            $this->setmensajeoperacion("MenuRol->listar: " . $base->getError());
+            $this->setmensajeoperacion("MenuRol->cargar: " . $base->getError());
         }
         return $resp;
     }
@@ -124,10 +114,10 @@ class MenuRol
 
                 $resp = true;
             } else {
-                $this->setmensajeoperacion("MenuRol->listar: " . $base->getError()[2]);
+                $this->setmensajeoperacion("MenuRol->insertar: " . $base->getError()[2]);
             }
         } else {
-            $this->setmensajeoperacion("MenuRol->listar: " . $base->getError()[2]);
+            $this->setmensajeoperacion("MenuRol->insertar: " . $base->getError()[2]);
         }
         return $resp;
     }
@@ -147,10 +137,10 @@ class MenuRol
             if ($base->Ejecutar($sql)) {
                 $resp = true;
             } else {
-                $this->setmensajeoperacion("MenuRol->listar: " . $base->getError());
+                $this->setmensajeoperacion("MenuRol->modificar: " . $base->getError());
             }
         } else {
-            $this->setmensajeoperacion("MenuRol->listar: " . $base->getError());
+            $this->setmensajeoperacion("MenuRol->modificar: " . $base->getError());
         }
         return $resp;
     }
@@ -169,10 +159,10 @@ class MenuRol
             if ($base->Ejecutar($sql)) {
                 return true;
             } else {
-                $this->setmensajeoperacion("MenuRol->listar: " . $base->getError());
+                $this->setmensajeoperacion("MenuRol->eliminar: " . $base->getError());
             }
         } else {
-            $this->setmensajeoperacion("MenuRol->listar: " . $base->getError());
+            $this->setmensajeoperacion("MenuRol->eliminar: " . $base->getError());
         }
         return $resp;
     }
@@ -186,6 +176,7 @@ class MenuRol
         if ($parametro != "") {
             $sql .= " WHERE " . $parametro;
         }
+        //echo "<script>console.log(" . json_encode($sql) . ");</script>";
         $res = $base->Ejecutar($sql);
         if ($res > -1) {
             if ($res > 0) {
@@ -206,6 +197,8 @@ class MenuRol
                     array_push($arreglo, $obj);
                 }
             }
+        } else {
+            throw new Exception("MenuRol->listar: " . $base->getError());
         }
 
         return $arreglo;
