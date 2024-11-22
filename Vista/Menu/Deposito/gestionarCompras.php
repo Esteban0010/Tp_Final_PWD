@@ -30,13 +30,15 @@ include_once("../../../configuracion.php");
     $objCompraItem = new AbmCompraItem();
     $objProducto = new AbmProducto();
     $listaCompra = $objAbmCompra->buscar(null);
+    $total = 0;
 
     if (count($listaCompra) > 0) {
         echo '<table id="dg" class="table table-bordered table-striped" style="width:100%;">';
         echo '<thead class="table-dark">
                 <tr>
                     <th>ID Compra</th>
-                    <th>Fecha</th>
+                    <th>Fecha Inicial</th>
+                    <th>Fecha Fin</th>
                     <th>Estado</th>
                     <th>Productos</th>
                     <th>Acciones</th>
@@ -47,7 +49,7 @@ include_once("../../../configuracion.php");
         foreach ($listaCompra as $objCompra) {
             $idCompra['idcompra'] = $objCompra->getIdCompra();
             $estadoCompra = $objAbmEstado->buscar($idCompra);
-            $tipoEstado = 'Sin estado';
+            $tipoEstado = ' ';
 
             // Buscar estado actual
             foreach ($estadoCompra as $estado) {
@@ -61,7 +63,6 @@ include_once("../../../configuracion.php");
             $listaCompraItem = $objCompraItem->buscar($idCompra);
             $itemsHtml = '';
             $total = 0;
-
             if (count($listaCompraItem) > 0) {
                 $itemsHtml = '<table class="table table-sm">';
                 $itemsHtml .= '<thead>
@@ -101,8 +102,12 @@ include_once("../../../configuracion.php");
             // Acciones según estado
             $accionesHtml = '';
             if ($tipoEstado == 'iniciada') {
-                $accionesHtml = '<a href="action/aceptarCompra.php?idcompra=' . $objCompra->getIdCompra() . '" class="btn btn-success btn-sm">Aceptar</a>
-                                 <a href="action/cancelarCompra.php?idcompra=' . $objCompra->getIdCompra() . '" class="btn btn-danger btn-sm">Cancelar</a>';
+                $accionesHtml = '<button class="btn btn-success btn-sm actualizar-estado" 
+                                         data-idcompra="' . $objCompra->getIdCompra() . '" 
+                                         data-estado="aceptada">Aceptar</button>
+                                 <button class="btn btn-danger btn-sm actualizar-estado" 
+                                         data-idcompra="' . $objCompra->getIdCompra() . '" 
+                                         data-estado="cancelada">Cancelar</button>';
             } elseif ($tipoEstado == 'aceptada') {
                 $accionesHtml = '<a href="action/enviarCompra.php?idcompra=' . $objCompra->getIdCompra() . '" class="btn btn-primary btn-sm">Enviar</a>
                                  <a href="action/cancelarCompra.php?idcompra=' . $objCompra->getIdCompra() . '" class="btn btn-danger btn-sm">Cancelar</a>';
@@ -115,6 +120,7 @@ include_once("../../../configuracion.php");
             echo '<tr>
                     <td>' . $objCompra->getIdCompra() . '</td>
                     <td>' . $objCompra->getCoFecha() . '</td>
+                    <td>' . $estado->getCeFechaFin() . '</td>
                     <td>' . ucfirst($tipoEstado) . '</td>
                     <td>' . $itemsHtml . '</td>
                     <td>' . $accionesHtml . '</td>
@@ -127,4 +133,35 @@ include_once("../../../configuracion.php");
     }
     ?>
     </div>
+
+    <script>
+    $(document).ready(function() {
+        $(".actualizar-estado").click(function() {
+            let idCompra = $(this).data("idcompra");
+            let nuevoEstado = $(this).data("estado");
+
+            $.ajax({
+                url: "accion/actualizarEstadoCompra.php", // Ruta al script de servidor
+                type: "POST",
+                data: {
+                    idcompra: idCompra,
+                    estado: nuevoEstado
+                },
+                success: function(response) {
+                    // Actualizar la tabla o notificar al usuario
+                    let data = JSON.parse(response);
+                    if (data.success) {
+                        alert("Estado actualizado correctamente.");
+                        location.reload(); // Recargar la página para reflejar los cambios
+                    } else {
+                        alert("Error al actualizar el estado: " + data.message);
+                    }
+                },
+                error: function() {
+                    alert("Error al procesar la solicitud.");
+                }
+            });
+        });
+    });
+    </script>
 </body>
