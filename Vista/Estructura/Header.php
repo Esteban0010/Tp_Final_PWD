@@ -29,17 +29,18 @@
     <!-- class="me-3" | text-decoration-none -->
 
     <header>
-        <nav class="navbar navbar-expand-lg bg-white" style="width:100%; border: 1px solid black;">
+        <nav class="navbar navbar-expand-lg bg-white easyui-linkbutton" style="width:100%;">
+            
             <span class="me-3"><a href="menu.php" class="text-decoration-none" data-options="plain:true">Hogar</a></span>
 
-            <span class="me-3"><a href="productos.php" class="text-decoration-none" data-options="plain:true">Productos</a> </span>
+            <span class="me-3"><a href="productos.php" class="text-decoration-none" data-options="plain:true">Productos</a></span>
 
             <!-- input busqueda -->
-            <span class="me-3"><input class="easyui-searchbox" data-options="prompt:'Buscar Producto...',searcher:doSearch"></span>
+            <input class="easyui-searchbox" data-options="prompt:'Buscar Producto...',searcher:doSearch" style="width:50%;">
 
             <span class="me-3"><a href="iniciar_sesion.php" class="text-decoration-none" data-options="plain:true">Iniciar Sesion</a></span>
 
-            <span class="me-3"><a href="carrito.php" class="text-decoration-none" data-options="plain:true">Carrito</a></span>
+            <span class="me-3"><a href="carrito.php" class="text-decoration-none" class="easyui-linkbutton" data-options="plain:true">Carrito</a></span>
 
         </nav>
     </header>
