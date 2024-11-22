@@ -24,10 +24,11 @@ if ($datos['accion'] == "login") {
     }
 } elseif ($datos['accion'] == "cerrar") {
     $objSession = new Session();
+    $objSession->cerrar();
     // $response['respuesta'] =  //true 
     //     $response['redirect'] = 'iniciar_sesion.php';
     $response = [
-        'respuesta' => $objSession->cerrar(),
+        'respuesta' => 'cerrar',
         'redirect' => 'iniciar_sesion.php'
     ];
 }

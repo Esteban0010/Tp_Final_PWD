@@ -80,7 +80,12 @@ function guardarCambios() {
               .html('<i class="bi bi-exclamation-circle me-2"></i> Error, contraseña o usario erroneos.');
                 // window.location.href = response.redirect;
     
-      }
+      } else if (response.respuesta === "cerrar" && response.redirect) {
+        mensajeResultado
+            .addClass('alert alert-primary')
+            .html('<i class="bi bi-exclamation-circle me-2"></i> Sesión cerrada correctamente.');
+        window.location.href = response.redirect;
+    }
              mensajeResultado.removeClass('d-none');
     
     }
