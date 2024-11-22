@@ -60,12 +60,12 @@ CREATE TABLE `compra` (
 
 -- --------------------------------------------------------
 
-CREATE TABLE `compraestadotipo` ( /* yo, fran, le agregue AUTO_INCREMENT al `idcompraestadotipo` para simplificar el trabajo*/    
-    `idcompraestadotipo` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `compraestadotipo` (     
+    `idcompraestadotipo` int(11) NOT NULL,
     `cetdescripcion` varchar(50) NOT NULL,
     `cetdetalle` varchar(256) NOT NULL,
     PRIMARY KEY (`idcompraestadotipo`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
