@@ -64,8 +64,9 @@ if (isset($datos)) {
         $objAbmMenuRolHogar = new AbmMenuRol();
         $colMenuHogar = $objAbmMenuHogar->buscar($arrayHogar);
         $contador1 = count($colMenuHogar) - 1;
+        $contadorRol1 = count($objRol) - 1;
         $colMenuHogar[$contador1]; // obtiene el ultimo objeto del menu 
-        $respMeRolHogar = $objAbmMenuRolHogar->alta(["idmenu" => $colMenuHogar[$contador1], "idrol" => $objRol[0]]);
+        $respMeRolHogar = $objAbmMenuRolHogar->alta(["idmenu" => $colMenuHogar[$contador1], "idrol" => $objRol[$contadorRol1]]);                                        
 
         //echo "<script>console.log(" . json_encode($contador1) . ");</script>";
         //verEstructuraJson($colMenuHogar[$contador1]);
@@ -75,29 +76,30 @@ if (isset($datos)) {
         $objAbmMenuRolProdcutos = new AbmMenuRol();
         $colMenuProductos = $objAbmMenuProductos->buscar($arrayProductos);
         $contador2 = count($colMenuProductos) - 1;
+        $contadorRol2 = count($objRol) - 1;
         $colMenuProductos[$contador2]; // obtiene el ultimo objeto del menu 
-        $respMeRolProducto = $objAbmMenuRolProdcutos->alta(["idmenu" => $colMenuProductos[$contador2], "idrol" => $objRol[0]]);
-
-
+        $respMeRolProducto = $objAbmMenuRolProdcutos->alta(["idmenu" => $colMenuProductos[$contador2], "idrol" => $objRol[$contadorRol2]]);
+        
         $objAbmMenuRolMiPerfil = new AbmMenuRol();
         $colMenuMiPerfil = $objAbmMenuMiPerfil->buscar($arrayMiPerfil);
         $contador3 = count($colMenuMiPerfil) - 1;
+        $contadorRol3 = count($objRol) - 1;
         $colMenuMiPerfil[$contador3]; // obtiene el ultimo objeto del menu
-        $respMeRolMiperfil = $objAbmMenuRolMiPerfil->alta(["idmenu" => $colMenuMiPerfil[$contador3], "idrol" => $objRol[0]]);
-
+        $respMeRolMiperfil = $objAbmMenuRolMiPerfil->alta(["idmenu" => $colMenuMiPerfil[$contador3], "idrol" => $objRol[$contadorRol3]]);
 
         $objAbmMenuRolCarrito = new AbmMenuRol();
         $colMenuCarrito = $objAbmMenuCarrito->buscar($arrayCarrito);
         $contador4 = count($colMenuCarrito) - 1;
+        $contadorRol4 = count($objRol) - 1;
         $colMenuCarrito[$contador4]; // obtiene el ultimo objeto del menu 
-        $respMeRolCarrito = $objAbmMenuRolCarrito->alta(["idmenu" => $colMenuCarrito[$contador4], "idrol" => $objRol[0]]);
-
+        $respMeRolCarrito = $objAbmMenuRolCarrito->alta(["idmenu" => $colMenuCarrito[$contador4], "idrol" => $objRol[$contadorRol4]]);
 
         $objAbmMenuRolCerrarSesion = new AbmMenuRol();
         $colMenuCerrarSesion = $objAbmMenuCerrarSesion->buscar($arrayMenuCerrarSesion);
         $contador5 = count($colMenuCerrarSesion) - 1;
+        $contadorRol5 = count($objRol) - 1;
         $colMenuCerrarSesion[$contador5]; // obtiene el ultimo objeto del menu 
-        $respMeRolCerrarSesion = $objAbmMenuRolCerrarSesion->alta(["idmenu" => $colMenuCerrarSesion[$contador5], "idrol" => $objRol[0]]);
+        $respMeRolCerrarSesion = $objAbmMenuRolCerrarSesion->alta(["idmenu" => $colMenuCerrarSesion[$contador5], "idrol" => $objRol[$contadorRol5]]);                    
 
 
         if ($res1 && $res2 && $res3) { // dar mensaje para el h1 de titulo
