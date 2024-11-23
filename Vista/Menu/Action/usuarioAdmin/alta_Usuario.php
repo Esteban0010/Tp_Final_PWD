@@ -51,19 +51,17 @@ if (isset($data['usnombre'])) {
         $respuestaCarrito = $objAbmMenuCarrito->alta($arrayCarrito);
         $respuestaCerrarSesion = $objAbmMenuCerrarSesion->alta($arrayMenuCerrarSesion);
 
-
-
         /* ========== parte de menurol ===========*/
         $objAbmMenuRolHogar = new AbmMenuRol();
         $colMenuHogar = $objAbmMenuHogar->buscar($arrayHogar);
         $contador1 = count($colMenuHogar) - 1;
         $colMenuHogar[$contador1]; // obtiene el ultimo objeto del menu 
-        $respMeRolHogar = $objAbmMenuRolHogar->alta(["idmenu" => $colMenuHogar[$contador1], "idrol" => $objRol[0]]);
-
-        //echo "<script>console.log(" . json_encode($contador1) . ");</script>";
-        //verEstructuraJson($colMenuHogar[$contador1]);
+        $respMeRolHogar = $objAbmMenuRolHogar->alta(["idmenu" => $colMenuHogar[$contador1], "idrol" => $objRol[0]]); 
+        
+        //echo "<script>console.log(" . json_encode('objeto rol') . ");</script>";
         //verEstructuraJson($objRol[0]);
-
+        //echo "<script>console.log(" . json_encode('objeto usuario') . ");</script>";
+        //verEstructuraJson($colMenuHogar[$contador1]);
 
         $objAbmMenuRolProdcutos = new AbmMenuRol();
         $colMenuProductos = $objAbmMenuProductos->buscar($arrayProductos);

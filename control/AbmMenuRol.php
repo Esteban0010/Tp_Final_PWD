@@ -65,7 +65,7 @@ class AbmMenuRol{
         /*$param['idRol'] = null;*/
         $resp = false;
         $obj = $this->cargarObjeto($param);        
-        verEstructuraJson($obj);
+        //verEstructuraJson($obj);
         if ($obj != null && $obj->insertar()){
             $resp = true;
         }
