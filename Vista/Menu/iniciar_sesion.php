@@ -27,7 +27,12 @@ $datos = data_submitted();
         
         <div id="mensajeResultado" class="d-none mt-3"> </div>
         <!-- botones  -->
-        <button  type="button" class="btn btn-success w-100" onclick="guardarCambios()">Enviar</button>
+
+        <!-- 
+        submit | onclick="guardarCambios()"
+        -->
+
+        <button  type="button" class="btn btn-success w-100" onclick="guardarCambios()" >Enviar</button>
         <div class="my-1">
             <a class="btn btn-primary w-100" role="button" href="registrarse.php?">Registrarse</a>
         </div>

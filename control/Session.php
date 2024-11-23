@@ -43,6 +43,7 @@ class Session
         if (count($objUsuario) > 0) {
             $usuario = $objUsuario[0];
             //verEstructura($objUsuario); 
+            $this->getRol();
             //verEstructura($this->getRol());           
             $_SESSION['idusuario'] = $usuario->getId();
             $resp = true;
@@ -114,12 +115,14 @@ class Session
             //$objUsuario = new AbmUsuario();
             //$param['id'] = $_SESSION['idusuario'];
             //$resultado = $objUsuario->buscar($param);
-            $objRol = new Abmrol();
-            $parametro['idusuario'] = $_SESSION['idusuario'];
-            $resultado2 = $objRol->buscar($parametro);
-            $contador = count($resultado2)-1;            
-            if (count($resultado2) > 0) {
-                $list_rol = $resultado2[$contador];
+            $objRol = new Abmrol();            
+            $parametro['idrol'] = $_SESSION['idusuario'];
+            //echo "<div>". $_SESSION['idusuario'] . "</div>";
+
+            $objRol = $objRol->buscar($parametro);
+            //verEstructura($objRol[0]);                    
+            if (count($objRol) > 0) {
+                $list_rol = $objRol[0];
             }
         }
         return $list_rol;

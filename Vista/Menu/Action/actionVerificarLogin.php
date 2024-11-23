@@ -4,7 +4,10 @@ include_once("../../../configuracion.php");
 
 // Llamar a la función para procesar los datos}
 $datos = data_submitted();
-$datos['uspass'] = md5($datos['uspass']); //encripta los datos
+if(isset($datos['uspass'])){
+    $datos['uspass'] = md5($datos['uspass']); //encripta los datos
+}
+
 //verEstructura($datos);
 
 if ($datos['accion'] == "login") {

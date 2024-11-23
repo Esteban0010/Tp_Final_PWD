@@ -147,39 +147,5 @@ class AbmMenuRol{
         return $arreglo;
     }
 
-    /**
-     * Recibe un arreglo indexado que contiene los criterios de busqueda
-     * Devuelve un arreglo con la información de todos los objetos que cumplan la condición
-     * recibida por parámetro
-     * 
-     * @param array $param
-     * @return array
-     */
-    public function buscarColInfo($param){
-    
-        $colObjeMenus = $this->buscar($param);
-
-        $colObjMenusUSuario = array();
-        if (count($arregloObj) > 0){
-
-            foreach($colObjeMenus as $menu){
-                // if($colObjeMenus->){
-                //     $colObjMenusUSuario 
-                // }
-            }
-
-            // for ($i = 0; $i < count($arregloObj); $i++){
-            //     $colInfo[$i] = $arregloObj[$i]->obtenerInfo();
-            // }
-        }
-
-        return $colInfo;
-    }
-
-    public function obtenerColMenus($rol){
-        $colMenus = null;
-    }
 }
-
-
 ?>
