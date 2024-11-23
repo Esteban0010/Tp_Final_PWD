@@ -39,10 +39,10 @@ if (isset($data['usnombre'])) {
         $objAbmMenuCarrito = new AbmMenu();
         $objAbmMenuCerrarSesion = new AbmMenu();
 
-        $arrayHogar = ["idmenu" => null, "menombre" => "Hogar", "medescripcion" => "menu.php", "idpadre" => null, "medeshabilitado" => "0000-00-00 00:00:00"];
-        $arrayProductos = ["idmenu" => null, "menombre" => "Productos", "medescripcion" => "productos.php", "idpadre" => null, "medeshabilitado" => "0000-00-00 00:00:00"];
+        $arrayHogar = ["idmenu" => null, "menombre" => "Hogar", "medescripcion" => "menuSeguro.php", "idpadre" => null, "medeshabilitado" => "0000-00-00 00:00:00"];
+        $arrayProductos = ["idmenu" => null, "menombre" => "Productos", "medescripcion" => "productosSeguro.php", "idpadre" => null, "medeshabilitado" => "0000-00-00 00:00:00"];
         $arrayMiPerfil = ["idmenu" => null, "menombre" => "Mi Perfil", "medescripcion" => "perfilUser.php", "idpadre" => null, "medeshabilitado" => "0000-00-00 00:00:00"];
-        $arrayCarrito = ["idmenu" => null, "menombre" => "Carrito", "medescripcion" => "carrito.php", "idpadre" => null, "medeshabilitado" => "0000-00-00 00:00:00"];
+        $arrayCarrito = ["idmenu" => null, "menombre" => "Carrito", "medescripcion" => "carritoSeguro.php", "idpadre" => null, "medeshabilitado" => "0000-00-00 00:00:00"];
         $arrayMenuCerrarSesion = ["idmenu" => null, "menombre" => "Cerrar Sesion", "medescripcion" => "Action/actionVerificarLogin.php?accion=cerrar", "idpadre" => null, "medeshabilitado" => "0000-00-00 00:00:00"];
 
         $respuestaHogar = $objAbmMenuHogar->alta($arrayHogar);
