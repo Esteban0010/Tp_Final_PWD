@@ -156,26 +156,26 @@ class AbmMenuRol{
      * @return array
      */
     public function buscarColInfo($param){
+    
+        $colObjeMenus = $this->buscar($param);
 
-        $colInfo = array();
-        $arregloObj = $this->buscar($param);
-
+        $colObjMenusUSuario = array();
         if (count($arregloObj) > 0){
 
-            for ($i = 0; $i < count($arregloObj); $i++){
-                $colInfo[$i] = $arregloObj[$i]->obtenerInfo();
+            foreach($colObjeMenus as $menu){
+                // if($colObjeMenus->){
+                //     $colObjMenusUSuario 
+                // }
             }
+
+            // for ($i = 0; $i < count($arregloObj); $i++){
+            //     $colInfo[$i] = $arregloObj[$i]->obtenerInfo();
+            // }
         }
 
         return $colInfo;
     }
 
-    /**
-     * Devuelve una colección de Menus según el id de rol recibido
-     * 
-     * @param int
-     * @return array
-     */
     public function obtenerColMenus($rol){
         $colMenus = null;
     }
