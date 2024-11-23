@@ -37,24 +37,18 @@ class Session
 
         // Buscar al usuario por nombre
         $param['usnombre'] = $nombreUsuario;
+        $param['uspass'] = $psw;
         $param['usdeshabilitado'] = '0000-00-00 00:00:00'; // Verifica que el usuario no esté deshabilitado
         $objUsuario = $obj->buscar($param);
-
         if (count($objUsuario) > 0) {
             $usuario = $objUsuario[0];
-            verEstructura($usuario);
-            if (md5($psw) === $usuario->getPassword()) {
-                $_SESSION['idusuario'] = $usuario->getId();
-
-                $resp = true;
-            } else {
-                // Contraseña incorrecta
-                $this->cerrar();
-            }
+            //verEstructura($objUsuario); 
+            //verEstructura($this->getRol());           
+            $_SESSION['idusuario'] = $usuario->getId();
+            $resp = true;
         } else {
             $this->cerrar();
         }
-
         return $resp;
     }
 
@@ -123,8 +117,9 @@ class Session
             $objRol = new Abmrol();
             $parametro['idusuario'] = $_SESSION['idusuario'];
             $resultado2 = $objRol->buscar($parametro);
+            $contador = count($resultado2)-1;            
             if (count($resultado2) > 0) {
-                $list_rol = $resultado2[0];
+                $list_rol = $resultado2[$contador];
             }
         }
         return $list_rol;

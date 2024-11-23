@@ -23,14 +23,11 @@ $datos = data_submitted();
                 <div class="invalid-feedback"> Debe ingresar sus datos</div>
             </div>
             <input type="hidden" id="accion" name="accion" value="login">
-            <!-- hidden -->
-            <!-- <input type="hidden" id="deshabilitado" name="deshabilitado" class="form-control" value="<?php //echo '0000-00-00 00:00:00'; 
-                                                                                                            ?>"> -->
-            <!-- date('Y-m-d H:i:s') -->
         </div>
+        
         <div id="mensajeResultado" class="d-none mt-3"> </div>
         <!-- botones  -->
-        <button type="button" class="btn btn-success w-100" onclick="guardarCambios()">Enviar</button>
+        <button  type="button" class="btn btn-success w-100" onclick="guardarCambios()">Enviar</button>
         <div class="my-1">
             <a class="btn btn-primary w-100" role="button" href="registrarse.php?">Registrarse</a>
         </div>

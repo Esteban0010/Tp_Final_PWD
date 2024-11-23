@@ -91,13 +91,12 @@ if (isset($data['usnombre'])) {
         $respMeRolCerrarSesion = $objAbmMenuRolCerrarSesion->alta(["idmenu" => $colMenuCerrarSesion[$contador5], "idrol" => $objRol[0]]);
 
         if ($data['rodescripcion'] == 'deposito'){
-            /* ========== parte de menu ===========*/
+            /* ========== parte de menu de deposito ===========*/
             $objAbmMenuDeposito = new AbmMenu();
-            $arrayMenuDeposito = ["idmenu" => null, "menombre" => "Gestion de Compras", "medescripcion" => "Deposito/gestionarCompras.php", "idpadre" => null, "medeshabilitado" => "0000-00-00 00:00:00"];
+            $arrayMenuDeposito = ["idmenu" => null, "menombre" => "Gestion de Compras", "medescripcion" => "gestionarCompra3.php", "idpadre" => null, "medeshabilitado" => "0000-00-00 00:00:00"];
             $respuestaDeposito = $objAbmMenuDeposito->alta($arrayMenuDeposito);
             
-            /* ========== parte de menurol ===========*/
-
+            /* ========== parte de menurol de deposito ===========*/
             $objAbmMenuRolDeposito = new AbmMenuRol();
             $colMenuDeposito = $objAbmMenuDeposito->buscar($arrayMenuDeposito);
             $contador6 = count($colMenuDeposito) - 1;
