@@ -16,13 +16,15 @@ class CompraItem
         $this->cantidad = ""; 
     }
 
-    public function setear($idCompraItem, $objProducto, $objCompra, $cantidad) {
-        $this->idCompraItem = $idCompraItem;
-        $this->objProducto = $objProducto;
-        $this->objCompra = $objCompra;
-        $this->cantidad = $cantidad;
+    public function setear($idCompraItem, $idProducto, $idCompra, $cantidad)
+    {
+        $this->objProducto->setIdProducto($idProducto);
+        $this->objCompra->setIdCompra($idCompra);
+        $this->setIdCompraItem($idCompraItem);
+        $this->setCantidad($cantidad);
+        $this->objProducto->cargar();
+        $this->objCompra->cargar();
     }
-
 
     public function setIdCompraItem($idCompraItem)
     {

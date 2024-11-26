@@ -1,14 +1,41 @@
 <?php
-include_once ('../Estructura/HeaderSeguro.php');
+//include_once ('../Estructura/Header.php');
+include_once "../../configuracion.php";
 
 ?>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>e-commerce seguro</title>
+
+    <!-- css bootstrap 5 -->
+    <link href="../Asets/librerias/bootstrap-5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- css bootstrap 5 -->
+    <link href="../Asets/librerias/bootstrap-5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- js bootstrap 5 -->
+    <script src="../Asets/librerias/bootstrap-5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- jquery-easyui -->
+    <link rel="stylesheet" type="text/css" href="../Asets/librerias/jquery-easyui-1.11.0/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../Asets/librerias/jquery-easyui-1.11.0/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../Asets/librerias/jquery-easyui-1.11.0/themes/color.css">
+    <link rel="stylesheet" type="text/css" href="../Asets/librerias/jquery-easyui-1.11.0/demo/demo.css">
+    <script type="text/javascript" src="../Asets/librerias/jquery-easyui-1.11.0/jquery.min.js"></script>
+    <!-- jquery-3.6.0 (debe estar antes que jquery-easyui-1.11.0) -->
+    <script src="../Asets/librerias/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="../Asets/librerias/jquery-easyui-1.11.0/jquery.easyui.min.js"></script>
+
+</head>
 
 
 <?php
 
-$abmCompraEstado = new ABMCompraEstado();
+$abmCompraEstado = new AbmCompraEstado();
 
-// Obtener todas las compras
+
 $compras = $abmCompraEstado->buscar(null);
 
 // Verificar que haya compras
@@ -31,6 +58,7 @@ echo '<div class="container mt-5">
 
                 foreach ($compras as $compra) {
                 $idCompraEstado = $compra->getIdCompraEstado();
+                $idCompra = $compra->getObjCompra()->getIdCompra();
                 $estadoActual = $compra->getObjCompraEstadoTipo()->getIdCompraEstadoTipo();
                 $fechaInicio = $compra->getCeFechaIni();
                 $fechaFin = $compra->getCeFechaFin();
@@ -52,13 +80,13 @@ echo '<div class="container mt-5">
                 break;
                 }
 
-                // Determinar si hay que deshabilitar los botones
+                //deshabilitar los botones
                 $disabledAceptar = $estadoActual >= 2 ? 'disabled' : '';
                 $disabledEnviar = $estadoActual >= 3 ? 'disabled' : '';
                 $disabledCancelar = $estadoActual == 4 ? 'disabled' : '';
 
                 echo "<tr>
-                    <td>{$idCompraEstado}</td>
+                    <td>{$idCompra}</td>
                     <td>{$estadoTexto}</td>
                     <td>{$fechaInicio}</td>
                     <td>{$fechaFin}</td>
@@ -66,7 +94,8 @@ echo '<div class="container mt-5">
 
                         // Obtener los productos asociados a esta compra
                         $abmCompraItem = new AbmCompraItem();
-                        $listaCompraItem = $abmCompraItem->buscar(['idcompra' => $idCompraEstado]);
+                        $listaCompraItem = $abmCompraItem->buscar(['idcompra' => $idCompra]);
+                        //verEstructura($listaCompraItem);
 
                         if ($listaCompraItem) {
                         $itemsHtml = '<table class="table table-sm table-bordered">

@@ -22,9 +22,9 @@ $(document).ready(function () {
             success: function (response) {
                 // Procesar la respuesta JSON correctamente
                 if (response.mensaje) {
-                    mostrarMsj(response.mensaje, 'success');
+                    mensaje(response.mensaje, 'success');
                 } else {
-                    mostrarMsj("Cambio realizado, pero sin mensaje explícito.", 'warning');
+                    mensaje("Error");
                 }
 
                 //cambiar estado de la tabla
@@ -59,14 +59,25 @@ $(document).ready(function () {
                 }
             },
             error: function () {
-                mostrarMsj("Ocurrió un error al cambiar el estado.", 'danger');
+                mensaje("Ocurrió un error al cambiar el estado.", 'danger');
             }
         });
     });
 });
 
+
+
+
+
+
+
+
+
+
+
+
 //funcion para mostrar msj dinamic
-function mostrarMsj(msj, type) {
+function mensaje(msj, type) {
     var msjDiv = $('<div class="alert alert-' + type + ' alert-dismissible fade show" role="alert"></div>');
     msjDiv.text(msj);
     msjDiv.append(
