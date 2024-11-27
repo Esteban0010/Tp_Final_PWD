@@ -1,6 +1,6 @@
 <?php
 include_once("../../configuracion.php");
-include_once "../Estructura/Header.php";
+include_once "../Estructura/HeaderSeguro.php";
 $datos = data_submitted();
 ?>
 
@@ -24,7 +24,7 @@ $datos = data_submitted();
             </div>
             <input type="hidden" id="accion" name="accion" value="login">
         </div>
-        
+
         <div id="mensajeResultado" class="d-none mt-3"> </div>
         <!-- botones  -->
 
@@ -32,9 +32,9 @@ $datos = data_submitted();
         submit | onclick="guardarCambios()"
         -->
 
-        <button  type="button" class="btn btn-success w-100" onclick="guardarCambios()" >Enviar</button>
+        <button type="button" class="btn btn-success w-100" onclick="guardarCambios()">Enviar</button>
         <div class="my-1">
-            <a class="btn btn-primary w-100" role="button" href="registrarse.php?">Registrarse</a>
+            <a class="btn btn-primary w-100" type="button" href="registrarse.php?">Registrarse</a>
         </div>
 
     </form>

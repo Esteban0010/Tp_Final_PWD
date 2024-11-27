@@ -1,5 +1,5 @@
 <?php
-include_once "../Estructura/Header.php";
+include_once "../Estructura/HeaderSeguro.php";
 ?>
 
 <div class="container d-flex justify-content-center align-items-center" id="container" style="height: 88vh;">

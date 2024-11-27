@@ -6,3 +6,4 @@ INSERT INTO producto (pronombre, valor, prodetalle, procantstock, proarchivo) VA
 ('Monster Energy Ultra Red', 285, 'Bebida energética sin azúcar, con un sabor vibrante de frutos rojos.', 0, 'https://i.postimg.cc/43K6QsK0/monster-ultra-Red.png'),
 ('Monster Energy Monarch', 350, 'Bebida energética con un sabor delicado de durazno y nectarina.', 500, 'https://i.postimg.cc/QCd394Cj/monster-Monarch.png'),
 ('Monster Energy Mule', 300, 'Bebida energética con sabor inspirado en el Moscow Mule, con jengibre y lima.', 220, 'https://i.postimg.cc/vTNp1GCv/monster-Mule.png');
+

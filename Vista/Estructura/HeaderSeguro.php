@@ -50,76 +50,108 @@ $datos = data_submitted();
         //verEstructura($objRol);
         $colMenurol = $colObjMenus->buscar(['idrol' => $objRol->getId()]);
         //verEstructura($colMenurol);
-
-
-    } else {
-        $mensaje = "Error, vuelva a iniciar sesion";
-        header("Location: iniciar_sesion.php?msg=" . urlencode($mensaje));
+        $descripcionRol = $objRol->getDescripcion();
     }
 
     ?>
-    <!-- <style>
-        nav {
-            font-family: 'Poppins', sans-serif;
-        }
-    </style> -->
+
     <header>
         <nav class="navbar navbar-expand-lg bg-black border-bottom py-3" style="width: 100%;">
             <div class="container-fluid d-flex justify-content-between align-items-center">
-                <!-- Enlaces principales -->
                 <div class="d-flex align-items-center">
                     <?php
-                    $descripcionRol = $objRol->getDescripcion();
+                    if (isset($descripcionRol)) {
 
-                    if ($descripcionRol == 'cliente') {
-                        // Home
-                        echo '<a href="' . htmlspecialchars($colMenurol[0]->getObjMenu()->getMedescripcion()) . '" class="text-white fw-bold me-4 text-decoration-none">' . htmlspecialchars($colMenurol[0]->getObjMenu()->getMenombre()) . '</a>';
-                        // Productos
-                        echo '<a href="' . htmlspecialchars($colMenurol[1]->getObjMenu()->getMedescripcion()) . '" class="text-white me-4 text-decoration-none">' . htmlspecialchars($colMenurol[1]->getObjMenu()->getMenombre()) . '</a>';
-                    } elseif ($descripcionRol == 'deposito') {
-                        // Home
-                        echo '<a href="' . htmlspecialchars($colMenurol[0]->getObjMenu()->getMedescripcion()) . '" class="text-white fw-bold me-4 text-decoration-none">' . htmlspecialchars($colMenurol[0]->getObjMenu()->getMenombre()) . '</a>';
-                        // Productos
-                        echo '<a href="' . htmlspecialchars($colMenurol[1]->getObjMenu()->getMedescripcion()) . '" class="text-white me-4 text-decoration-none">' . htmlspecialchars($colMenurol[1]->getObjMenu()->getMenombre()) . '</a>';
-                    } elseif ($descripcionRol == 'administrador') {
-                        // Home
-                        echo '<a href="' . htmlspecialchars($colMenurol[0]->getObjMenu()->getMedescripcion()) . '" class="text-white fw-bold me-4 text-decoration-none">' . htmlspecialchars($colMenurol[0]->getObjMenu()->getMenombre()) . '</a>';
-                        // Productos
-                        echo '<a href="' . htmlspecialchars($colMenurol[1]->getObjMenu()->getMedescripcion()) . '" class="text-white me-4 text-decoration-none">' . htmlspecialchars($colMenurol[1]->getObjMenu()->getMenombre()) . '</a>';
-                        // Administrador
-                        echo '<a href="configurarAdmin.php" class="text-white me-4 text-decoration-none">Administrador</a>';
+                        // Enlaces atribuidos a cada rol
+                        if ($descripcionRol == 'cliente') {
+
+                    ?> <!-- Barra de búsqueda -->
+                            <div class="flex-grow-1 px-3">
+                                <input type="search" class="form-control border-0 border-bottom rounded-0"
+                                    placeholder="Buscar Producto..." aria-label="Buscar" style="box-shadow: none;">
+                            </div>
+
+                        <?php
+                            // Home
+                            echo '<a href="' . htmlspecialchars($colMenurol[0]->getObjMenu()->getMedescripcion()) . '" class="text-white fw-bold me-4 text-decoration-none">' . htmlspecialchars($colMenurol[0]->getObjMenu()->getMenombre()) . '</a>';
+                            // Productos
+                            echo '<a href="' . htmlspecialchars($colMenurol[1]->getObjMenu()->getMedescripcion()) . '" class="text-white me-4 text-decoration-none">' . htmlspecialchars($colMenurol[1]->getObjMenu()->getMenombre()) . '</a>';
+                            // Carrito
+                            echo '<a href="' . htmlspecialchars($colMenurol[3]->getObjMenu()->getMedescripcion()) . '" class="text-white me-4 text-decoration-none">' . htmlspecialchars($colMenurol[3]->getObjMenu()->getMenombre()) . '</a>';
+                            // Mi perfil
+                            echo '<a href="' . htmlspecialchars($colMenurol[2]->getObjMenu()->getMedescripcion()) . '" class="text-white me-4 text-decoration-none">' . htmlspecialchars($colMenurol[2]->getObjMenu()->getMenombre()) . '</a>';
+                            // Cerrar sesión
+                            echo '<a href="' . htmlspecialchars($colMenurol[4]->getObjMenu()->getMedescripcion()) . '" class="text-white text-decoration-none">' . htmlspecialchars($colMenurol[4]->getObjMenu()->getMenombre()) . '</a>';
+                        } elseif ($descripcionRol == 'administrador') {
+                        ?> <!-- Barra de búsqueda -->
+                            <div class="flex-grow-1 px-3">
+                                <input type="search" class="form-control border-0 border-bottom rounded-0"
+                                    placeholder="Buscar Producto..." aria-label="Buscar" style="box-shadow: none;">
+                            </div>
+
+                        <?php
+                            // Home
+                            echo '<a href="' . htmlspecialchars($colMenurol[0]->getObjMenu()->getMedescripcion()) . '" class="text-white fw-bold me-4 text-decoration-none">' . htmlspecialchars($colMenurol[0]->getObjMenu()->getMenombre()) . '</a>';
+                            // Productos
+                            echo '<a href="' . htmlspecialchars($colMenurol[1]->getObjMenu()->getMedescripcion()) . '" class="text-white me-4 text-decoration-none">' . htmlspecialchars($colMenurol[1]->getObjMenu()->getMenombre()) . '</a>';
+                            // Carrito
+                            echo '<a href="' . htmlspecialchars($colMenurol[3]->getObjMenu()->getMedescripcion()) . '" class="text-white me-4 text-decoration-none">' . htmlspecialchars($colMenurol[3]->getObjMenu()->getMenombre()) . '</a>';
+                            // Mi perfil
+                            echo '<a href="' . htmlspecialchars($colMenurol[2]->getObjMenu()->getMedescripcion()) . '" class="text-white me-4 text-decoration-none">' . htmlspecialchars($colMenurol[2]->getObjMenu()->getMenombre()) . '</a>';
+                            // Administrador
+                            echo '<a href="configurarAdmin.php" class="text-white me-4 text-decoration-none">Administrador</a>';
+                            // Gestionar compra 
+                            echo '<span class="me-3"><a href=' . htmlspecialchars($colMenurol[5]->getObjMenu()->getMedescripcion()) . ' class="text-decoration-none" data-options="plain:true">' . htmlspecialchars($colMenurol[5]->getObjMenu()->getMenombre()) . '</a></span>';
+                            // Cerrar sesión
+                            echo '<a href="' . htmlspecialchars($colMenurol[4]->getObjMenu()->getMedescripcion()) . '" class="text-white text-decoration-none">' . htmlspecialchars($colMenurol[4]->getObjMenu()->getMenombre()) . '</a>';
+                        } elseif ($descripcionRol == 'deposito') {
+
+                        ?> <!-- Barra de búsqueda -->
+                            <div class="flex-grow-1 px-3">
+                                <input type="search" class="form-control border-0 border-bottom rounded-0"
+                                    placeholder="Buscar Producto..." aria-label="Buscar" style="box-shadow: none;">
+                            </div>
+
+                        <?php
+                            // Home
+                            echo '<a href="' . htmlspecialchars($colMenurol[0]->getObjMenu()->getMedescripcion()) . '" class="text-white fw-bold me-4 text-decoration-none">' . htmlspecialchars($colMenurol[0]->getObjMenu()->getMenombre()) . '</a>';
+                            // Productos
+                            echo '<a href="' . htmlspecialchars($colMenurol[1]->getObjMenu()->getMedescripcion()) . '" class="text-white me-4 text-decoration-none">' . htmlspecialchars($colMenurol[1]->getObjMenu()->getMenombre()) . '</a>';
+                            // Carrito
+                            echo '<a href="' . htmlspecialchars($colMenurol[3]->getObjMenu()->getMedescripcion()) . '" class="text-white me-4 text-decoration-none">' . htmlspecialchars($colMenurol[3]->getObjMenu()->getMenombre()) . '</a>';
+                            // Mi perfil
+                            echo '<a href="' . htmlspecialchars($colMenurol[2]->getObjMenu()->getMedescripcion()) . '" class="text-white me-4 text-decoration-none">' . htmlspecialchars($colMenurol[2]->getObjMenu()->getMenombre()) . '</a>';
+
+                            // Gestionar compra 
+                            echo '<span class="me-3"><a href=' . htmlspecialchars($colMenurol[5]->getObjMenu()->getMedescripcion()) . ' class="text-decoration-none" data-options="plain:true">' . htmlspecialchars($colMenurol[5]->getObjMenu()->getMenombre()) . '</a></span>';
+                            // Cerrar sesión
+                            echo '<a href="' . htmlspecialchars($colMenurol[4]->getObjMenu()->getMedescripcion()) . '" class="text-white text-decoration-none">' . htmlspecialchars($colMenurol[4]->getObjMenu()->getMenombre()) . '</a>';
+                        }
                     } else {
-                        // Home
-                        echo '<a href="menu.php" class="text-white fw-bold me-4 text-decoration-none">Home</a>';
-                        // Productos
-                        echo '<a href="productos.php" class="text-white me-4 text-decoration-none">Productos</a>';
-                    }
-                    ?>
-                </div>
+                        ?>
+                        <html>
+                        <!-- Barra de búsqueda -->
+                        <div class="flex-grow-1 px-3">
+                            <input type="search" class="form-control border-0 border-bottom rounded-0"
+                                placeholder="Buscar Producto..." aria-label="Buscar" style="box-shadow: none;">
+                        </div>
+                        <!-- Enlaces principales -->
+                        <a href="menu.php" class="text-white fw-bold me-4 text-decoration-none">Hogar</a>
+                        <a href="productos.php" class="text-white me-4 text-decoration-none">Productos</a>
+                        <!-- Enlaces adicionales -->
+                        <div class="d-flex align-items-center">
+                            <a href="carrito.php" class="text-white  me-4 text-decoration-none">Carrito </a>
+                            <a href="iniciar_sesion.php" class="text-white text-decoration-none">Iniciar Sesión</a>
+                        </div>
 
-                <!-- Barra de búsqueda -->
-                <div class="flex-grow-1 px-3">
-                    <input type="search" class="form-control border-0 border-bottom rounded-0"
-                        placeholder="Buscar Producto..." aria-label="Buscar" style="box-shadow: none;">
-                </div>
-
-                <!-- Enlaces adicionales -->
-                <div class="d-flex align-items-center">
+                        </html>
                     <?php
-                    if ($descripcionRol == 'cliente' || $descripcionRol == 'deposito' || $descripcionRol == 'administrador') {
-                        // Carrito
-                        echo '<a href="' . htmlspecialchars($colMenurol[3]->getObjMenu()->getMedescripcion()) . '" class="text-white me-4 text-decoration-none">' . htmlspecialchars($colMenurol[3]->getObjMenu()->getMenombre()) . '</a>';
-                        // Mi perfil
-                        echo '<a href="' . htmlspecialchars($colMenurol[2]->getObjMenu()->getMedescripcion()) . '" class="text-white me-4 text-decoration-none">' . htmlspecialchars($colMenurol[2]->getObjMenu()->getMenombre()) . '</a>';
-                        // Cerrar sesión
-                        echo '<a href="' . htmlspecialchars($colMenurol[4]->getObjMenu()->getMedescripcion()) . '" class="text-white text-decoration-none">' . htmlspecialchars($colMenurol[4]->getObjMenu()->getMenombre()) . '</a>';
-                    } else {
-                        // Iniciar sesión
-                        echo '<a href="iniciar_sesion.php" class="text-white text-decoration-none">Iniciar Sesión</a>';
                     }
+
                     ?>
+
+                    <html>
                 </div>
-            </div>
         </nav>
 
     </header>

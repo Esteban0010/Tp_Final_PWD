@@ -1,6 +1,6 @@
 <?php
 include_once("../../../configuracion.php");
-include_once "../../Estructura/Header.php";
+include_once "../../Estructura/HeaderSeguro.php";
 $resp = false;
 $datos = data_submitted();
 //verEstructura($datos);
@@ -46,10 +46,10 @@ if (isset($datos)) {
         $objAbmMenuCarrito = new AbmMenu();
         $objAbmMenuCerrarSesion = new AbmMenu();
 
-        $arrayHogar = ["idmenu" => null, "menombre" => "Hogar", "medescripcion" => "menuSeguro.php", "idpadre" => null, "medeshabilitado" => "0000-00-00 00:00:00"];
-        $arrayProductos = ["idmenu" => null, "menombre" => "Productos", "medescripcion" => "productosSeguro.php", "idpadre" => null, "medeshabilitado" => "0000-00-00 00:00:00"];
+        $arrayHogar = ["idmenu" => null, "menombre" => "Hogar", "medescripcion" => "menu.php", "idpadre" => null, "medeshabilitado" => "0000-00-00 00:00:00"];
+        $arrayProductos = ["idmenu" => null, "menombre" => "Productos", "medescripcion" => "productos.php", "idpadre" => null, "medeshabilitado" => "0000-00-00 00:00:00"];
         $arrayMiPerfil = ["idmenu" => null, "menombre" => "Mi Perfil", "medescripcion" => "perfilUser.php", "idpadre" => null, "medeshabilitado" => "0000-00-00 00:00:00"];
-        $arrayCarrito = ["idmenu" => null, "menombre" => "Carrito", "medescripcion" => "carritoSeguro.php", "idpadre" => null, "medeshabilitado" => "0000-00-00 00:00:00"];
+        $arrayCarrito = ["idmenu" => null, "menombre" => "Carrito", "medescripcion" => "carrito.php", "idpadre" => null, "medeshabilitado" => "0000-00-00 00:00:00"];
         $arrayMenuCerrarSesion = ["idmenu" => null, "menombre" => "Cerrar Sesion", "medescripcion" => "Action/actionVerificarLogin.php?accion=cerrar", "idpadre" => null, "medeshabilitado" => "0000-00-00 00:00:00"];
 
         $respuestaHogar = $objAbmMenuHogar->alta($arrayHogar);
@@ -64,7 +64,7 @@ if (isset($datos)) {
         $contador1 = count($colMenuHogar) - 1;
         $contadorRol1 = count($objRol) - 1;
         $colMenuHogar[$contador1]; // obtiene el ultimo objeto del menu 
-        $respMeRolHogar = $objAbmMenuRolHogar->alta(["idmenu" => $colMenuHogar[$contador1], "idrol" => $objRol[$contadorRol1]]);                                        
+        $respMeRolHogar = $objAbmMenuRolHogar->alta(["idmenu" => $colMenuHogar[$contador1], "idrol" => $objRol[$contadorRol1]]);
 
         $objAbmMenuRolProdcutos = new AbmMenuRol();
         $colMenuProductos = $objAbmMenuProductos->buscar($arrayProductos);
@@ -72,7 +72,7 @@ if (isset($datos)) {
         $contadorRol2 = count($objRol) - 1;
         $colMenuProductos[$contador2]; // obtiene el ultimo objeto del menu 
         $respMeRolProducto = $objAbmMenuRolProdcutos->alta(["idmenu" => $colMenuProductos[$contador2], "idrol" => $objRol[$contadorRol2]]);
-        
+
         $objAbmMenuRolMiPerfil = new AbmMenuRol();
         $colMenuMiPerfil = $objAbmMenuMiPerfil->buscar($arrayMiPerfil);
         $contador3 = count($colMenuMiPerfil) - 1;
@@ -92,7 +92,7 @@ if (isset($datos)) {
         $contador5 = count($colMenuCerrarSesion) - 1;
         $contadorRol5 = count($objRol) - 1;
         $colMenuCerrarSesion[$contador5]; // obtiene el ultimo objeto del menu 
-        $respMeRolCerrarSesion = $objAbmMenuRolCerrarSesion->alta(["idmenu" => $colMenuCerrarSesion[$contador5], "idrol" => $objRol[$contadorRol5]]);                    
+        $respMeRolCerrarSesion = $objAbmMenuRolCerrarSesion->alta(["idmenu" => $colMenuCerrarSesion[$contador5], "idrol" => $objRol[$contadorRol5]]);
 
 
         if ($res1 && $res2 && $res3) { // dar mensaje para el h1 de titulo

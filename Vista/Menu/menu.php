@@ -1,6 +1,6 @@
 <?php
 include_once("../../configuracion.php");
-include_once "../Estructura/Header.php";
+include_once "../Estructura/HeaderSeguro.php";
 ?>
 <br>
 <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" style="max-width: 100%; height: 440px;">

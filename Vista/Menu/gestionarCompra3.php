@@ -1,7 +1,7 @@
 <?php
 //include_once ('../Estructura/Header.php');
 include_once "../../configuracion.php";
-
+include_once "../Estructura/HeaderSeguro.php";
 ?>
 
 <head>
@@ -40,7 +40,7 @@ $compras = $abmCompraEstado->buscar(null);
 
 // Verificar que haya compras
 if (count($compras) > 0) {
-echo '<div class="container mt-5">
+    echo '<div class="container mt-5">
     <h3 class="text-primary text-center">Depósito</h3>
     <div class="table-responsive">
         <table class="table table-striped table-bordered">
@@ -56,49 +56,49 @@ echo '<div class="container mt-5">
             </thead>
             <tbody>';
 
-                foreach ($compras as $compra) {
-                $idCompraEstado = $compra->getIdCompraEstado();
-                $idCompra = $compra->getObjCompra()->getIdCompra();
-                $estadoActual = $compra->getObjCompraEstadoTipo()->getIdCompraEstadoTipo();
-                $fechaInicio = $compra->getCeFechaIni();
-                $fechaFin = $compra->getCeFechaFin();
+    foreach ($compras as $compra) {
+        $idCompraEstado = $compra->getIdCompraEstado();
+        $idCompra = $compra->getObjCompra()->getIdCompra();
+        $estadoActual = $compra->getObjCompraEstadoTipo()->getIdCompraEstadoTipo();
+        $fechaInicio = $compra->getCeFechaIni();
+        $fechaFin = $compra->getCeFechaFin();
 
-                // Pasar el estado número a texto
-                $estadoTexto = '';
-                switch ($estadoActual) {
-                case 1:
+        // Pasar el estado número a texto
+        $estadoTexto = '';
+        switch ($estadoActual) {
+            case 1:
                 $estadoTexto = 'Iniciada';
                 break;
-                case 2:
+            case 2:
                 $estadoTexto = 'Aceptada';
                 break;
-                case 3:
+            case 3:
                 $estadoTexto = 'Enviada';
                 break;
-                case 4:
+            case 4:
                 $estadoTexto = 'Cancelada';
                 break;
-                }
+        }
 
-                //deshabilitar los botones
-                $disabledAceptar = $estadoActual >= 2 ? 'disabled' : '';
-                $disabledEnviar = $estadoActual >= 3 ? 'disabled' : '';
-                $disabledCancelar = $estadoActual == 4 ? 'disabled' : '';
+        //deshabilitar los botones
+        $disabledAceptar = $estadoActual >= 2 ? 'disabled' : '';
+        $disabledEnviar = $estadoActual >= 3 ? 'disabled' : '';
+        $disabledCancelar = $estadoActual == 4 ? 'disabled' : '';
 
-                echo "<tr>
+        echo "<tr>
                     <td>{$idCompra}</td>
                     <td>{$estadoTexto}</td>
                     <td>{$fechaInicio}</td>
                     <td>{$fechaFin}</td>
                     <td>";
 
-                        // Obtener los productos asociados a esta compra
-                        $abmCompraItem = new AbmCompraItem();
-                        $listaCompraItem = $abmCompraItem->buscar(['idcompra' => $idCompra]);
-                        //verEstructura($listaCompraItem);
+        // Obtener los productos asociados a esta compra
+        $abmCompraItem = new AbmCompraItem();
+        $listaCompraItem = $abmCompraItem->buscar(['idcompra' => $idCompra]);
+        //verEstructura($listaCompraItem);
 
-                        if ($listaCompraItem) {
-                        $itemsHtml = '<table class="table table-sm table-bordered">
+        if ($listaCompraItem) {
+            $itemsHtml = '<table class="table table-sm table-bordered">
                             <thead>
                                 <tr>
                                     <th>Imagen</th>
@@ -110,12 +110,12 @@ echo '<div class="container mt-5">
                             </thead>
                             <tbody>';
 
-                                $total = 0;
-                                foreach ($listaCompraItem as $compraItem) {
-                                $idProducto['idproducto'] = $compraItem->getObjProducto()->getIdProducto();
-                                $producto = (new AbmProducto())->buscar($idProducto)[0];
+            $total = 0;
+            foreach ($listaCompraItem as $compraItem) {
+                $idProducto['idproducto'] = $compraItem->getObjProducto()->getIdProducto();
+                $producto = (new AbmProducto())->buscar($idProducto)[0];
 
-                                $itemsHtml .= '<tr>
+                $itemsHtml .= '<tr>
                                     <td><img src="' . $producto->getProArchivo() . '" alt="Imagen" style="width:50px;">
                                     </td>
                                     <td>' . $producto->getProNombre() . '</td>
@@ -123,20 +123,20 @@ echo '<div class="container mt-5">
                                     <td>' . $compraItem->getCantidad() . '</td>
                                     <td>$' . number_format($producto->getValor(), 2) . '</td>
                                 </tr>';
-                                $total += $producto->getValor() * $compraItem->getCantidad();
-                                }
+                $total += $producto->getValor() * $compraItem->getCantidad();
+            }
 
-                                $itemsHtml .= '<tr>
+            $itemsHtml .= '<tr>
                                     <td colspan="4" class="text-right"><strong>Total:</strong></td>
                                     <td>$' . number_format($total, 2) . '</td>
                                 </tr>';
-                                $itemsHtml .= '</tbody>
+            $itemsHtml .= '</tbody>
                         </table>';
-                        } else {
-                        $itemsHtml = '<p>No hay productos asociados a esta compra.</p>';
-                        }
+        } else {
+            $itemsHtml = '<p>No hay productos asociados a esta compra.</p>';
+        }
 
-                        echo $itemsHtml . "</td>
+        echo $itemsHtml . "</td>
                     <td>
                         <button class='btn btn-primary btn-sm change-state' data-id='{$idCompraEstado}' data-state='2'
                             {$disabledAceptar}>Aceptar</button>
@@ -146,16 +146,16 @@ echo '<div class="container mt-5">
                             {$disabledCancelar}>Cancelar</button>
                     </td>
                 </tr>";
-                }
+    }
 
-                echo '</tbody>
+    echo '</tbody>
         </table>
     </div>
     <!-- Contenedor para mensajes dinámicos -->
     <div id="mensaje" class="my-3"></div>
 </div>';
 } else {
-echo '<div class="container">
+    echo '<div class="container">
     <p>No hay compras registradas.</p>
 </div>';
 }
