@@ -18,7 +18,7 @@ if ($datos['accion'] == "login") {
     if ($resp) {
         $response = [
             'respuesta' => true,
-            'redirect' => 'menuSeguro.php'
+            'redirect' => 'menu.php'
         ];
     } else {
         $response = [

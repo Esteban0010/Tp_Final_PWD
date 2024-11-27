@@ -2,9 +2,9 @@
 include_once("../../configuracion.php");
 include_once "../Estructura/HeaderSeguro.php";
 
-$session = new Session();
+// $session = new Session();
 
-$reistrado = $session->validar();
+// $reistrado = $session->validar();
 ?>
 
 <div class="container ">
