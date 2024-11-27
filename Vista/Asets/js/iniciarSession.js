@@ -73,8 +73,7 @@ function guardarCambios() {
           mensajeResultado
               .addClass('alert alert-success')
               .html('<i class="bi bi-check-circle me-2"></i>Bienvenido ahora puede iniciar sesion ');
-                              // window.location.href = response.redirect;
-
+              
       } else if (response.respuesta === false) {
           mensajeResultado
               .addClass('alert alert-danger')
