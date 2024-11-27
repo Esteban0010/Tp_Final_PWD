@@ -75,7 +75,7 @@ function mensaje(response) {
 
   // Configuro el mensaje según el resultado
   if (response.respuesta) {
-    // window.location.href = response.redirect;
+    //  window.location.href = response.redirect;
       mensajeResultado
           .addClass('alert alert-success')
           .html('<i class="bi bi-check-circle me-2"></i>Bienvenido ahora puede iniciar sesion ');

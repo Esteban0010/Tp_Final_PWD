@@ -10,6 +10,11 @@ $datos = data_submitted();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>e-commerce seguro</title>
 
+    <!-- Letras Poppins -->
+    <link rel="stylesheet" href="../Asets/css/header.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+
     <!-- css bootstrap 5 -->
     <link href="../Asets/librerias/bootstrap-5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -53,73 +58,70 @@ $datos = data_submitted();
     }
 
     ?>
-
+    <!-- <style>
+        nav {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style> -->
     <header>
-        <nav class="navbar navbar-expand-lg bg-white easyui-linkbutton" style="width:100%;">
+        <nav class="navbar navbar-expand-lg bg-black border-bottom py-3" style="width: 100%;">
+            <div class="container-fluid d-flex justify-content-between align-items-center">
+                <!-- Enlaces principales -->
+                <div class="d-flex align-items-center">
+                    <?php
+                    $descripcionRol = $objRol->getDescripcion();
 
-            <?php
-            $descripcionRol = $objRol->getDescripcion();
+                    if ($descripcionRol == 'cliente') {
+                        // Home
+                        echo '<a href="' . htmlspecialchars($colMenurol[0]->getObjMenu()->getMedescripcion()) . '" class="text-white fw-bold me-4 text-decoration-none">' . htmlspecialchars($colMenurol[0]->getObjMenu()->getMenombre()) . '</a>';
+                        // Productos
+                        echo '<a href="' . htmlspecialchars($colMenurol[1]->getObjMenu()->getMedescripcion()) . '" class="text-white me-4 text-decoration-none">' . htmlspecialchars($colMenurol[1]->getObjMenu()->getMenombre()) . '</a>';
+                    } elseif ($descripcionRol == 'deposito') {
+                        // Home
+                        echo '<a href="' . htmlspecialchars($colMenurol[0]->getObjMenu()->getMedescripcion()) . '" class="text-white fw-bold me-4 text-decoration-none">' . htmlspecialchars($colMenurol[0]->getObjMenu()->getMenombre()) . '</a>';
+                        // Productos
+                        echo '<a href="' . htmlspecialchars($colMenurol[1]->getObjMenu()->getMedescripcion()) . '" class="text-white me-4 text-decoration-none">' . htmlspecialchars($colMenurol[1]->getObjMenu()->getMenombre()) . '</a>';
+                    } elseif ($descripcionRol == 'administrador') {
+                        // Home
+                        echo '<a href="' . htmlspecialchars($colMenurol[0]->getObjMenu()->getMedescripcion()) . '" class="text-white fw-bold me-4 text-decoration-none">' . htmlspecialchars($colMenurol[0]->getObjMenu()->getMenombre()) . '</a>';
+                        // Productos
+                        echo '<a href="' . htmlspecialchars($colMenurol[1]->getObjMenu()->getMedescripcion()) . '" class="text-white me-4 text-decoration-none">' . htmlspecialchars($colMenurol[1]->getObjMenu()->getMenombre()) . '</a>';
+                        // Administrador
+                        echo '<a href="configurarAdmin.php" class="text-white me-4 text-decoration-none">Administrador</a>';
+                    } else {
+                        // Home
+                        echo '<a href="menu.php" class="text-white fw-bold me-4 text-decoration-none">Home</a>';
+                        // Productos
+                        echo '<a href="productos.php" class="text-white me-4 text-decoration-none">Productos</a>';
+                    }
+                    ?>
+                </div>
 
-            if ($descripcionRol == 'cliente') {
+                <!-- Barra de búsqueda -->
+                <div class="flex-grow-1 px-3">
+                    <input type="search" class="form-control border-0 border-bottom rounded-0"
+                        placeholder="Buscar Producto..." aria-label="Buscar" style="box-shadow: none;">
+                </div>
 
-                //home
-                echo '<span class="me-3"><a href=' . htmlspecialchars($colMenurol[0]->getObjMenu()->getMedescripcion()) . ' class="text-decoration-none" data-options="plain:true">' . htmlspecialchars($colMenurol[0]->getObjMenu()->getMenombre()) . '</a></span>';
-                // prodcutos
-                echo '<span class="me-3"><a href=' . htmlspecialchars($colMenurol[1]->getObjMenu()->getMedescripcion()) . '  class="text-decoration-none" data-options="plain:true">' . htmlspecialchars($colMenurol[1]->getObjMenu()->getMenombre()) . '</a></span>';
-                // buscador
-                echo '<input class="easyui-searchbox" data-options="prompt:\'Buscar Producto...\',searcher:doSearch" style="width:50%;">';
-                // cerrar sesion
-                echo '<span class="me-3"><a class="text-decoration-none" href=' . htmlspecialchars($colMenurol[4]->getObjMenu()->getMedescripcion()) . '>' . htmlspecialchars($colMenurol[4]->getObjMenu()->getMenombre()) . '</a></span>';
-                // carrito
-                echo '<span class="me-3"><a href=' . htmlspecialchars($colMenurol[3]->getObjMenu()->getMedescripcion()) . ' class="text-decoration-none" class="easyui-linkbutton" data-options="plain:true">' . htmlspecialchars($colMenurol[3]->getObjMenu()->getMenombre()) . '</a></span>';
-                // mi perfil
-                echo '<span class="me-3"><a href=' . htmlspecialchars($colMenurol[2]->getObjMenu()->getMedescripcion()) . ' class="text-decoration-none" data-options="plain:true">' . htmlspecialchars($colMenurol[2]->getObjMenu()->getMenombre()) . '</a></span>';
-            } elseif ($descripcionRol == 'deposito') {
-                //home
-                echo '<span class="me-3"><a href=' . htmlspecialchars($colMenurol[0]->getObjMenu()->getMedescripcion()) . ' class="text-decoration-none" data-options="plain:true">' . htmlspecialchars($colMenurol[0]->getObjMenu()->getMenombre()) . '</a></span>';
-                // prodcutos
-                echo '<span class="me-3"><a href=' . htmlspecialchars($colMenurol[1]->getObjMenu()->getMedescripcion()) . '  class="text-decoration-none" data-options="plain:true">' . htmlspecialchars($colMenurol[1]->getObjMenu()->getMenombre()) . '</a></span>';
-                // buscador
-                echo '<input class="easyui-searchbox" data-options="prompt:\'Buscar Producto...\',searcher:doSearch" style="width:50%;">';
-                // cerrar sesion
-                echo '<span class="me-3"><a class="text-decoration-none" href=' . htmlspecialchars($colMenurol[4]->getObjMenu()->getMedescripcion()) . '>' . htmlspecialchars($colMenurol[4]->getObjMenu()->getMenombre()) . '</a></span>';
-                // carrito
-                echo '<span class="me-3"><a href=' . htmlspecialchars($colMenurol[3]->getObjMenu()->getMedescripcion()) . ' class="text-decoration-none" class="easyui-linkbutton" data-options="plain:true">' . htmlspecialchars($colMenurol[3]->getObjMenu()->getMenombre()) . '</a></span>';
-                // mi perfil
-                echo '<span class="me-3"><a href=' . htmlspecialchars($colMenurol[2]->getObjMenu()->getMedescripcion()) . ' class="text-decoration-none" data-options="plain:true">' . htmlspecialchars($colMenurol[2]->getObjMenu()->getMenombre()) . '</a></span>';
-                // Gestion de Compras
-                echo '<span class="me-3"><a href=' . htmlspecialchars($colMenurol[5]->getObjMenu()->getMedescripcion()) . ' class="text-decoration-none" data-options="plain:true">' . htmlspecialchars($colMenurol[5]->getObjMenu()->getMenombre()) . '</a></span>';
-            } elseif ($descripcionRol == 'administrador') {
-                //home
-                echo '<span class="me-3"><a href=' . htmlspecialchars($colMenurol[0]->getObjMenu()->getMedescripcion()) . ' class="text-decoration-none" data-options="plain:true">' . htmlspecialchars($colMenurol[0]->getObjMenu()->getMenombre()) . '</a></span>';
-                // prodcutos
-                echo '<span class="me-3"><a href=' . htmlspecialchars($colMenurol[1]->getObjMenu()->getMedescripcion()) . '  class="text-decoration-none" data-options="plain:true">' . htmlspecialchars($colMenurol[1]->getObjMenu()->getMenombre()) . '</a></span>';
-                // buscador
-                echo '<input class="easyui-searchbox" data-options="prompt:\'Buscar Producto...\',searcher:doSearch" style="width:50%;">';
-                // cerrar sesion
-                echo '<span class="me-3"><a class="text-decoration-none" href=' . htmlspecialchars($colMenurol[4]->getObjMenu()->getMedescripcion()) . '>' . htmlspecialchars($colMenurol[4]->getObjMenu()->getMenombre()) . '</a></span>';
-                // carrito
-                echo '<span class="me-3"><a href=' . htmlspecialchars($colMenurol[3]->getObjMenu()->getMedescripcion()) . ' class="text-decoration-none" class="easyui-linkbutton" data-options="plain:true">' . htmlspecialchars($colMenurol[3]->getObjMenu()->getMenombre()) . '</a></span>';
-                // mi perfil
-                echo '<span class="me-3"><a href=' . htmlspecialchars($colMenurol[2]->getObjMenu()->getMedescripcion()) . ' class="text-decoration-none" data-options="plain:true">' . htmlspecialchars($colMenurol[2]->getObjMenu()->getMenombre()) . '</a></span>';
-                // Administrador
-                //echo '<span class="me-3"><a href=' . htmlspecialchars($colMenurol[5]->getObjMenu()->getMedescripcion()) . ' class="text-decoration-none" data-options="plain:true">' . htmlspecialchars($colMenurol[5]->getObjMenu()->getMenombre()) . '</a></span>';
-                echo '<span class="me-3"><a href="configurarAdmin.php" class="text-decoration-none" data-options="plain:true">Administrador</a></span>';
-            } else {
-                //home
-                echo '<span class="me-3"><a href="menu.php" class="text-decoration-none" data-options="plain:true"></a></span>';
-                // prodcutos
-                echo '<span class="me-3"><a href="productos.php" class="text-decoration-none" data-options="plain:true">Productos</a></span>';
-                // buscador
-                echo '<input class="easyui-searchbox" data-options="prompt:\'Buscar Producto...\',searcher:doSearch" style="width:50%;">';
-                // iniciar sesion
-                echo '<span class="me-3"><a href="iniciar_sesion.php" class="text-decoration-none" data-options="plain:true">Iniciar Sesion</a></span>';
-                // carrito
-                echo '<span class="me-3"><a href="carrito.php" class="text-decoration-none" class="easyui-linkbutton" data-options="plain:true">Carrito</a></span>';
-            }
-            ?>
-
+                <!-- Enlaces adicionales -->
+                <div class="d-flex align-items-center">
+                    <?php
+                    if ($descripcionRol == 'cliente' || $descripcionRol == 'deposito' || $descripcionRol == 'administrador') {
+                        // Carrito
+                        echo '<a href="' . htmlspecialchars($colMenurol[3]->getObjMenu()->getMedescripcion()) . '" class="text-white me-4 text-decoration-none">' . htmlspecialchars($colMenurol[3]->getObjMenu()->getMenombre()) . '</a>';
+                        // Mi perfil
+                        echo '<a href="' . htmlspecialchars($colMenurol[2]->getObjMenu()->getMedescripcion()) . '" class="text-white me-4 text-decoration-none">' . htmlspecialchars($colMenurol[2]->getObjMenu()->getMenombre()) . '</a>';
+                        // Cerrar sesión
+                        echo '<a href="' . htmlspecialchars($colMenurol[4]->getObjMenu()->getMedescripcion()) . '" class="text-white text-decoration-none">' . htmlspecialchars($colMenurol[4]->getObjMenu()->getMenombre()) . '</a>';
+                    } else {
+                        // Iniciar sesión
+                        echo '<a href="iniciar_sesion.php" class="text-white text-decoration-none">Iniciar Sesión</a>';
+                    }
+                    ?>
+                </div>
+            </div>
         </nav>
+
     </header>
 
     <main class="container">

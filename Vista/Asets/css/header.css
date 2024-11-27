@@ -1,3 +1,15 @@
-a{
-    color: black;
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+footer {
+    font-family: 'Poppins', sans-serif;
+}
+
+nav {
+    font-family: 'Poppins', sans-serif;
+}
+main{
+    font-family: 'Poppins', sans-serif;
+
 }

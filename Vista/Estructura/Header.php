@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>e-commerce no seguro</title>
 
+    <!-- Letras Poppins -->
+    <link rel="stylesheet" href="../Asets/css/header.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+
     <!-- css bootstrap 5 -->
     <link href="../Asets/librerias/bootstrap-5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -29,20 +35,47 @@
     <!-- class="me-3" | text-decoration-none -->
 
     <header>
-        <nav class="navbar navbar-expand-lg bg-white easyui-linkbutton" style="width:100%;">
-            
+        <nav class="navbar navbar-expand-lg bg-black border-bottom py-3" style="width: 100%;">
+            <div class="container-fluid d-flex justify-content-between align-items-center">
+                <!-- Enlaces principales -->
+                <div class="d-flex align-items-center">
+                    <a href="menu.php" class="text-white fw-bold me-4 text-decoration-none">Home</a>
+                    <a href="productos.php" class="text-white me-4 text-decoration-none">Productos</a>
+                </div>
+
+                <!-- Barra de búsqueda -->
+                <div class="flex-grow-1 px-3">
+                    <input type="search" class="form-control border-0 border-bottom rounded-0"
+                        placeholder="Buscar Producto..." aria-label="Buscar" style="box-shadow: none;">
+                </div>
+
+                <!-- Enlaces adicionales -->
+                <div class="d-flex align-items-center">
+                    <a href="carrito.php" class="text-white  me-4 text-decoration-none">Carrito</a>
+                    <a href="iniciar_sesion.php" class="text-white text-decoration-none">Iniciar Sesión</a>
+                </div>
+            </div>
+        </nav>
+
+
+
+
+
+
+
+        <!-- <nav class="navbar navbar-expand-lg bg-white easyui-linkbutton" style="width:100%;">
+
             <span class="me-3"><a href="menu.php" class="text-decoration-none" data-options="plain:true">Home</a></span>
 
             <span class="me-3"><a href="productos.php" class="text-decoration-none" data-options="plain:true">Productos</a></span>
 
-            <!-- input busqueda -->
-            <input class="easyui-searchbox" data-options="prompt:'Buscar Producto...',searcher:doSearch" style="width:50%;">
+        <input class="easyui-searchbox" data-options="prompt:'Buscar Producto...',searcher:doSearch" style="width:50%;">
 
-            <span class="me-3"><a href="iniciar_sesion.php" class="text-decoration-none" data-options="plain:true">Iniciar Sesion</a></span>
+        <span class="me-3"><a href="iniciar_sesion.php" class="text-decoration-none" data-options="plain:true">Iniciar Sesion</a></span>
 
-            <span class="me-3"><a href="carrito.php" class="text-decoration-none" class="easyui-linkbutton" data-options="plain:true">Carrito</a></span>
+        <span class="me-3"><a href="carrito.php" class="text-decoration-none" class="easyui-linkbutton" data-options="plain:true">Carrito</a></span>
 
-        </nav>
+        </nav> -->
     </header>
 
 

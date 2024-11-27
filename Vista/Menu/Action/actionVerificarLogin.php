@@ -4,7 +4,7 @@ include_once("../../../configuracion.php");
 
 // Llamar a la función para procesar los datos}
 $datos = data_submitted();
-if(isset($datos['uspass'])){
+if (isset($datos['uspass'])) {
     $datos['uspass'] = md5($datos['uspass']); //encripta los datos
 }
 
@@ -18,7 +18,7 @@ if ($datos['accion'] == "login") {
     if ($resp) {
         $response = [
             'respuesta' => true,
-            'redirect' => 'paginaSegura.php'
+            'redirect' => 'menuSeguro.php'
         ];
     } else {
         $response = [
