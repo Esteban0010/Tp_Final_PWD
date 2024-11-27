@@ -178,7 +178,7 @@ function realizarCompra(carrito) {
             }
         },
         error: function () {
-            alert('Debe iniciar Sesion.');
+            alert('No se pudo ejecutar la operacion');
         }
     });
 }

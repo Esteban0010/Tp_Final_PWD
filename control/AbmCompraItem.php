@@ -21,19 +21,12 @@ class AbmCompraItem
         $objCompraItem = null;
 
         if ( array_key_exists('idproducto', $param)  && array_key_exists('idcompra', $param) && array_key_exists('cicantidad', $param)) {
-            $objProducto = new Producto();
-            $objProducto->setIdProducto($param['idproducto']);
-            $objProducto->cargar();
-
-            $objCompra = new Compra();
-            $objCompra->setIdcompra($param['idcompra']);
-            $objCompra->cargar();
 
             $objCompraItem = new CompraItem();
             $objCompraItem->setear(
                 null,
-                $objProducto,
-                $objCompra,
+                $param['idproducto'],
+                $param['idcompra'],
                 $param['cicantidad']
             );
         }

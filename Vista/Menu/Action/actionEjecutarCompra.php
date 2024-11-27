@@ -1,102 +1,79 @@
 <?php
 include_once("../../../configuracion.php");
-require('../../Asets/librerias/fpdf/fpdf.php'); // Verificar la ruta a FPDF
+require('../../Asets/librerias/fpdf/fpdf.php');
 
 $response = ['success' => false, 'message' => ''];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $carrito = isset($_POST['carrito']) ? json_decode($_POST['carrito'], true) : [];
+try {
+    $datos = data_submitted();
+    $carrito = isset($datos['carrito']) ? json_decode($datos['carrito'], true) : [];
 
     if (empty($carrito)) {
-        $response['message'] = 'El carrito está vacío.';
-        echo json_encode($response);
-        exit;
+        throw new Exception('El carrito está vacío.');
     }
 
-    try {
-        $abmCompra = new AbmCompra();
-        $session = new Session();
-        $objUsuario = $session->getUsuario();
-
-        $nuevaCompra = [
-            'productos' => $carrito,
-            'cofecha' => date('Y-m-d H:i:s'),
-            'usuario_id' => $objUsuario->getId()
-        ];
-
-        $resultado = $abmCompra->alta($nuevaCompra);
-
-        if ($resultado) {
-            // Crear directorio si no existe
-            $directory = '../../Asets/pdf';
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
-            }
-            chmod($directory, 0777);
-
-            // Generar PDF
-            try {
-                $pdf = new FPDF();
-                $pdf->AddPage();
-                $pdf->SetFont('Arial', 'B', 16);
-                $pdf->Cell(190, 10, 'Boleta de Compra', 0, 1, 'C');
-                $pdf->Ln(10);
-            
-                // Información del usuario
-                $pdf->SetFont('Arial', '', 12);
-                $pdf->Cell(40, 10, 'Usuario: ' . ($objUsuario ? $objUsuario->getNombre() : 'Desconocido'));
-                $pdf->Ln(8);
-                $pdf->Cell(40, 10, 'Fecha: ' . date('Y-m-d H:i:s'));
-                $pdf->Ln(10);
-            
-                // Encabezado de tabla
-                $pdf->SetFont('Arial', 'B', 12);
-                $pdf->Cell(80, 10, 'Producto', 1);
-                $pdf->Cell(30, 10, 'Cantidad', 1, 0, 'C');
-                $pdf->Cell(30, 10, 'Precio', 1, 0, 'R');
-                $pdf->Cell(50, 10, 'Subtotal', 1, 0, 'R');
-                $pdf->Ln();
-            
-                // Detalles del carrito
-                $total = 0;
-                foreach ($carrito as $producto) {
-                    $nombre = $producto['nombre'] ?? 'Producto sin nombre';
-                    $cantidad = $producto['cantidad'] ?? 0;
-                    $precio = $producto['precio'] ?? 0;
-                    $subtotal = $cantidad * $precio;
-                    $total += $subtotal;
-            
-                    $pdf->SetFont('Arial', '', 12);
-                    $pdf->Cell(80, 10, $nombre, 1);
-                    $pdf->Cell(30, 10, $cantidad, 1, 0, 'C');
-                    $pdf->Cell(30, 10, '$' . number_format($precio, 2), 1, 0, 'R');
-                    $pdf->Cell(50, 10, '$' . number_format($subtotal, 2), 1, 0, 'R');
-                    $pdf->Ln();
-                }
-            
-                // Total
-                $pdf->SetFont('Arial', 'B', 12);
-                $pdf->Cell(140, 10, 'Total', 1);
-                $pdf->Cell(50, 10, '$' . number_format($total, 2), 1, 0, 'R');
-            
-                // Guardar PDF en una ruta específica
-                $filePath = '../../Asets/pdf/boleta_compra_' . time() . '.pdf';
-                $pdf->Output('F', $filePath);
-            
-
-                $response['success'] = true;
-            } catch (Exception $e) {
-                $response['message'] = 'Error al generar el PDF: ' . $e->getMessage();
-                error_log('Error al generar el PDF: ' . $e->getMessage());
-            }
-        } else {
-            $response['message'] = 'No se pudo procesar la compra.';
+    foreach ($carrito as $producto) {
+        if (!isset($producto['nombre'], $producto['cantidad'], $producto['precio']) || 
+            !is_numeric($producto['cantidad']) || !is_numeric($producto['precio'])) {
+            throw new Exception('Datos del carrito inválidos.');
         }
-    } catch (Exception $e) {
-        $response['message'] = 'Error: ' . $e->getMessage();
-        error_log($e->getMessage());
     }
+
+    $session = new Session();
+    $objUsuario = $session->getUsuario();
+    if (!$objUsuario || !$objUsuario->getId()) {
+        throw new Exception('Usuario no autenticado.');
+    }
+
+    $abmCompra = new AbmCompra();
+    $nuevaCompra = [
+        'productos' => $carrito,
+        'cofecha' => date('Y-m-d H:i:s'),
+        'usuario_id' => $objUsuario->getId()
+    ];
+
+    if (!$abmCompra->alta($nuevaCompra)) {
+        throw new Exception('No se pudo procesar la compra.');
+    }
+
+    $directory = __DIR__ . '/../../Asets/pdf';
+    if (!is_dir($directory)) {
+        mkdir($directory, 0755, true);
+    }
+
+    $filePath = $directory . '/boleta_compra_' . time() . '.pdf';
+    $pdf = new FPDF();
+    $pdf->AddPage();
+    $pdf->SetFont('Arial', 'B', 16);
+    $pdf->Cell(190, 10, 'Boleta de Compra', 0, 1, 'C');
+    $pdf->Ln(10);
+    $pdf->SetFont('Arial', '', 12);
+    $pdf->Cell(40, 10, 'Usuario: ' . $objUsuario->getNombre());
+    $pdf->Ln(8);
+    $pdf->Cell(40, 10, 'Fecha: ' . date('Y-m-d H:i:s'));
+    $pdf->Ln(10);
+    $total = 0;
+    foreach ($carrito as $producto) {
+        $subtotal = $producto['cantidad'] * $producto['precio'];
+        $total += $subtotal;
+        $pdf->Cell(80, 10, $producto['nombre'], 1);
+        $pdf->Cell(30, 10, $producto['cantidad'], 1, 0, 'C');
+        $pdf->Cell(30, 10, '$' . number_format($producto['precio'], 2), 1, 0, 'R');
+        $pdf->Cell(50, 10, '$' . number_format($subtotal, 2), 1, 0, 'R');
+        $pdf->Ln();
+    }
+    $pdf->Cell(140, 10, 'Total', 1);
+    $pdf->Cell(50, 10, '$' . number_format($total, 2), 1, 0, 'R');
+    $pdf->Output('F', $filePath);
+
+    $response = [
+        'success' => true,
+        'message' => 'Compra procesada correctamente.',
+        'filePath' => $filePath
+    ];
+} catch (Exception $e) {
+    $response['message'] = $e->getMessage();
+    error_log($e->getMessage());
 }
 
 echo json_encode($response);
-?>

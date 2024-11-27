@@ -31,7 +31,7 @@
     <header>
         <nav class="navbar navbar-expand-lg bg-white easyui-linkbutton" style="width:100%;">
             
-            <span class="me-3"><a href="menu.php" class="text-decoration-none" data-options="plain:true"></a></span>
+            <span class="me-3"><a href="menu.php" class="text-decoration-none" data-options="plain:true">Home</a></span>
 
             <span class="me-3"><a href="productos.php" class="text-decoration-none" data-options="plain:true">Productos</a></span>
 
