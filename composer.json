@@ -1,0 +1,15 @@
+{
+    "require": {
+        "google/cloud-language": "dev-main",
+        "rinvex/countries": "^9.0",
+        "phpmailer/phpmailer": "dev-master"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Esteban Martin Pilchuman",
+            "email": "estebanpilchuman02@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
