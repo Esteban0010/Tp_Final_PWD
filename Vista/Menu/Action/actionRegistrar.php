@@ -4,7 +4,7 @@ include_once "../../Estructura/HeaderSeguro.php";
 $resp = false;
 $datos = data_submitted();
 //verEstructura($datos);
-
+$mensajeRegistro = [];
 if (isset($datos)) {
     // creacion de instancias de onjetos
     $objAbmRol = new AbmRol();

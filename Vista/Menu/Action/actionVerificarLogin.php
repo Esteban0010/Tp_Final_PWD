@@ -26,16 +26,17 @@ if ($datos['accion'] == "login") {
             'redirect' => 'iniciar_sesion.php'
         ];
     }
-} elseif ($datos['accion'] == "cerrar") {
-    $objSession = new Session();
-    $objSession->cerrar();
-    // $response['respuesta'] =  //true 
-    //     $response['redirect'] = 'iniciar_sesion.php';
-    $response = [
-        'respuesta' => 'cerrar',
-        'redirect' => 'iniciar_sesion.php'
-    ];
 }
+// if ($datos['accion'] == "cerrar") {
+//     $objSession = new Session();
+//     $objSession->cerrar();
+//     // $response['respuesta'] =  //true 
+//     //     $response['redirect'] = 'iniciar_sesion.php';
+//     $response = [
+//         'respuesta' => false,
+//         'redirect' => 'menu.php'
+//     ];
+// }
 
 // Limpia el buffer de salida y envía la respuesta JSON
 ob_clean();

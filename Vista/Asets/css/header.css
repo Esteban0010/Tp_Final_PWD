@@ -13,3 +13,26 @@ main{
     font-family: 'Poppins', sans-serif;
 
 }
+
+
+.card {
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.btn-primary {
+    transition: background 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: #574bff;
+}
+
+.card-img-top {
+    height: 100px; /* Ajusta según el tamaño deseado */
+    object-fit: contain; /* Mantiene las proporciones de la imagen */
+}

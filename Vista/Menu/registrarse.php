@@ -27,11 +27,7 @@ include_once "../Estructura/HeaderSeguro.php";
             <div hidden>
                 <label for="rodescripcion" class="form-label my-1">Rol:</label>
                 <input type="text" id="rodescripcion" name="rodescripcion" class="form-select" value="cliente">
-                <!-- <select type="text" id="rodescripcion" name="rodescripcion" class="form-select" require>
-                    <option value="">Seleccione un Rol...</option>
-                    <option value="cliente">Cliente</option>
-                    <option value="vendedor">Vendedor</option>
-                </select> -->
+
             </div>
             <div>
                 <label for="uspass" class="form-label my-1">Password:</label>
