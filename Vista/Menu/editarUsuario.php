@@ -80,35 +80,18 @@ verEstructura($objSession->getUsuario());*/
             </div>
         </div>
 
-        <!-- Descripcion del Rol-->
-        <!-- <div class="row mb-12">
-                <div class="col-sm-12">
-                    <div class="form-group has-feedback">
-                        <label for="nombre" class="control-label my-1">Rol:</label>
-                        <div class="input-group">
-                            <select class="form-select" id="rol" name="rol" >
-                                <?php
-                                /*if ($objRol != null){
-                                        echo '<option selected value="'.$objRol->getDescripcion().'">'.$objRol->getDescripcion().' </option>';  
-                                        if($objRol->getDescripcion() == 'cliente'){
-                                            echo '<option value="vendedor">vendedor</option>';
-                                        } else {
-                                            echo '<option value="cliente">cliente</option>';
-                                        }                 
-                                    } */
-                                ?>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
 
-        <!-- input submit -->
-        <input type="submit" class="btn btn-primary btn-block my-3 col-sm-12" value="<?php echo ($datos['accion'] != null) ? $datos['accion'] : "nose" ?>">
+        </select>
+</div>
 
-        <div class="my-1"><a class="btn btn-secondary" role="button" href="listarUsuario.php?">Volver</a></div>
 
-    </form>
+
+<!-- input submit -->
+<input type="submit" class="btn btn-primary btn-block my-3 col-sm-12" value="<?php echo ($datos['accion'] != null) ? $datos['accion'] : "nose" ?>">
+
+<div class="my-1"><a class="btn btn-secondary" role="button" href="listarUsuario.php?">Volver</a></div>
+
+</form>
 
 </div>
 

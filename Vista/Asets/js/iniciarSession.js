@@ -67,6 +67,12 @@ function guardarCambios() {
           .removeClass('d-none alert-success alert-danger')
           .text(''); // Limpio el mensaje anterior
     
+          if (response.cerrar) {
+            // mensajeResultado
+            //     .addClass('alert alert-primary')
+            //     .html('<i class="bi bi-exclamation-circle me-2"></i> Sesión cerrada correctamente.');
+            window.location.href = response.redirect;
+        }
       // Configuro el mensaje según el resultado
       if (response.respuesta) {
          window.location.href = response.redirect;
@@ -74,19 +80,15 @@ function guardarCambios() {
               .addClass('alert alert-success')
               .html('<i class="bi bi-check-circle me-2"></i>Bienvenido ahora puede iniciar sesion ');
               
-      } else if (!response.respuesta ) {
+      } else if (response.respuesta === false) {
           mensajeResultado
               .addClass('alert alert-danger')
               .html('<i class="bi bi-exclamation-circle me-20"></i> Error, contraseña o usario erroneos.');
                 // window.location.href = response.redirect;
     
       } 
-    //   else if (response.respuesta === 'cerrar') {
-    //     mensajeResultado
-    //         .addClass('alert alert-primary')
-    //         .html('<i class="bi bi-exclamation-circle me-2"></i> Sesión cerrada correctamente.');
-    //     window.location.href = response.redirect;
-    // }
+      
+      
              mensajeResultado.removeClass('d-none');
     
     }

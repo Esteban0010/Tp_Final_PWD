@@ -46,7 +46,6 @@ if(valido){
     dataType: 'json',
     success: function(response) {
         if (response.respuesta) {
-
             mensaje(response);
 
         } else {
@@ -78,7 +77,6 @@ function mensaje(response) {
       mensajeResultado
           .addClass('alert alert-success')
           .html('<i class="bi bi-check-circle me-2"></i>Bienvenido ahora puede iniciar sesion ');
-               window.location.href = response.redirect;
 
   } else if (response.respuesta === false) {
       mensajeResultado

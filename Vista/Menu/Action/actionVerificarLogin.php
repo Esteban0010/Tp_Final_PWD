@@ -8,7 +8,7 @@ if (isset($datos['uspass'])) {
     $datos['uspass'] = md5($datos['uspass']); //encripta los datos
 }
 
-//verEstructura($datos);
+verEstructura($datos);
 
 if ($datos['accion'] == "login") {
 
@@ -18,26 +18,24 @@ if ($datos['accion'] == "login") {
     if ($resp) {
         $response = [
             'respuesta' => true,
-            'redirect' => 'menu.php'
+            'redirect' => 'menu.php',
+            'cerrar' => false
         ];
     } else {
         $response = [
             'respuesta' => false,
-            'redirect' => 'iniciar_sesion.php'
+            'redirect' => 'iniciar_sesion.php',
+            'cerrar' => false
         ];
     }
 }
-// if ($datos['accion'] == "cerrar") {
-//     $objSession = new Session();
-//     $objSession->cerrar();
-//     // $response['respuesta'] =  //true 
-//     //     $response['redirect'] = 'iniciar_sesion.php';
-//     $response = [
-//         'respuesta' => false,
-//         'redirect' => 'menu.php'
-//     ];
-// }
-
+if ($datos['accion'] == "cerrar") {
+    $objSession = new Session();
+    $bool =  $objSession->cerrar();
+    if ($bool) {
+        header("Location: ../iniciar_sesion.php");
+    }
+}
 // Limpia el buffer de salida y envía la respuesta JSON
 ob_clean();
 echo json_encode($response);

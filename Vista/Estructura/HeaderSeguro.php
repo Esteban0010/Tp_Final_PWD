@@ -41,9 +41,10 @@ $datos = data_submitted();
     <?php
     $colObjMenus = new AbmMenuRol();
     $objTrans = new Session();
+    // $objTrans->cerrar();
     $resp = $objTrans->validar();
     if ($resp) {
-        //echo("<script>location.href = '../home/index.php';</script>");
+        // echo "hola";
         $objUsuario = $objTrans->getUsuario();
         $objRol = $objTrans->getRol();
         //verEstructura($objUsuario);

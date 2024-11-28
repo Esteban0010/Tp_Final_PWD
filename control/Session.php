@@ -62,8 +62,13 @@ class Session
     public function validar()
     {
         $resp = false;
-        if ($this->activa() && isset($_SESSION['idusuario']))
-            $resp = true;
+        if ($this->activa()) {
+            if (isset($_SESSION['idusuario'])) {
+                $resp = true;
+                // echo $_SESSION['idusuario'];
+            }
+        }
+
         return $resp;
     }
 
@@ -115,7 +120,7 @@ class Session
             //$objUsuario = new AbmUsuario();
             //$param['id'] = $_SESSION['idusuario'];
             //$resultado = $objUsuario->buscar($param);
-            $objRol = new Abmrol();            
+            $objRol = new Abmrol();
             $parametro['idrol'] = $_SESSION['idusuario'];
             //echo "<div>". $_SESSION['idusuario'] . "</div>";
 
@@ -135,7 +140,7 @@ class Session
     {
         $resp = true;
         session_destroy();
-        // $_SESSION['idusuario']=null;
+        // $_SESSION['idusuario'] = null;
         return $resp;
     }
 }
