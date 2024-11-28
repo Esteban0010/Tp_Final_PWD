@@ -1,4 +1,8 @@
 <?php
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 class AbmCompraEstado{
 
      /**
@@ -123,6 +127,53 @@ class AbmCompraEstado{
         $obj = new CompraEstado();
         $arreglo = $obj->listar($where);
         return $arreglo;
+    }
+
+   
+    public function enviarCorreoEstadoCompra($compra, $nuevoEstado) {
+        $mail = new PHPMailer(true);
+    
+        try {
+        
+            // Mapear estados a mensajes
+            $estadosMensajes = [
+                2 => 'Aceptada',
+                3 => 'Enviada',
+                4 => 'Cancelada'
+            ];
+    
+            $asunto = "Estado de tu compra #" . $compra->getObjCompra()->getIdCompra();
+            $mensaje = "Estimado/a Cliente,\n\n";
+            $mensaje .= "El estado de tu compra #{$compra->getObjCompra()->getIdCompra()} ha sido actualizado a: {$estadosMensajes[$nuevoEstado]}.\n";
+            
+            // Configuración SMTP 
+            $mail->isSMTP();
+            $mail->Host       = 'smtp.gmail.com';
+            $mail->SMTPAuth   = true;
+            $mail->Username   = 'martin.paredes@est.fi.uncoma.edu.ar';
+            $mail->Password   = 'xfbayouwwbfuzrgc';
+            $mail->SMTPSecure = 'ssl';
+            $mail->Port       = 465;
+    
+            // Configurar correo
+            $mail->setFrom('martin.paredes@est.fi.uncoma.edu.ar', 'TP_FINAL_PWD');
+            $mail->addAddress('mdep171@gmail.com','Martin Paredes');
+            $mail->addAddress('fran.canoeslalom@gmail.com','Francisco Pandolfi');
+            $mail->addAddress('esteban.pilchuman@est.fi.uncoma.edu.ar','Esteban Pilchuman');
+            $mail->addAddress('leonardoandrespacheco1998@gmail.com','Leonardo Pacheco');
+            $mail->isHTML(true);
+            $mail->Subject = $asunto;
+            $mail->Body    = nl2br($mensaje);
+    
+            // Enviar correo
+            $mail->send();
+            
+            return true;
+        } catch (Exception $e) {
+            // Opcional: loguear el error
+            error_log("Error enviando correo: " . $mail->ErrorInfo);
+            return false;
+        }
     }
 
 

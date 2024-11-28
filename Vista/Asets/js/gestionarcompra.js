@@ -59,13 +59,13 @@ $(document).ready(function () {
                 }
                 setTimeout(function () {
                     location.reload()
-                }, 2000)
+                }, 200)
             },
             error: function () {
                 mensaje("Estado actualizado correctamente", 'success');
                 setTimeout(function () {
                     location.reload()
-                }, 2000)
+                }, 200)
             }
         });
     });
