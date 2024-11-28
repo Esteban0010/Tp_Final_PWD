@@ -39,13 +39,86 @@ include_once "../Estructura/HeaderSeguro.php";
     </button>
 </div>
 <br>
-<div style="display: flex; gap: 10px; border: 1px solid black">
-    <div style="margin: 10px; border: 1px solid black; width: 300px; height: 300px;"><span>Item 1</span></div>
-    <div style="margin: 10px; border: 1px solid black; width: 300px; height: 300px;"><span>item 2</span></div>
-    <div style="margin: 10px; border: 1px solid black; width: 300px; height: 300px;"><span>item 3</span></div>
-    <div style="margin: 10px; border: 1px solid black; width: 300px; height: 300px;"><span>item 4</span></div>
+
+
+<div class="item-container">
+    <div class="item">
+        <img src="../Asets/img/3.png" alt="Item 1">
+        <span class="item-title">Disfruta Monster Original</span>
+        <a href="./productos.php">Ver más</a>
+    </div>
+    <div class="item">
+        <img src="../Asets/img/2.png" alt="Item 2">
+        <span class="item-title">Energizaté ahora</span>
+        <a href="./productos.php">Ver más</a>
+    </div>
+    <div class="item">
+        <img src="../Asets/img/1.png" alt="Item 3">
+        <span class="item-title">Disfruta Monster Fiesta</span>
+        <a href="./productos.php">Ver más</a>
+    </div>
 </div>
 <br>
+<style>
+    .item-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+    }
+
+    .item {
+        width: 280px;
+        height: 350px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        text-align: center;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        background: #fff;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .item img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .item-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+        margin: 10px 0;
+    }
+
+    .item a {
+        text-decoration: none;
+        color: #fff;
+        background: #007bff;
+        padding: 10px 15px;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: background 0.3s;
+    }
+
+    .item a:hover {
+        background: #0056b3;
+    }
+</style>
 <?php
 include_once "../Estructura/Footer.php";
 ?>
