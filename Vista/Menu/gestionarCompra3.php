@@ -57,12 +57,21 @@ if (count($compras) > 0) {
                 $estadoTexto = 'Cancelada';
                 break;
         }
+        $deshabilitarBotones = false;
 
-        //deshabilitar los botones
-        $disabledAceptar = $estadoActual >= 2 ? 'disabled' : '';
-        $disabledEnviar = $estadoActual >= 3 ? 'disabled' : '';
-        $disabledCancelar = $estadoActual == 4 ? 'disabled' : '';
-
+        // Buscar si hay compras posteriores para esta misma compra con estado diferente
+        $comprasPosterioresmismo = $abmCompraEstado->buscar(['idcompra' => $idCompra]);
+        foreach ($comprasPosterioresmismo as $compraPosterior) {
+            if ($compraPosterior->getObjCompraEstadoTipo()->getIdCompraEstadoTipo() > $estadoActual) {
+                $deshabilitarBotones = true;
+                break;
+            }
+        }
+        
+        // Luego, al generar los botones, usa $deshabilitarBotones:
+        $disabledAceptar = ($estadoActual >= 2 || $deshabilitarBotones) ? 'disabled' : '';
+        $disabledEnviar = ($estadoActual >= 3 || $deshabilitarBotones) ? 'disabled' : '';
+        $disabledCancelar = ($estadoActual == 4 || $deshabilitarBotones) ? 'disabled' : '';
         echo "<tr>
                     <td>{$idCompra}</td>
                     <td>{$estadoTexto}</td>
@@ -139,7 +148,7 @@ if (count($compras) > 0) {
 }
 ?>
 
-<script src="Js/gestionarcompra.js"></script>
+<script src="../Asets/js/gestionarcompra.js"></script>
 
 <?php
 include_once('../Estructura/Footer.php');

@@ -1,5 +1,5 @@
 <?php
-include_once('../../configuracion.php');
+include_once('../../../configuracion.php');
 header('Content-Type: application/json');
 
 $datos = data_submitted();
