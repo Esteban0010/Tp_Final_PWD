@@ -196,6 +196,13 @@ function habilitarUsuario() {
 
 ///-----------rol-----------------------------------
 
+ // almacena un nuevo (alta)
+function newrol() {
+    $('#dlg-rol').dialog('open').dialog('center').dialog('setTitle', 'Nuevo Rol');
+    $('#fm-rol').form('clear');
+    url = 'Action/usuarioAdmin/alta_Rol.php';
+}
+
 // edita (modificacion)
 function editRol() {
     var row = $('#dg-rol').datagrid('getSelected');
@@ -239,6 +246,7 @@ function saveRol() {
 
 
 ///-----------menu-----------------------------------
+
 
 // funciono !!!!
 function editMenu() {

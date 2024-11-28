@@ -196,7 +196,9 @@ if ($descripcionRol == 'administrador') {
 
 <!-- opciones para hacer ABM en la tabla -->
 <div id="toolbar-rol">
+    <!-- <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newrol()">Nuevo Rol</a> -->
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editRol()">Editar Rol</a>
+    <!-- <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyRol()">Eliminar Rol</a> -->
 </div>
 
 <!-- Modal -->

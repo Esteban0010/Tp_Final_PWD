@@ -1,6 +1,10 @@
 <?php
 include_once("../../configuracion.php");
 include_once "../Estructura/HeaderSeguro.php";
+if(!$resp) {
+    header("Location: menu.php");   
+}
+
 $datos = $objTrans->getUsuario();
 $id = $datos->getId();
 
