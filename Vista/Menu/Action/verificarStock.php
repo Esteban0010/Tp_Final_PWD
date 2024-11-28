@@ -1,36 +1,43 @@
-
 <?php
 include_once("../../../configuracion.php");
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Recuperamos el ID del producto y la cantidad deseada
-    $idProducto = isset($_POST['idProducto']) ? (int)$_POST['idProducto'] : 0;
-    $cantidad = isset($_POST['cantidad']) ? (int)$_POST['cantidad'] : 0;
+// Recuperar los datos usando la función data_submitted
+$data = data_submitted();
 
-    if ($idProducto > 0 && $cantidad > 0) {
-        // Instanciamos el objeto de control de productos
-        $objControl = new AbmProducto();
-        // Buscamos el producto por ID
-        $producto = $objControl->buscar(['idproducto' => $idProducto]);
+// Asegurar que los datos críticos sean enteros
+$data['idProducto'] = isset($data['idProducto']) ? (int)$data['idProducto'] : 0;
+$data['cantidad'] = isset($data['cantidad']) ? (int)$data['cantidad'] : 0;
 
-        // Si encontramos el producto
-        if (!empty($producto)) {
-            $stockActual = $producto[0]->getProCantStock();
+// Inicializar respuesta por defecto
+$retorno = ['success' => false, 'message' => ''];
 
-            // Verificamos si la cantidad solicitada es menor o igual al stock
-            if ($cantidad <= $stockActual) {
-                echo json_encode(['success' => true, 'message' => 'Stock disponible.']);
-            } else {
-                echo json_encode(['success' => false, 'message' => 'No hay suficiente stock.']);
-            }
+// Validar los datos recibidos
+if ($data['idProducto'] > 0 && $data['cantidad'] > 0) {
+    // Instanciamos el objeto de control de productos
+    $objControl = new AbmProducto();
+    
+    // Buscar el producto por ID
+    $producto = $objControl->buscar(['idproducto' => $data['idProducto']]);
+
+    if (!empty($producto)) {
+        $stockActual = $producto[0]->getProCantStock();
+
+        // Validar si la cantidad solicitada está disponible
+        if ($data['cantidad'] <= $stockActual) {
+            $retorno['success'] = true;
+            $retorno['message'] = 'Stock disponible.';
         } else {
-            echo json_encode(['success' => false, 'message' => 'Producto no encontrado.']);
+            $retorno['message'] = 'No hay suficiente stock.';
         }
     } else {
-        echo json_encode(['success' => false, 'message' => 'No hay Stock.']);
+        $retorno['message'] = 'Producto no encontrado.';
     }
 } else {
-    echo json_encode(['success' => false, 'message' => 'Método no permitido.']);
+    $retorno['message'] = 'No hay suficiente stock.';
 }
+
+// Devolver la respuesta como JSON
+echo json_encode($retorno);
 ?>
+
 
