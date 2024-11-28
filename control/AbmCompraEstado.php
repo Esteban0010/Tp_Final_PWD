@@ -151,7 +151,7 @@ class AbmCompraEstado{
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
             $mail->Username   = 'martin.paredes@est.fi.uncoma.edu.ar';
-            $mail->Password   = 'xfbayouwwbfuzrgc';
+            $mail->Password   = 'ASDAS';
             $mail->SMTPSecure = 'ssl';
             $mail->Port       = 465;
     
