@@ -2,6 +2,7 @@
 include_once "../../../../configuracion.php";
 //header('Content-Type: application/json; charset=utf-8');
 $data = data_submitted();
+//verEstructuraJson($data);
 //error_log('Datos recibidos: ' . print_r($data, true));
 $respuesta = false;
 if(isset($data['idmenu'])){

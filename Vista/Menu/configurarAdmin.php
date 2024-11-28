@@ -1,6 +1,16 @@
 <?php
 include_once("../../configuracion.php");
 include_once "../Estructura/HeaderSeguro.php";
+
+if(!$resp) {
+    header("Location: menu.php");   
+}
+$objRol = $objTrans->getRol();
+$descripcionRol = $objRol->getDescripcion();
+//if ($descripcionRol <> 'administrador') {
+    //header("Location: menu.php");
+//}
+
 ?>
 
 <!-- ================================== productos ========================================== -->

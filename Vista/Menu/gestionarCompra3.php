@@ -6,11 +6,15 @@ include_once "../Estructura/HeaderSeguro.php";
 
 
 <?php
+if(!$resp) {
+    header("Location: menu.php");   
+}
 $objRol = $objTrans->getRol();
 $descripcionRol = $objRol->getDescripcion();
-if ($descripcionRol == 'cliente') {
+if ($descripcionRol <> 'deposito' || $descripcionRol <> 'administrador') {
     header("Location: menu.php");
 }
+
 $abmCompraEstado = new AbmCompraEstado();
 
 

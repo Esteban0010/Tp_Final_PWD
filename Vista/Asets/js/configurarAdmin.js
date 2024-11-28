@@ -156,7 +156,7 @@ function deshabilitarUsuario() {
         console.log(row);
         $.messager.confirm('Confirmar', '¿Está seguro de deshabilitar el usuario?', function (r) {
             if (r) {
-                $.post('Action/usuarioAdmin/eliminarDeshabilitado_Usuario.php?idusuario=' + row.idusuario + '&usnombre=' + row.usnombre + '&uspass=' + row.uspass + '&usmail=' + row.usmail + '&usdeshabilitado=' + row.usdeshabilitado , function (result){
+                $.post('Action/usuarioAdmin/eliminarDeshabilitado_Usuario.php?idusuario=' + row.idusuario + '&usnombre=' + row.usnombre + '&uspass=' + row.uspass + '&usmail=' + row.usmail + '&usdeshabilitado=' + row.usdeshabilitado, function (result) {
                     if (result.respuesta) {
                         $('#dg-usuario').datagrid('reload');
                     } else {
@@ -177,8 +177,8 @@ function habilitarUsuario() {
     if (row) {
         console.log(row);
         $.messager.confirm('Confirmar', '¿Está seguro de habilitar el usuario?', function (r) {
-            if (r) {                
-                $.post('Action/usuarioAdmin/habilitar_Usuario.php?idusuario=' + row.idusuario + '&usnombre=' + row.usnombre + '&uspass=' + row.uspass + '&usmail=' + row.usmail + '&usdeshabilitado=' + row.usdeshabilitado , function (result){
+            if (r) {
+                $.post('Action/usuarioAdmin/habilitar_Usuario.php?idusuario=' + row.idusuario + '&usnombre=' + row.usnombre + '&uspass=' + row.uspass + '&usmail=' + row.usmail + '&usdeshabilitado=' + row.usdeshabilitado, function (result) {
                     if (result.respuesta) {
                         $('#dg-usuario').datagrid('reload');
                     } else {
@@ -248,7 +248,20 @@ function editMenu() {
         $('#fm-menu').form('load', row);
 
         // Recarga las opciones y luego establece el valor
-        $('#idpadre').combobox('reload', 'Action/usuarioAdmin/listar_Submenus.php').combobox('setValue', row.idpadre || '');
+        // $('#idpadre').combobox('reload', 'Action/usuarioAdmin/listar_Submenus.php').combobox('setValue', row.idpadre ); // || ''
+
+        $('#idpadre').combobox({
+            url: 'Action/usuarioAdmin/listar_Submenus.php',
+            valueField: 'id',
+            textField: 'text',
+            onLoadSuccess: function () {
+                if (row.idpadre) {
+                    $(this).combobox('setValue', row.idpadre);
+                }
+            }
+        });
+
+
         url = 'Action/usuarioAdmin/edit_Menu.php?medeshabilitado=' + row.medeshabilitado + '&idmenu=' + row.idmenu;
     }
 }
@@ -280,7 +293,7 @@ function deshabilitarMenu() {
         console.log(row);
         $.messager.confirm('Confirmar', '¿Está seguro de deshabilitar el menú?', function (r) {
             if (r) {
-                $.post('Action/usuarioAdmin/eliminarDeshabilitado_Menu.php?idmenu=' + row.idmenu + '&menombre=' + row.menombre + '&medescripcion=' + row.medescripcion + '&idpadre=' + row.idpadre + '&medeshabilitado=' + row.medeshabilitado , function (result){
+                $.post('Action/usuarioAdmin/eliminarDeshabilitado_Menu.php?idmenu=' + row.idmenu + '&menombre=' + row.menombre + '&medescripcion=' + row.medescripcion + '&idpadre=' + row.idpadre + '&medeshabilitado=' + row.medeshabilitado, function (result) {
                     if (result.respuesta) {
                         $('#dg-menu').datagrid('reload');
                     } else {
@@ -301,7 +314,7 @@ function habilitarMenu() {
         console.log(row);
         $.messager.confirm('Confirmar', '¿Está seguro de habilitar el menú?', function (r) {
             if (r) {
-                $.post('Action/usuarioAdmin/habilitar_Menu.php?idmenu=' + row.idmenu + '&menombre=' + row.menombre + '&medescripcion=' + row.medescripcion + '&idpadre=' + row.idpadre + '&medeshabilitado=' + row.medeshabilitado , function (result){
+                $.post('Action/usuarioAdmin/habilitar_Menu.php?idmenu=' + row.idmenu + '&menombre=' + row.menombre + '&medescripcion=' + row.medescripcion + '&idpadre=' + row.idpadre + '&medeshabilitado=' + row.medeshabilitado, function (result) {
                     if (result.respuesta) {
                         $('#dg-menu').datagrid('reload');
                     } else {
