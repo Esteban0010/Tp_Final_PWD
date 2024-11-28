@@ -227,6 +227,12 @@ $datos = data_submitted();
                             $colMenusAdmin = $objAbmAdmin->buscar(['idpadre' => $colMenurol[6]->getObjMenu()->getIdmenu()]); // busco el primer menu "cerrar sesion" si tiene hijas con su id     
                             ?> 
 
+                            <!-- Barra de búsqueda -->
+                            <div class="flex-grow-1 px-3">
+                                <input type="search" class="form-control border-0 border-bottom rounded-0"
+                                    placeholder="Buscar Producto..." aria-label="Buscar" style="box-shadow: none;">
+                            </div>
+
                             <?php
                             // hogar
                             if ($colMenusHogar != null) {

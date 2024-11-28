@@ -7,9 +7,11 @@ if(!$resp) {
 }
 $objRol = $objTrans->getRol();
 $descripcionRol = $objRol->getDescripcion();
-//if ($descripcionRol <> 'administrador') {
-    //header("Location: menu.php");
-//}
+if ($descripcionRol == 'administrador') {
+    
+} else {
+    header("Location: menu.php");
+}
 
 ?>
 

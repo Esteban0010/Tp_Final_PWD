@@ -11,7 +11,10 @@ if(!$resp) {
 }
 $objRol = $objTrans->getRol();
 $descripcionRol = $objRol->getDescripcion();
-if ($descripcionRol <> 'deposito' || $descripcionRol <> 'administrador') {
+//echo $descripcionRol ;
+if ($descripcionRol == 'deposito' || $descripcionRol == 'administrador') {
+    
+} else {
     header("Location: menu.php");
 }
 
