@@ -37,6 +37,7 @@ function enviarCorreoEstadoCompra($compra, $nuevoEstado) {
         // Configurar correo
         $mail->setFrom('martin.paredes@est.fi.uncoma.edu.ar', 'TP_FINAL_PWD');
         $mail->addAddress('mdep171@gmail.com','Martin Paredes');
+        $mail->addAddress('fran.canoeslalom@gmail.com','Francisco Pandolfi');
         $mail->isHTML(true);
         $mail->Subject = $asunto;
         $mail->Body    = nl2br($mensaje);
