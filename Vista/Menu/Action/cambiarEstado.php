@@ -1,9 +1,56 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 include_once('../../../configuracion.php');
 header('Content-Type: application/json');
 
+require "../../../vendor/autoload.php";
+
 $datos = data_submitted();
 $response = ['success' => false, 'mensaje' => '', 'fechaFin' => null];
+//php mailer
+function enviarCorreoEstadoCompra($compra, $nuevoEstado) {
+    $mail = new PHPMailer(true);
+
+    try {
+    
+        // Mapear estados a mensajes
+        $estadosMensajes = [
+            2 => 'Aceptada',
+            3 => 'Enviada',
+            4 => 'Cancelada'
+        ];
+
+        $asunto = "Estado de tu compra #" . $compra->getObjCompra()->getIdCompra();
+        $mensaje = "Estimado/a Cliente,\n\n";
+        $mensaje .= "El estado de tu compra #{$compra->getObjCompra()->getIdCompra()} ha sido actualizado a: {$estadosMensajes[$nuevoEstado]}.\n";
+        
+        // Configuración SMTP 
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'martin.paredes@est.fi.uncoma.edu.ar';
+        $mail->Password   = 'xfbayouwwbfuzrgc';
+        $mail->SMTPSecure = 'ssl';
+        $mail->Port       = 465;
+
+        // Configurar correo
+        $mail->setFrom('martin.paredes@est.fi.uncoma.edu.ar', 'TP_FINAL_PWD');
+        $mail->addAddress('mdep171@gmail.com','Martin Paredes');
+        $mail->isHTML(true);
+        $mail->Subject = $asunto;
+        $mail->Body    = nl2br($mensaje);
+
+        // Enviar correo
+        $mail->send();
+        
+        return true;
+    } catch (Exception $e) {
+        // Opcional: loguear el error
+        error_log("Error enviando correo: " . $mail->ErrorInfo);
+        return false;
+    }
+}
 
 if (!empty($datos['idCompraEstado']) && !empty($datos['estado'])) {
     $idCompraEstado = $datos['idCompraEstado'];
@@ -47,9 +94,11 @@ if (!empty($datos['idCompraEstado']) && !empty($datos['estado'])) {
                 $nuevoCompraEstado->setCeFechaFin(null);
                 
                 if ($nuevoCompraEstado->insertar()) {
+                    $envioCorreo = enviarCorreoEstadoCompra($compraEstado, $nuevoEstado);
                     $response = [
                         'success' => true,
                         'mensaje' => 'Estado actualizado correctamente',
+                        
                         'fechaFin' => $fechaActual
                     ];
                     
