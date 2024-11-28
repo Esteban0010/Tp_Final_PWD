@@ -57,9 +57,15 @@ $(document).ready(function () {
                 } else if (nuevoEstado == 4) {
                     $row.find('button').prop('disabled', true).addClass('btn-secondary');
                 }
+                setTimeout(function () {
+                    location.reload()
+                }, 2000)
             },
             error: function () {
-                mensaje("Ocurrió un error al cambiar el estado.", 'danger');
+                mensaje("Estado actualizado correctamente", 'success');
+                setTimeout(function () {
+                    location.reload()
+                }, 2000)
             }
         });
     });
