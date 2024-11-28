@@ -34,6 +34,7 @@ include_once "../Estructura/HeaderSeguro.php";
                         <div class="m-t-sm">
                             <div class="btn-group">
                                 <btn id="btn-pagar" class="btn btn-primary btn-sm"><i class="fa fa-shopping-cart"></i> Pagar</btn>
+                                <btn id="btn-cancelar" class="btn btn-danger btn-sm"><i class="fa fa-times"></i> Cancelar</btn>
                                 <a href="#" class="btn btn-white btn-sm">Cancel</a>
                             </div>
                         </div>
@@ -133,6 +134,25 @@ include_once "../Estructura/HeaderSeguro.php";
         });
     });
 
+
+    $(document).on('click', '#btn-cancelar', function() {
+    // Vaciar el carrito del localStorage
+    localStorage.removeItem('carrito');
+
+    // Actualizar la cantidad de ítems en el carrito
+    $('#item-count').text('0');
+
+    // Mostrar el mensaje de "Compra cancelada"
+    const $productosContainer = $('#productos-container');
+    $productosContainer.html(`
+        <div class="alert alert-warning text-center" role="alert">
+            <strong>Compra cancelada.</strong> No tienes productos en tu carrito.
+        </div>
+    `);
+
+    // Actualizar el total en el resumen del carrito
+    $('#cart-total').text('$0.00');
+});
 
     $(document).on('click', '#btn-pagar', function() {
         const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
